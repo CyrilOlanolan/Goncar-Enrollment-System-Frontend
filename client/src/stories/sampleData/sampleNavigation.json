@@ -1,0 +1,46 @@
+{
+    "navigation": [
+        {
+            "label": "Dashboard",
+            "shortLabel": "ipsum",
+            "icon": "filePersonFill",
+            "route": "/ipsum"
+        },
+        {
+            "label": "ipsum",
+            "shortLabel": "ipsum",
+            "icon": "filePersonFill",
+            "route": "/ipsum"
+        },
+        {
+            "label": "dolor",
+            "shortLabel": "dolor",
+            "icon": "roundGroups",
+            "route": "/dolor"
+        },
+        {
+            "label": "sit",
+            "shortLabel": "sit",
+            "icon": "personBadgeFill",
+            "route": "/sit"
+        },
+        {
+            "label": "amet",
+            "shortLabel": "amet",
+            "icon": "baselinePayments",
+            "route": "/amet"
+        },
+        {
+            "label": "lorem",
+            "shortLabel": "lorem",
+            "icon": "roundAdminPanelSettings",
+            "route": "/lorem"
+        },
+        {
+            "label": "Settings",
+            "shortLabel": "lorem",
+            "icon": "roundAdminPanelSettings",
+            "route": "/lorem"
+        }
+    ]
+}

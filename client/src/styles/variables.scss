@@ -1,0 +1,48 @@
+/* COLORS */
+$color--primary: #00913e;
+$color--secondary: #0c4982;
+$color--error: #d84037;
+$color--background: #ebfbd6;
+$color--accent: #edd400;
+$color--black: #272727;
+$color--gray: #747474;
+$color--dark-primary: #0d6131;
+$color--dark-secondary: #08335c;
+$color--white: #ffffff;
+$color--table-header: #d8e8f6;
+$color--light-green: #d3fdd2;
+$color--light-red: #fdd2d2;
+$color--light-accent: #fff5a0;
+$color--light-gray: #e3e3e3;
+$color--batch-edit-button: #71a3d2;
+$color--input-boxes: #f3f3f4;
+
+/* TEXT */
+$font-size--h1: 2.488rem;
+$font-size--h2: 2.074rem;
+$font-size--h3: 1.728rem;
+$font-size--h4: 1.44rem;
+$font-size--h5: 1.2rem;
+$font-size--body: 1rem;
+$font-size--body-2: 0.833rem;
+$font-size--caption: 0.694rem;
+$font-size--caption-2: 0.579rem;
+
+$font-weight--h1: 700;
+$font-weight--h2: 600;
+$font-weight--h3: 600;
+$font-weight--h4: 500;
+$font-weight--h5: 400;
+$font-weight--body: 400;
+$font-weight--body-2: 400;
+$font-weight--caption: 400;
+$font-weight--caption-2: 400;
+
+/* MIXINS */
+@mixin image-rendering {
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;          /* Firefox */
+    image-rendering: -o-crisp-edges;            /* Opera */
+    image-rendering: -webkit-optimize-contrast; /* Webkit (non-standard naming)*/
+    -ms-interpolation-mode: nearest-neighbor;   /* IE (non-standard property) */
+}

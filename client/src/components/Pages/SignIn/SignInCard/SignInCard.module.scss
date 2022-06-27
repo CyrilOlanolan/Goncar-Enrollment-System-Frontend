@@ -1,0 +1,87 @@
+@import "../../../../styles/variables.scss";
+
+.SignInArea {
+    width: 100%;
+    height: fit-content;
+    max-width: 27.25rem;
+    max-height: 560px;
+    padding: 2.5rem 4rem;
+    background: #ffffff;
+    box-shadow: 0px 0.125rem 0.625rem rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.875rem;
+
+    .goncar-logo {
+        @include image-rendering;
+        
+        width: 110px;
+        height: 110px;
+        object-fit: contain;
+        align-self: center;
+    }
+
+    .invalid-prompt {
+        display: list-item;
+        color: $color--error;
+        margin-left: 1.2rem;
+        margin-block: 0.5rem;
+        
+        /* HIDE INVALID PROMPT INITIALLY */
+        visibility: hidden;
+    }
+
+    &__div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    &__forgot-credentials {
+        font-size: $font-size--body-2;
+        text-decoration: none;
+        color: $color--gray;
+        text-align: center;
+        align-self: center;
+        position: relative;
+        width: fit-content;
+
+        &::before {
+            content: "";
+            position: absolute;
+            background-color: $color--gray;
+            left: 0;
+            right: 0;
+            bottom: -0.3rem;
+            height: 1px;
+
+            transform: scaleX(0);
+            transform-origin: right;
+
+            transition: transform 0.3s ease-in-out,
+                        color 0.1s ease;
+        }
+
+        &:hover::before,
+        &:focus::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        &:active {
+            color: $color--secondary;
+
+            &::before {
+                background: $color--secondary;
+            }
+        }
+    }
+}

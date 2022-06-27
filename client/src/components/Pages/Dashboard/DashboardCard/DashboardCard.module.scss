@@ -1,0 +1,29 @@
+@import '../../../../styles/variables.scss';
+
+.DashboardCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .75rem;
+
+    background-color: $color--secondary;
+    color: $color--white;
+    border-radius: 10px;
+    font-weight: $font-weight--h3;
+    
+    width: 188px;
+    height: 164px;
+
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    user-select: none;
+    
+    &:hover {
+        transform: translateY(-10px);
+    }
+
+    &:active {
+        background-color: $color--dark-secondary;
+    }
+}

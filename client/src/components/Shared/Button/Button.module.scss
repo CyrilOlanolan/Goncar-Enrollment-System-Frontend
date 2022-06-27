@@ -1,0 +1,44 @@
+@import "../../../styles/variables.scss";
+
+.Button {
+    padding: 0.625rem; 
+    text-align: center;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+
+    /* GENERAL BUTTON TRANSITOON */
+    &--SignIn,
+    &--SignOut {
+        transition: transform 0.3s ease-in-out;
+        
+        &:hover {
+            transform: translateY(-0.313rem);
+        }
+    }
+
+    &--SignIn {
+        color: $color--white;
+        font-weight: $font-weight--h2;
+        background-color: $color--primary;
+        border: none;
+        border-radius: 0.5rem;
+        width: 100%;
+        max-width: 308px;
+    }
+
+    &--SignOut {
+        color: $color--white;
+        font-size: $font-size--body;
+        font-weight: $font-size--body;
+        background-color: $color--dark-primary;
+        border: none;
+        border-radius: 0.5rem;
+        max-width: 132px;
+        width: 100%;
+    }
+}

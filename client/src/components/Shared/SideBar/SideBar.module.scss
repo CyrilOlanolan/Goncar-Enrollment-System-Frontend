@@ -1,0 +1,144 @@
+@import '../../../styles/variables.scss';
+
+.SideBar {
+    width: 100%;
+    max-width: 12.75rem;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 3.125rem 2.188rem;
+    
+    background-color: $color--primary;
+    border-radius: 0px 10px 10px 0px;
+
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    z-index: 0;
+
+    // user-select: none;
+
+    &__main {
+        display: flex;
+        flex-direction: column;
+        gap: 3.125rem;
+    }
+
+    &__logo-with-bg {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 8.25rem;
+        height: 8.25rem;
+        border-radius: 50%;
+        background-color: $color--secondary;
+
+        img {
+            width: 5.125rem;
+            height: 5.125rem;
+        }
+    }
+
+    &__nav-list {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        list-style-type: none;
+
+        .nav-link > a {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.75rem ;
+            color: $color--white;
+            text-decoration: none;
+            padding: 0.5rem 0.5rem;
+            border-radius: 8px;
+
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                background-color: $color--dark-primary;
+            }
+        }
+    }
+
+    .horizontal_navbar {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1rem;
+        opacity: 1 !important;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .SideBar {
+        position: relative;
+        flex-direction: row;
+        max-width: none;
+        height: fit-content;
+        width: 100%;
+
+        padding: 1rem 3rem;
+        justify-content: space-between;
+        border-radius: 0 0 10px 10px;
+
+        &__logo-with-bg {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            background-color: $color--secondary;
+    
+            img {
+                width: 2rem;
+                height: 2rem;
+            }
+        }
+        
+        h1 {
+            color: $color--white;
+        }
+        
+        svg {
+            cursor: pointer;
+        }
+
+        .horizontal_navbar {
+            height: fit-content;
+            position: absolute;
+            background-color: $color--primary;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            z-index: -1;
+
+            border-radius: 0 0 10px 10px;
+            
+            /* HIDE INITIALLY */
+            top: -600%;
+            opacity: 0;
+
+            transition: top .3s ease-in,
+                        opacity .3s ease;
+        }
+    }
+}
+
+@media (max-width: 320px) {
+    .SideBar {
+        h1 {
+            display: none;
+        }
+    }
+}

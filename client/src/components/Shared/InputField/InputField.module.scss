@@ -1,0 +1,23 @@
+@import "../../../styles/variables.scss";
+
+.InputField {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    &__label {
+        font-weight: $font-weight--h1;
+    }
+
+    &__input {
+        padding: 0.625rem 1.25rem;
+        max-width: 308px;
+        background-color: $color--input-boxes;
+        border: none;
+        border-radius: 8px;
+
+        &:focus-visible {
+            outline: $color--primary auto 1px;
+        }
+    }
+}

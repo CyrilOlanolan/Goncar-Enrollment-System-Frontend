@@ -1,0 +1,13 @@
+@import '../../../../styles/variables.scss';
+
+.WelcomeBubble {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    
+    background-color: $color--white;
+    padding: 1.875rem 2.188rem;
+    border-radius: 25px;
+}
