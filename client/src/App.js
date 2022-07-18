@@ -1,3 +1,4 @@
+import React from 'react';
 import { Routes, Route } from "react-router-dom";
 import {
   SignIn,
@@ -9,6 +10,7 @@ import {
   Administrative,
   Settings,
 } from "./components/ComponentIndex";
+
 function App() {
   return (
     /* GO BACK: window.history.go(-1) */

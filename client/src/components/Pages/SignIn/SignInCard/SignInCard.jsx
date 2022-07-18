@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./SignInCard.module.scss";
 import { InputField, Button } from "../../../ComponentIndex";
 import goncarLogo from "../../../../assets/images/goncar-logo.png";
@@ -15,9 +15,15 @@ const SignInArea = () => {
 
   const [user, setUser] = useState({});
 
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
+  console.log(user);
+
+  useEffect(
+    () => {
+      onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+      });
+    }
+  , [])
 
   const login = async (e) => {
     console.log("hello");
@@ -35,6 +41,11 @@ const SignInArea = () => {
     }
   };
 
+  function handleEmailChange(event) {
+    console.log(event.target.value);
+    setLoginEmail(event.target.value);
+  }
+
   return (
     <>
       <div className={styles["SignInArea"]}>
@@ -50,9 +61,9 @@ const SignInArea = () => {
           <p className={styles["invalid-prompt"]}>Invalid credentials</p>
 
           <form className={styles["SignInArea__form"]}>
-            <InputField label="Email" type="email" name="email"  onChange={(event)=>{setLoginEmail(event.target.value)}}/>
+            <InputField label="Email" type="email" name="email" onChange={(event) => handleEmailChange(event)}/>
             <InputField label="Password" type="password" name="password" onChange={(event)=>{setLoginPassword(event.target.value)}}/>
-            <Button label="Sign In" type="button" variant="SignIn" onClick={login}/> {/* TODO: CHANGE BUTTON TYPE TO SUBMIT */}
+            <Button label="Sign In" type="button" variant="SignIn" onClick={login} /> {/* TODO: CHANGE BUTTON TYPE TO SUBMIT */}
           </form>
 
           <a href="/" className={styles["SignInArea__forgot-credentials"]}>Forgot credentials?</a> {/* TODO: LINK FORGOT CREDENTIALS */}
