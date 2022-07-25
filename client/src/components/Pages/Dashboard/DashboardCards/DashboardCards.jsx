@@ -4,7 +4,53 @@ import { Link } from 'react-router-dom';
 import styles from './DashboardCards.module.scss'
 import { DashboardCard } from "../../../ComponentIndex";
 
-const DashboardCards = ({ navigation }) => {
+const DashboardCards = () => {
+
+  const navigation = [
+    {
+        "label": "Dashboard",
+        "shortLabel": "Dashboard",
+        "icon": "roundDashboard",
+        "route": "/dashboard"
+    },
+    {
+        "label": "Trainees",
+        "shortLabel": "Trainees",
+        "icon": "filePersonFill",
+        "route": "/trainees"
+    },
+    {
+        "label": "Class Batches",
+        "shortLabel": "Batches",
+        "icon": "roundGroups",
+        "route": "/batches"
+    },
+    {
+        "label": "Employees",
+        "shortLabel": "Employees",
+        "icon": "personBadgeFill",
+        "route": "/employees"
+    },
+    {
+        "label": "Finance",
+        "shortLabel": "Finance",
+        "icon": "baselinePayments",
+        "route": "/finance"
+    },
+    {
+        "label": "Administrative",
+        "shortLabel": "Admin",
+        "icon": "roundAdminPanelSettings",
+        "route": "/employees"
+    },
+    {
+        "label": "Settings",
+        "shortLabel": "Settings",
+        "icon": "roundSettings",
+        "route": "/settings"
+    }
+  ]
+
   return (
     <div className={styles["DashboardCards"]}>
       {navigation.map((nav) => {

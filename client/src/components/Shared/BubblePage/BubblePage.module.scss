@@ -1,0 +1,10 @@
+@use "../../../styles/variables.scss" as *;
+
+.BubblePage {
+    margin-left: $SideBarWidth;
+    width: 100%;
+    height: 100%;
+    background: $color--white;
+    border-radius: 1.5625rem;
+    padding: 3.125rem 5rem;
+}

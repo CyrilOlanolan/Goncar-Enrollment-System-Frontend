@@ -2,6 +2,7 @@
 export { default as Button } from "./Shared/Button/Button.jsx"
 export { default as InputField } from "./Shared/InputField/InputField.jsx"
 export { default as SideBar } from "./Shared/SideBar/SideBar.jsx"
+export { default as BubblePage } from "./Shared/BubblePage/BubblePage.jsx"
 
 
 /* PAGES */

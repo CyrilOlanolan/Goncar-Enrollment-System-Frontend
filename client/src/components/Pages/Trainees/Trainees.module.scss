@@ -1,1 +1,10 @@
-@import '../../../styles/variables.scss';
+@use '../../../styles/variables.scss' as *;
+
+.Trainees {
+    height: 95vh;
+
+    &__table {
+        max-width: 48.875rem;
+        height: 25rem;
+    }
+}

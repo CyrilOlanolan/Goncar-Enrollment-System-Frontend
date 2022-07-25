@@ -15,7 +15,53 @@ import roundSettings from "@iconify/icons-ic/round-settings";
 import roundGroups from "@iconify/icons-ic/round-groups";
 import roundMenu from "@iconify/icons-ic/round-menu";
 
-const SideBar = ({ navigation }) => {
+const SideBar = () => {
+
+  const navigation = [
+    {
+        "label": "Dashboard",
+        "shortLabel": "Dashboard",
+        "icon": "roundDashboard",
+        "route": "/dashboard"
+    },
+    {
+        "label": "Trainees",
+        "shortLabel": "Trainees",
+        "icon": "filePersonFill",
+        "route": "/trainees"
+    },
+    {
+        "label": "Class Batches",
+        "shortLabel": "Batches",
+        "icon": "roundGroups",
+        "route": "/batches"
+    },
+    {
+        "label": "Employees",
+        "shortLabel": "Employees",
+        "icon": "personBadgeFill",
+        "route": "/employees"
+    },
+    {
+        "label": "Finance",
+        "shortLabel": "Finance",
+        "icon": "baselinePayments",
+        "route": "/finance"
+    },
+    {
+        "label": "Administrative",
+        "shortLabel": "Admin",
+        "icon": "roundAdminPanelSettings",
+        "route": "/employees"
+    },
+    {
+        "label": "Settings",
+        "shortLabel": "Settings",
+        "icon": "roundSettings",
+        "route": "/settings"
+    }
+]
+
   const maxWidth768px = useMediaQuery("(max-width:768px");
   const [click, setClick] = useState(true);
   const navItems = useRef();
