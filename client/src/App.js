@@ -9,6 +9,7 @@ import {
   Finance,
   Administrative,
   Settings,
+  TraineeProfileCreation,
 } from "./components/ComponentIndex";
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
     /* GO BACK: window.history.go(-1) */
     <div className="App">
       <Routes>
-        <Route path="/" element={<SignIn />} />
+        <Route path="/" element={<TraineeProfileCreation />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/trainees" element={<Trainees />} />

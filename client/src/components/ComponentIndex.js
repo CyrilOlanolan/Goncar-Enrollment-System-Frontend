@@ -18,6 +18,7 @@ export { default as Settings } from "./Pages/Settings/Settings.jsx"
 
 /* TRAINEES */
 export  { default as TraineeProfile } from "./Pages/Trainees/TraineeProfile/TraineeProfile.jsx"
+export  { default as TraineeProfileCreation } from "./Pages/Trainees/TraineeProfile/TraineeProfileCreation/TraineeProfileCreation.jsx"
 
 /* SIGN IN*/
 export { default as SignInCard } from "./Pages/SignIn/SignInCard/SignInCard.jsx"
