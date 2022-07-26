@@ -1,0 +1,25 @@
+@use "../../../styles/variables.scss" as *;
+
+.FormButton {
+    width: 12.8125rem;
+    padding: .625rem 1rem;
+    border-radius: .5rem;
+    text-align: center;
+    font-weight: 600;
+    font-family: $font--inter;
+    cursor: pointer;
+    
+    
+    &.submit {
+        background-color: $color--secondary;
+        color: $color--white;
+        
+        &:active {
+            background-color: $color--dark-secondary;
+        }
+    }
+    &.cancel {
+        background-color: $color--light-gray;
+        color: $color--secondary
+    }
+}

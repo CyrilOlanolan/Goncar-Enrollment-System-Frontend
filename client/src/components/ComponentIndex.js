@@ -4,6 +4,7 @@ export { default as InputField } from "./Shared/InputField/InputField.jsx"
 export { default as SideBar } from "./Shared/SideBar/SideBar.jsx"
 export { default as BubblePage } from "./Shared/BubblePage/BubblePage.jsx"
 export { default as ActionButton } from "./Shared/ActionButton/ActionButton.jsx"
+export { default as FormButton } from "./Shared/FormButton/FormButton.jsx"
 
 /* PAGES */
 export { default as Dashboard } from "./Pages/Dashboard/Dashboard.jsx"

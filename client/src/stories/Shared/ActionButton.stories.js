@@ -1,8 +1,14 @@
 import { ActionButton } from '../../components/ComponentIndex';
 
 export default {
-  title: 'Shared/Components/ActionButton',
+  title: 'Shared/Components/Action Button',
   component: ActionButton,
+  parameters: {
+    backgrounds: {
+      default: "white"
+    },
+    layout: "centered"
+  }
 };
 
 export const ViewDefault = {
