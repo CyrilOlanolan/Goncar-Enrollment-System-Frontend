@@ -1,1 +1,24 @@
 @use "../../../../styles/variables.scss" as *;
+
+.TraineeProfile {
+    &__name {
+        margin-bottom: 1.5rem;
+    }
+    &__details {
+        display: flex;
+        flex-direction: row;
+
+        span {
+            font-weight: 700;
+            color: $color--secondary;
+        }
+
+        .col-1 {
+            flex-grow: 1;
+        }
+
+        .col-2 {
+            flex-grow: 1;
+        }
+    }
+}
