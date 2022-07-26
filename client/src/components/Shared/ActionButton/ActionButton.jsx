@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./ActionButton.module.scss";
 
-const ActionButton = ({ label, variant, onClick }) => {
+const ActionButton = ({ label, variant, onClick, id }) => {
   function RenderIcon(variant) {
     if (variant === "view") {
       return (
@@ -57,7 +57,7 @@ const ActionButton = ({ label, variant, onClick }) => {
       );
     }
   }
-  
+
   return (
     <button
       className={[styles["ActionButton"], styles[variant]].join(" ")}

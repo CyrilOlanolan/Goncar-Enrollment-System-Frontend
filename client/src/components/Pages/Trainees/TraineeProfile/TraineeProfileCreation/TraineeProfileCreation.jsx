@@ -1,6 +1,12 @@
 import React from 'react'
 
-import { SideBar, BubblePage, InputField } from '../../../../ComponentIndex';
+import { 
+  SideBar, 
+  BubblePage, 
+  InputField, 
+  InputRadio,
+  InputSelect
+} from '../../../../ComponentIndex';
 import styles from './TraineeProfileCreation.module.scss';
 
 const TraineeProfileCreation = () => {
@@ -14,6 +20,18 @@ const TraineeProfileCreation = () => {
             <InputField label={"First Name"} type={"text"} />
             <InputField label={"Middle Name"} type={"text"} />
             <InputField label={"Last Name"} type={"text"} />
+          </div>
+          <div className={styles["row-2"]}>
+            <div className={styles["sex"]}>
+              <p className={styles["sex__title"]}>Sex</p>
+              <div className={styles["sex__radio-group"]}>
+                <InputRadio label={"Male"} name={"sex"}/>
+                <InputRadio label={"Female"} name={"sex"}/>
+              </div>
+            </div>
+            <div className={styles["bday"]}>
+              <InputSelect label="Date of Birth"/>
+            </div>
           </div>
         </form>
       </div>

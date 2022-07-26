@@ -7,12 +7,21 @@ import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 import {
   SideBar,
   BubblePage,
+  ActionButton
 } from '../../ComponentIndex'
 import styles from './Trainees.module.scss';
 
 import sampleTrainees from '../../sampleData/sampleTrainees.json';
 
 const Trainees = () => {
+  function RenderActionButtons(params) {
+    return <ActionButton label="View" variant={"view"} onClick={() => onClick(params.data.traineeID)} />
+  }
+
+  function onClick(id) {
+    console.log("ID: ", id);
+  }
+
   /* SET COLUMN DEFINITIONS */
   const [columnDefs] = useState([
     {
@@ -41,12 +50,14 @@ const Trainees = () => {
     {
       field: "",
       headerName: "Action",
-      lockPosition: "left"
+      lockPosition: "left",
+      cellRenderer: (params) => RenderActionButtons(params)
     },
   ])
 
   /* INITIALIZE rowData VARIABLE */
   const [rowData, setRowData] = useState([]);
+  const rowHeight = 40;
 
   /* FETCH DATA ON COMPONENT MOUNT */
   /* TODO: Implement API fetching here */
@@ -72,7 +83,11 @@ const Trainees = () => {
       <div className={styles["Trainees"]}>
         <BubblePage>
           <h1>Trainee Masterlist</h1>
-          <AgGridReact columnDefs={columnDefs} rowData={rowData} />
+          <AgGridReact
+            columnDefs={columnDefs}
+            rowData={rowData}
+            rowHeight={rowHeight}
+          />
         </BubblePage>
       </div>
     </>
