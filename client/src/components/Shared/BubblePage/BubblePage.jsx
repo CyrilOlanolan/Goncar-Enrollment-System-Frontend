@@ -4,8 +4,10 @@ import styles from './BubblePage.module.scss'
 
 const BubblePage = ({children}) => {
   return (
-    <div className={styles["BubblePage"]}>
-        {children}
+    <div className={[styles["container"], "container"].join(' ')}>
+      <div className={styles["BubblePage"]}>
+          {children}
+      </div>
     </div>
   )
 }

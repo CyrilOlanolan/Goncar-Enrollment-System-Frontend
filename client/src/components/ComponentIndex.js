@@ -16,6 +16,9 @@ export { default as Finance } from "./Pages/Finance/Finance.jsx"
 export { default as Administrative } from "./Pages/Administrative/Administrative.jsx"
 export { default as Settings } from "./Pages/Settings/Settings.jsx"
 
+/* TRAINEES */
+export  { default as TraineeProfile } from "./Pages/Trainees/TraineeProfile/TraineeProfile.jsx"
+
 /* SIGN IN*/
 export { default as SignInCard } from "./Pages/SignIn/SignInCard/SignInCard.jsx"
 
