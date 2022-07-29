@@ -6,7 +6,10 @@ export { default as BubblePage } from "./Shared/BubblePage/BubblePage.jsx"
 export { default as ActionButton } from "./Shared/ActionButton/ActionButton.jsx"
 export { default as FormButton } from "./Shared/FormButton/FormButton.jsx"
 export { default as InputRadio } from "./Shared/InputRadio/InputRadio.jsx"
+export { default as InputDatePicker } from "./Shared/InputDatePicker/InputDatePicker.jsx"
+export { default as InputTextArea } from "./Shared/InputTextArea/InputTextArea.jsx"
 export { default as InputSelect } from "./Shared/InputSelect/InputSelect.jsx"
+export { default as InputYearPicker } from "./Shared/InputYearPicker/InputYearPicker.jsx"
 
 /* PAGES */
 export { default as Dashboard } from "./Pages/Dashboard/Dashboard.jsx"

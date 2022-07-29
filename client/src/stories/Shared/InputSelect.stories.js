@@ -7,6 +7,12 @@ export default {
 
 export const Main = {
   args: {
-    label: "Date of Birth"
+    label: "Educational Attainment",
+    options: [
+      "Highschool Graduate",
+      "College Graduate",
+      "Undergraduate"
+    ]
+
   }
 };

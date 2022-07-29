@@ -1,15 +1,17 @@
-@import "../../../styles/variables.scss";
+@use "../../../styles/variables.scss" as *;
 
-.InputField {
+.InputTextArea {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    width: 100%;
 
     &__label {
         font-weight: $font-weight--h1;
     }
 
-    &__input {
+    &__textarea {
+        resize: none;
         padding: 0.625rem 1.25rem;
         background-color: $color--input-boxes;
         border: none;

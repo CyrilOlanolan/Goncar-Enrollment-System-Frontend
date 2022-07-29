@@ -1,27 +1,34 @@
-import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import React from "react";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
-import styles from "./InputSelect.module.scss";
+const InputSelect = ({ label, options, id, name }) => {
+  const [value, setValue] = React.useState("");
 
-const InputSelect = ({ label, handleChange }) => {
-  const [value, setValue] = useState(null);
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
 
   return (
-    <div className={styles["InputSelect"]}>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DatePicker
-          label={label}
+    <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
           value={value}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        />
-      </LocalizationProvider>
-    </div>
+          label={label}
+          onChange={handleChange}
+        >
+          {options.map((option, index) => {
+            return <MenuItem key={index} value={option}>{option}</MenuItem>
+          })}
+        </Select>
+      </FormControl>
+    </Box>
   );
 };
 
