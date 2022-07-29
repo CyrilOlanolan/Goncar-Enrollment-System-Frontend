@@ -8,8 +8,10 @@ import {
   InputDatePicker,
   InputTextArea,
   InputSelect,
-  InputYearPicker
+  InputYearPicker,
+  InputTextField
 } from '../../../../ComponentIndex';
+import InputNumberField from '../../../../Shared/InputNumberField/InputNumberField';
 import styles from './TraineeProfileCreation.module.scss';
 
 const TraineeProfileCreation = () => {
@@ -20,6 +22,12 @@ const TraineeProfileCreation = () => {
     "Undergraduate",
   ]
 
+  const SEX_OPTIONS  = [
+    "Male",
+    "Female",
+    "Prefer not to say"
+  ]
+
   return (
     <>
     <SideBar />
@@ -27,19 +35,13 @@ const TraineeProfileCreation = () => {
       <div className={styles["TraineeProfileCreation"]}>
         <form className={styles["TraineeProfileCreation__form"]}>
           <div className={styles["row-1"]}>
-            <InputField label={"First Name"} type={"text"} />
-            <InputField label={"Middle Name"} type={"text"} />
-            <InputField label={"Last Name"} type={"text"} />
+            <InputTextField label="First Name" />
+            <InputTextField label="Middle Name" required={false}/>
+            <InputTextField label="Last Name" />
           </div>
 
           <div className={styles["row-2"]}>
-            <div className={styles["sex"]}>
-              <p className={styles["sex__title"]}>Sex</p>
-              <div className={styles["sex__radio-group"]}>
-                <InputRadio label={"Male"} name={"sex"}/>
-                <InputRadio label={"Female"} name={"sex"}/>
-              </div>
-            </div>
+            <InputRadio label="Sex" options={SEX_OPTIONS} />
             <div className={styles["bday"]}>
               <InputDatePicker label="Date of Birth"/>
             </div>
@@ -49,26 +51,19 @@ const TraineeProfileCreation = () => {
             <InputTextArea 
               label="Address" 
               rows={4} 
-              cols={1} 
-              id="address" 
-              name="address"/>
-
-            <InputField
-              label="Contact Number"
-              name="contactNum"
-              type="tel"
-              pattern="[0-9]{11}"
-              placeholder="09561234567"
             />
+
+            <InputNumberField defaultValue={"09561234567"} label="Contact"/>
           </div>
 
           <div className={styles["row-4"]}>
             <div className={styles["email"]}>
-              <InputField
+              <InputTextField
                 label="Email"
                 name="email"
                 placeholder="johndoe@mail.com"
                 type="email"
+                fullWidth={true}
               />
             </div>
 

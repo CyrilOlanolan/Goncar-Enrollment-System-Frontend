@@ -7,6 +7,6 @@ export default {
 
 export const Main = {
   args: {
-    label: "Male"
+    label: "Sex"
   }
 };

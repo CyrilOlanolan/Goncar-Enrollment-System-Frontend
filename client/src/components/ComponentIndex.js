@@ -10,6 +10,7 @@ export { default as InputDatePicker } from "./Shared/InputDatePicker/InputDatePi
 export { default as InputTextArea } from "./Shared/InputTextArea/InputTextArea.jsx"
 export { default as InputSelect } from "./Shared/InputSelect/InputSelect.jsx"
 export { default as InputYearPicker } from "./Shared/InputYearPicker/InputYearPicker.jsx"
+export { default as InputTextField } from "./Shared/InputTextField/InputTextField.jsx"
 
 /* PAGES */
 export { default as Dashboard } from "./Pages/Dashboard/Dashboard.jsx"
