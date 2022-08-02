@@ -5,7 +5,13 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const InputSelect = ({ label, options, id, name }) => {
+const InputSelect = React.forwardRef(({
+  label,
+  options,
+  id,
+  name,
+  required=false 
+}, ref) => {
   const [value, setValue] = React.useState("");
 
   const handleChange = (event) => {
@@ -14,7 +20,7 @@ const InputSelect = ({ label, options, id, name }) => {
 
   return (
     <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
+      <FormControl fullWidth required={required}>
         <InputLabel id="demo-simple-select-label">{label}</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -22,6 +28,8 @@ const InputSelect = ({ label, options, id, name }) => {
           value={value}
           label={label}
           onChange={handleChange}
+          ref={ref}
+          inputRef={ref}
         >
           {options.map((option, index) => {
             return <MenuItem key={index} value={option}>{option}</MenuItem>
@@ -30,6 +38,8 @@ const InputSelect = ({ label, options, id, name }) => {
       </FormControl>
     </Box>
   );
-};
+});
+
+InputSelect.displayName = "InputSelect";
 
 export default InputSelect;

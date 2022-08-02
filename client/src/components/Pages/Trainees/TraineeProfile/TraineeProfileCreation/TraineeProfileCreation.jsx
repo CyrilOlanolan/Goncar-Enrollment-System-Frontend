@@ -1,20 +1,33 @@
-import React from 'react'
+import React, { useRef } from 'react'
 
 import { 
   SideBar, 
   BubblePage, 
-  InputField, 
   InputRadio,
   InputDatePicker,
   InputTextArea,
   InputSelect,
   InputYearPicker,
-  InputTextField
+  InputTextField,
+  FormButton
 } from '../../../../ComponentIndex';
 import InputNumberField from '../../../../Shared/InputNumberField/InputNumberField';
 import styles from './TraineeProfileCreation.module.scss';
 
 const TraineeProfileCreation = () => {
+  const today = new Date();
+  const firstNameRef = useRef();
+  const middleNameRef = useRef();
+  const lastNameRef = useRef();
+  const birthdayRef = useRef();
+  const addressRef = useRef();
+  const contactRef = useRef();
+  const emailRef = useRef();
+  const educationalAttainmentRef = useRef();
+  const yearGraduatedRef = useRef();
+
+  var sex = "";
+
 
   const EDUCATIONAL_ATTAINMENT_OPTIONS = [
     "High School Graduate",
@@ -28,32 +41,80 @@ const TraineeProfileCreation = () => {
     "Prefer not to say"
   ]
 
+  function getSex(sexValue) {
+    sex = sexValue;
+  }
+
+  function submitForm(event) {
+    event.preventDefault();
+    console.log("First Name: ", firstNameRef.current.value);
+    console.log("Middle Name: ", middleNameRef.current.value);
+    console.log("Last Name: ", lastNameRef.current.value);
+    console.log("Sex: ", sex);
+    console.log("Birthday: ", birthdayRef.current.value);
+    console.log("Address: ", addressRef.current.value);
+    console.log("Contact number: ", contactRef.current.value);
+    console.log("Email: ", emailRef.current.value);
+    console.log("Educational Attainment: ", educationalAttainmentRef.current.value);
+    console.log("Year: ", yearGraduatedRef.current.value);
+    // event.target.reset();
+  }
+
   return (
     <>
     <SideBar />
     <BubblePage>
       <div className={styles["TraineeProfileCreation"]}>
-        <form className={styles["TraineeProfileCreation__form"]}>
+        <form
+          className={styles["TraineeProfileCreation__form"]}
+          onSubmit={submitForm}>
+
           <div className={styles["row-1"]}>
-            <InputTextField label="First Name" />
-            <InputTextField label="Middle Name" required={false}/>
-            <InputTextField label="Last Name" />
+            <InputTextField
+              ref={firstNameRef}
+              label="First Name"
+              required={true}
+              name="firstName" />
+
+            <InputTextField
+              ref={middleNameRef}
+              label="Middle Name"
+              name="middleName" />
+
+            <InputTextField label="Last Name"
+              ref={lastNameRef}
+              required={true}
+              name="lastName" />
           </div>
 
           <div className={styles["row-2"]}>
-            <InputRadio label="Sex" options={SEX_OPTIONS} />
+            <InputRadio
+              label="Sex"
+              options={SEX_OPTIONS}
+              required={true}
+              name="sex"
+              onChange={getSex} />
+
             <div className={styles["bday"]}>
-              <InputDatePicker label="Date of Birth"/>
+              <InputDatePicker
+              label="Date of Birth" 
+              required={true}
+              maxDate={today}
+              ref={birthdayRef} />
             </div>
           </div>
 
           <div className={styles["row-3"]}>
             <InputTextArea 
               label="Address" 
-              rows={4} 
+              rows={4}
+              ref={addressRef}
             />
 
-            <InputNumberField defaultValue={"09561234567"} label="Contact"/>
+            <InputNumberField
+              label="Contact"
+              placeholder={"09561234567"}
+              ref={contactRef} />
           </div>
 
           <div className={styles["row-4"]}>
@@ -64,21 +125,34 @@ const TraineeProfileCreation = () => {
                 placeholder="johndoe@mail.com"
                 type="email"
                 fullWidth={true}
+                ref={emailRef}
               />
             </div>
 
             <div className={styles["educationalAttainment"]}>
               <InputSelect
+                ref={educationalAttainmentRef}
                 id="educationalAttainment"
                 label="Educational Attainment"
                 name="educationalAttainment"
                 options={EDUCATIONAL_ATTAINMENT_OPTIONS}
+                required={true}
               />
             </div>
 
             <div className={styles["yearGraduated"]}>
-              <InputYearPicker label="Year" maxDate={new Date()}/>
+              <InputYearPicker
+                label="Year"
+                maxDate={new Date()}
+                required={true}
+                ref={yearGraduatedRef}
+              />
             </div>
+          </div>
+
+          <div className={styles["form_buttons"]}>
+            <FormButton label="Submit" type="submit" />
+            <FormButton label="Cancel" variant="cancel" />
           </div>
         </form>
       </div>

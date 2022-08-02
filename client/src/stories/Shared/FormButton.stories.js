@@ -1,7 +1,7 @@
 import { FormButton } from '../../components/ComponentIndex';
 
 export default {
-  title: 'Shared/Components/Form Button',
+  title: 'Shared/Form Button',
   component: FormButton,
   parameters: {
     backgrounds: {

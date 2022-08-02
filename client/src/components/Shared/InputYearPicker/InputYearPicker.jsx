@@ -4,8 +4,12 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import TextField from '@mui/material/TextField';
 
-const InputYearPicker = ({ label, maxDate }) => {
-  const [year, setYear] = React.useState(new Date());
+const InputYearPicker = React.forwardRef(({
+  label,
+  maxDate,
+  required=false
+}, ref ) => {
+  const [year, setYear] = React.useState(null);
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
@@ -16,10 +20,13 @@ const InputYearPicker = ({ label, maxDate }) => {
           onChange={(newValue) => {
             setYear(newValue);
           }}
-          renderInput={(params) => <TextField {...params} />}
+          inputRef={ref}
+          renderInput={(params) => <TextField {...params} required={required}/>}
         />
     </LocalizationProvider>
   );
-};
+});
+
+InputYearPicker.displayName = "InputYearPicker";
 
 export default InputYearPicker;

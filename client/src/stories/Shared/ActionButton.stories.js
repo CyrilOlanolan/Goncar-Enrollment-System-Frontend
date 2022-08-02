@@ -1,7 +1,7 @@
 import { ActionButton } from '../../components/ComponentIndex';
 
 export default {
-  title: 'Shared/Components/Action Button',
+  title: 'Shared/Action Button',
   component: ActionButton,
   parameters: {
     backgrounds: {

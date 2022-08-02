@@ -2,11 +2,13 @@ import React from 'react'
 
 import styles from "./FormButton.module.scss";
 
-const FormButton = ({ label, onClick, variant="submit" }) => {
+const FormButton = ({ label, onClick, variant="submit", type }) => {
   return (
-    <div className={[styles["FormButton"], styles[variant]].join(' ')} onClick={onClick}>
+    <button 
+      type={type}
+      className={[styles["FormButton"], styles[variant]].join(' ')} onClick={onClick}>
       {label}
-    </div>
+    </button>
   )
 }
 
