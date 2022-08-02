@@ -7,7 +7,8 @@ import TextField from '@mui/material/TextField';
 const InputYearPicker = React.forwardRef(({
   label,
   maxDate,
-  required=false
+  required=false,
+  fullWidth=false
 }, ref ) => {
   const [year, setYear] = React.useState(null);
   return (
@@ -21,7 +22,7 @@ const InputYearPicker = React.forwardRef(({
             setYear(newValue);
           }}
           inputRef={ref}
-          renderInput={(params) => <TextField {...params} required={required}/>}
+          renderInput={(params) => <TextField {...params} required={required} fullWidth={fullWidth} />}
         />
     </LocalizationProvider>
   );

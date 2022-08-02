@@ -19,4 +19,20 @@
             outline: $color--primary auto 1px;
         }
     }
+
+    /* VARIANT */
+    &.traineeID {
+        max-width: 10rem;
+        flex-direction: row;
+        align-items: center;
+
+        .InputField__label {
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .InputField__input {
+            width: 100%;
+        }
+    }
 }

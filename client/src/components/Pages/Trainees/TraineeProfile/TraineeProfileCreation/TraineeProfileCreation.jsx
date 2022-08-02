@@ -3,13 +3,14 @@ import React, { useRef } from 'react'
 import { 
   SideBar, 
   BubblePage, 
+  InputField,
   InputRadio,
   InputDatePicker,
   InputTextArea,
   InputSelect,
   InputYearPicker,
   InputTextField,
-  FormButton
+  FormButton,
 } from '../../../../ComponentIndex';
 import InputNumberField from '../../../../Shared/InputNumberField/InputNumberField';
 import styles from './TraineeProfileCreation.module.scss';
@@ -65,42 +66,58 @@ const TraineeProfileCreation = () => {
     <SideBar />
     <BubblePage>
       <div className={styles["TraineeProfileCreation"]}>
+        <h1>Trainee Profile Creation</h1>
+
+
         <form
           className={styles["TraineeProfileCreation__form"]}
           onSubmit={submitForm}>
+          {/* CHANGE TRAINEE ID HERE */}
+          <InputField
+            label="Trainee ID"
+            value={1}
+            disabled={true}
+            variant={"traineeID"}
+            style={{marginLeft: "auto"}} />
 
           <div className={styles["row-1"]}>
             <InputTextField
               ref={firstNameRef}
               label="First Name"
               required={true}
-              name="firstName" />
+              name="firstName"
+              fullWidth={true} />
 
             <InputTextField
               ref={middleNameRef}
               label="Middle Name"
-              name="middleName" />
+              name="middleName"
+              fullWidth={true} />
 
             <InputTextField label="Last Name"
               ref={lastNameRef}
               required={true}
-              name="lastName" />
+              name="lastName"
+              fullWidth={true} />
           </div>
 
           <div className={styles["row-2"]}>
-            <InputRadio
-              label="Sex"
-              options={SEX_OPTIONS}
-              required={true}
-              name="sex"
-              onChange={getSex} />
+            <div className={styles["sex"]}>
+              <InputRadio
+                label="Sex"
+                options={SEX_OPTIONS}
+                required={true}
+                name="sex"
+                onChange={getSex} />
+            </div>
 
             <div className={styles["bday"]}>
               <InputDatePicker
               label="Date of Birth" 
               required={true}
               maxDate={today}
-              ref={birthdayRef} />
+              ref={birthdayRef}
+              fullWidth={true} />
             </div>
           </div>
 
@@ -111,10 +128,13 @@ const TraineeProfileCreation = () => {
               ref={addressRef}
             />
 
-            <InputNumberField
-              label="Contact"
-              placeholder={"09561234567"}
-              ref={contactRef} />
+            <div className={styles["contact_wrapper"]}>
+              <InputNumberField
+                label="Contact"
+                placeholder={"09561234567"}
+                ref={contactRef}
+                fullWidth={true} />
+            </div>
           </div>
 
           <div className={styles["row-4"]}>
@@ -129,30 +149,36 @@ const TraineeProfileCreation = () => {
               />
             </div>
 
-            <div className={styles["educationalAttainment"]}>
-              <InputSelect
-                ref={educationalAttainmentRef}
-                id="educationalAttainment"
-                label="Educational Attainment"
-                name="educationalAttainment"
-                options={EDUCATIONAL_ATTAINMENT_OPTIONS}
-                required={true}
-              />
+            <div className={styles["education"]}>
+              <div className={styles["educationalAttainment"]}>
+                <InputSelect
+                  ref={educationalAttainmentRef}
+                  id="educationalAttainment"
+                  label="Educational Attainment"
+                  name="educationalAttainment"
+                  options={EDUCATIONAL_ATTAINMENT_OPTIONS}
+                  required={true}
+                  fullWidth = {true}
+                />
+              </div>
+
+              <div className={styles["yearGraduated"]}>
+                <InputYearPicker
+                  label="Year"
+                  maxDate={new Date()}
+                  required={true}
+                  ref={yearGraduatedRef}
+                  fullWidth={true}
+                />
+              </div>
             </div>
 
-            <div className={styles["yearGraduated"]}>
-              <InputYearPicker
-                label="Year"
-                maxDate={new Date()}
-                required={true}
-                ref={yearGraduatedRef}
-              />
-            </div>
           </div>
 
           <div className={styles["form_buttons"]}>
             <FormButton label="Submit" type="submit" />
-            <FormButton label="Cancel" variant="cancel" />
+            {/* GO BACK TO PREVIOUS PAGE */}
+            <FormButton label="Cancel" variant="cancel" type="button" onClick={() => window.history.go(-1)}/>
           </div>
         </form>
       </div>

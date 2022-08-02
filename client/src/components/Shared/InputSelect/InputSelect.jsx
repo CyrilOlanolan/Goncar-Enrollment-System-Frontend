@@ -10,7 +10,8 @@ const InputSelect = React.forwardRef(({
   options,
   id,
   name,
-  required=false 
+  required=false,
+  fullWidth=false
 }, ref) => {
   const [value, setValue] = React.useState("");
 
@@ -23,6 +24,7 @@ const InputSelect = React.forwardRef(({
       <FormControl fullWidth required={required}>
         <InputLabel id="demo-simple-select-label">{label}</InputLabel>
         <Select
+          fullWidth={fullWidth}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={value}

@@ -4,7 +4,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-const InputDatePicker= React.forwardRef(({ label, required=false, maxDate }, ref) => {
+const InputDatePicker= React.forwardRef(({ label, required=false, maxDate, fullWidth=false }, ref) => {
   const [value, setValue] = useState(null);
 
   return (
@@ -17,7 +17,7 @@ const InputDatePicker= React.forwardRef(({ label, required=false, maxDate }, ref
         onChange={(newValue) => {
           setValue(newValue);
         }}
-        renderInput={(params) => <TextField {...params} required={required}/>}
+        renderInput={(params) => <TextField {...params} required={required} fullWidth={fullWidth} />}
       />
     </LocalizationProvider>
   );

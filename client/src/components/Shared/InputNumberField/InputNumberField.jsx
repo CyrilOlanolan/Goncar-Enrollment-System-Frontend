@@ -5,10 +5,12 @@ const InputNumberField = React.forwardRef(({
   label,
   defaultValue,
   required=true,
-  placeholder 
+  placeholder,
+  fullWidth=false
 }, ref ) => {
   return (
     <TextField
+      fullWidth={fullWidth}
       required={required}
       id="outlined-required"
       label={label}
