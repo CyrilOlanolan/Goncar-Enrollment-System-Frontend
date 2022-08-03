@@ -11,6 +11,7 @@ export { default as InputTextArea } from "./Shared/InputTextArea/InputTextArea.j
 export { default as InputSelect } from "./Shared/InputSelect/InputSelect.jsx"
 export { default as InputYearPicker } from "./Shared/InputYearPicker/InputYearPicker.jsx"
 export { default as InputTextField } from "./Shared/InputTextField/InputTextField.jsx"
+export { default as BreadcrumbsComponent } from "./Shared/BreadcrumbsComponent/BreadcrumbsComponent.jsx"
 
 /* PAGES */
 export { default as Dashboard } from "./Pages/Dashboard/Dashboard.jsx"

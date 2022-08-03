@@ -1,12 +1,53 @@
 @use "../../../../styles/variables.scss" as *;
 
 .TraineeProfile {
-    &__name {
+    &__header-controls {
         margin-bottom: 1.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        column-gap: 1rem;
+
+        /* SUPPORT FOR iOS 14 below */
+        @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+            /* FOR FLEXBOX GAP SUPPORT */
+            & > *:not(:last-child) {
+                margin-right: 1rem;
+            }
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: row;
+            column-gap: 1rem;
+
+            /* SUPPORT FOR iOS 14 below */
+            @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+                /* FOR FLEXBOX GAP SUPPORT */
+                & > *:not(:last-child) {
+                    margin-right: 1rem;
+                }
+            }
+        }
     }
+
+    &__name {
+        margin-bottom: 1rem;
+    }
+
     &__details {
         display: flex;
         flex-direction: row;
+        column-gap: 1rem;
+
+        /* SUPPORT FOR iOS 14 below */
+        @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+            /* FOR FLEXBOX GAP SUPPORT */
+            & > *:not(:last-child) {
+                margin-right: 1rem;
+            }
+        }
 
         span {
             font-weight: 700;
