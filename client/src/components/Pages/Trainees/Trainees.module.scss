@@ -1,10 +1,21 @@
 @use '../../../styles/variables.scss' as *;
 
 .Trainees {
-    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &__header-actions {
+        margin-bottom: 1rem;
+    }
+
+    &__title {
+        margin-bottom: 1rem;
+    }
 
     &__table {
-        max-width: 48.875rem;
-        height: 25rem;
+        position: relative;
+        height: 100%;
     }
+
 }

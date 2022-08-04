@@ -7,13 +7,25 @@ import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 import {
   SideBar,
   BubblePage,
-  ActionButton
+  ActionButton,
+  BreadcrumbsComponent,
 } from '../../ComponentIndex'
 import styles from './Trainees.module.scss';
 
 import sampleTrainees from '../../sampleData/sampleTrainees.json';
 
 const Trainees = () => {
+  const breadcrumbsRoutes = [
+    {
+      label: "Dashboard",
+      href: "/dashboard",
+      onClick: () => console.log("Hi")
+    },
+    {
+      label: "Trainees",
+    },
+  ]
+
   function RenderActionButtons(params) {
     return <ActionButton label="View" variant={"view"} onClick={() => onClick(params.data.traineeID)} />
   }
@@ -80,16 +92,21 @@ const Trainees = () => {
   return (
     <>
       <SideBar />
-      <div className={styles["Trainees"]}>
-        <BubblePage>
-          <h1>Trainee Masterlist</h1>
-          <AgGridReact
-            columnDefs={columnDefs}
-            rowData={rowData}
-            rowHeight={rowHeight}
-          />
-        </BubblePage>
-      </div>
+      <BubblePage>
+        <div className={styles["Trainees"]}>
+          <div className={styles["Trainees__header-actions"]}>
+            <BreadcrumbsComponent routes={breadcrumbsRoutes}/>
+          </div>
+          <h1 className={styles["Trainees__title"]}>Trainee Masterlist</h1>
+          <div className={styles["Trainees__table"]}>
+            <AgGridReact
+              columnDefs={columnDefs}
+              rowData={rowData}
+              rowHeight={rowHeight}
+            />
+          </div>
+        </div>
+      </BubblePage>
     </>
   )
 }
