@@ -13,8 +13,10 @@ import {
 import styles from './Trainees.module.scss';
 
 import sampleTrainees from '../../sampleData/sampleTrainees.json';
+import { useNavigate } from 'react-router-dom';
 
 const Trainees = () => {
+  const navigate = useNavigate();
   const breadcrumbsRoutes = [
     {
       label: "Dashboard",
@@ -31,7 +33,7 @@ const Trainees = () => {
   }
 
   function onClick(id) {
-    console.log("ID: ", id);
+    navigate(`/trainees/${id}`);
   }
 
   /* SET COLUMN DEFINITIONS */
@@ -78,8 +80,6 @@ const Trainees = () => {
       setRowData(sampleTrainees);
     }
   , [rowData])
-
-  console.log(rowData)
 
   function getFullName(params) {
     return `${params.data.lastName}, ${params.data.firstName} ${getMiddleInitial(params)}.`

@@ -132,6 +132,7 @@ const TraineeProfileCreation = () => {
               <InputNumberField
                 label="Contact"
                 placeholder={"09561234567"}
+                name="contact"
                 ref={contactRef}
                 fullWidth={true} />
             </div>

@@ -6,7 +6,5 @@ export default {
 };
 
 export const Main = {
-  args: {
-    traineeID: 1
-  }
+  args: {},
 };

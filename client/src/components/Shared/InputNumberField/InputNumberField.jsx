@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 
 const InputNumberField = React.forwardRef(({
   label,
+  name,
   defaultValue,
   required=true,
   placeholder,
@@ -14,6 +15,7 @@ const InputNumberField = React.forwardRef(({
       required={required}
       id="outlined-required"
       label={label}
+      name={name}
       defaultValue={defaultValue}
       inputProps={{ inputMode: 'numeric', pattern: '[0-9]*'}}
       inputRef={ref}

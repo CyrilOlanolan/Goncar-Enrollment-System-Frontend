@@ -1,0 +1,12 @@
+.BreadcrumbsComponent {
+    min-height: 2.125rem;
+
+    a {
+        color: #0D6EFD;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

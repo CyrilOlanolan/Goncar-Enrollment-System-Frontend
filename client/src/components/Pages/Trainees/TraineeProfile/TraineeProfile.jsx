@@ -10,8 +10,14 @@ import  {
 
 /* SAMPLE DATA */
 import sampleTrainees from "../../../sampleData/sampleTrainees.json";
+import { useParams } from 'react-router-dom';
 
-const TraineeProfile = ({ traineeID }) => {
+const TraineeProfile = () => {
+  /* GET TRAINEE ID FROM URL */
+  const { traineeID } = useParams();
+
+  console.log("TraineeID: ", traineeID);
+
   /* TODO: Remove details based on course */
   /* TODO: FETCH here */
   const trainee = sampleTrainees[traineeID - 1];

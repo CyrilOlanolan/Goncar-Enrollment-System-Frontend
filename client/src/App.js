@@ -10,6 +10,7 @@ import {
   Administrative,
   Settings,
   TraineeProfileCreation,
+  TraineeProfile,
 } from "./components/ComponentIndex";
 
 function App() {
@@ -20,7 +21,10 @@ function App() {
         <Route path="/" element={<TraineeProfileCreation />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/dashboard" element={<Dashboard />} />
+
         <Route path="/trainees" element={<Trainees />} />
+        <Route path="/trainees/:traineeID" element={<TraineeProfile />} />
+
         <Route path="/batches" element={<Batches />} />
         <Route path="/employees" element={<Employees />} />
         <Route path="/finance" element={<Finance />} />
