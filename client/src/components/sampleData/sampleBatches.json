@@ -1,0 +1,12 @@
+{
+  "Batches": [
+    {
+      "batchID": 1,
+      "batchName": "Agila",
+      "batchIdentifier": "03-2021-1234",
+      "batchTeacher": "Pawaon, Louis Miguel D.",
+      "batchPopulation": "26",
+      "batchMaxPopulation": 30
+    }
+  ]
+}

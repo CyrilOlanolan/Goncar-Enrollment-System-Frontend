@@ -1,0 +1,63 @@
+@use "../../../../styles/variables.scss" as *;
+
+.BatchesCard {
+    padding: 1.875rem 2.125rem;
+    width: 15.3125rem;
+    height: 13.125rem;
+    background-color: $color--secondary;
+    border-radius: .625rem;
+
+    display: flex;
+    flex-direction: column;
+
+    &__header {
+        margin-bottom: 1.125rem;
+
+        .name-population-div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: .125rem;
+
+            .batchName {
+                color: $color--white;
+                font-weight: 500;
+                font-size: $font-size--h4;
+            }
+
+            .batchPopulation {
+                color: $color--white;
+                font-weight: 700;
+            }
+        }
+
+        .batchIdentifier {
+            font-size: $font-size--body-2;
+            color: $color--white;
+            font-weight: 300;
+        }
+    }
+
+    &__details {
+        color: $color--white;
+        margin-bottom: 1.125rem;
+
+        .batchTeacher {
+            font-size: $font-size--body-2;
+            font-weight: 300;
+        }
+    }
+
+    &__edit-button {
+        background-color: #71A3D2;
+        border: none;
+        border-radius: .25rem;
+        min-height: 2rem;
+        cursor: pointer;
+
+        font-size: $font-size--body-2;
+        font-weight: 700;
+        color: $color--secondary;
+    }
+}

@@ -27,6 +27,9 @@ export { default as Settings } from "./Pages/Settings/Settings.jsx"
 export  { default as TraineeProfile } from "./Pages/Trainees/TraineeProfile/TraineeProfile.jsx"
 export  { default as TraineeProfileCreation } from "./Pages/Trainees/TraineeProfile/TraineeProfileCreation/TraineeProfileCreation.jsx"
 
+/* BATCHES */
+export { default as BatchesCard } from './Pages/Batches/BatchesCard/BatchesCard.tsx';
+
 /* SIGN IN*/
 export { default as SignInCard } from "./Pages/SignIn/SignInCard/SignInCard.jsx"
 
