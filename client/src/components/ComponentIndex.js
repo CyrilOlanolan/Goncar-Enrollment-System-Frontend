@@ -29,6 +29,7 @@ export  { default as TraineeProfileCreation } from "./Pages/Trainees/TraineeProf
 
 /* BATCHES */
 export { default as BatchesCard } from './Pages/Batches/BatchesCard/BatchesCard.tsx';
+export { default as BatchesCreation } from './Pages/Batches/BatchesCreation/BatchesCreation.jsx';
 
 /* SIGN IN*/
 export { default as SignInCard } from "./Pages/SignIn/SignInCard/SignInCard.jsx"

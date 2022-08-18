@@ -67,8 +67,7 @@ const TraineeProfileCreation = () => {
     <BubblePage>
       <div className={styles["TraineeProfileCreation"]}>
         <h1>Trainee Profile Creation</h1>
-
-
+        
         <form
           className={styles["TraineeProfileCreation__form"]}
           onSubmit={submitForm}>
