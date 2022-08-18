@@ -125,6 +125,7 @@ const TraineeProfileCreation = () => {
               label="Address" 
               rows={4}
               ref={addressRef}
+              name="address"
             />
 
             <div className={styles["contact_wrapper"]}>
@@ -146,6 +147,7 @@ const TraineeProfileCreation = () => {
                 type="email"
                 fullWidth={true}
                 ref={emailRef}
+                required={true}
               />
             </div>
 

@@ -5,7 +5,8 @@ const InputTextArea = React.forwardRef(({
   label,
   rows,
   required=true,
-  defaultValue
+  defaultValue,
+  name
 }, ref) => {
   return (
     <TextField
@@ -16,6 +17,7 @@ const InputTextArea = React.forwardRef(({
       multiline
       fullWidth
       rows={rows}
+      name={name}
       defaultValue={defaultValue}
     />
   )

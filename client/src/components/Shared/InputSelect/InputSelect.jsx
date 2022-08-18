@@ -8,7 +8,6 @@ import Select from "@mui/material/Select";
 const InputSelect = React.forwardRef(({
   label,
   options,
-  id,
   name,
   required=false,
   fullWidth=false
@@ -31,6 +30,7 @@ const InputSelect = React.forwardRef(({
           label={label}
           onChange={handleChange}
           ref={ref}
+          name={name}
           inputRef={ref}
         >
           {options.map((option, index) => {
