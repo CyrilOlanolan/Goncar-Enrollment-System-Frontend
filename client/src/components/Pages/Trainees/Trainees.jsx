@@ -3,6 +3,7 @@ import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
 
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
+import '../../../styles/ag-theme-user.css'; // Optional theme CSS
 
 import {
   SideBar,
@@ -27,14 +28,22 @@ const Trainees = () => {
       label: "Trainees",
     },
   ]
-
+  
   function RenderActionButtons(params) {
-    return <ActionButton label="View" variant={"view"} onClick={() => onClick(params.data.traineeID)} />
+    return (
+      <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+        <ActionButton label="View" variant={"view"} onClick={() => onClick(params.data.traineeID)} />
+      </div>
+    )
   }
 
   function onClick(id) {
     navigate(`/trainees/${id}`);
   }
+
+  /* FOR TABLE */
+  /* INITIALIZE rowData VARIABLE */
+  const [rowData, setRowData] = useState([]);
 
   /* SET COLUMN DEFINITIONS */
   const [columnDefs] = useState([
@@ -42,36 +51,51 @@ const Trainees = () => {
       field: "traineeID",
       headerName: "ID",
       lockPosition: "left",
-      width: 50
+      width: 90,
+      sortable: true
     },
     {
       field: "id",
       headerName: "Full Name",
       lockPosition: "left",
       cellRenderer: getFullName,
-      width: 233
+      minWidth: 230,
+      flex: 1,
+      sortable: true
     },
     {
       field: "",
       headerName: "Current Course",
-      lockPosition: "left"
+      lockPosition: "left",
+      width: 150,
+      sortable: true
     },
     {
       field: "",
       headerName: "Status",
-      lockPosition: "left"
+      lockPosition: "left",
+      width: 100,
+      sortable: true
     },
     {
       field: "",
       headerName: "Action",
       lockPosition: "left",
-      cellRenderer: (params) => RenderActionButtons(params)
+      cellRenderer: (params) => RenderActionButtons(params),
+      flex: 2,
     },
   ])
-
-  /* INITIALIZE rowData VARIABLE */
-  const [rowData, setRowData] = useState([]);
-  const rowHeight = 40;
+  
+  /* TABLE SETTINGS */
+  const gridOptions = {
+    defaultColDef: {
+      filter: true
+    },
+    columnDefs: columnDefs,
+    rowData: rowData,
+    pagination: true,
+    paginationAutoPageSize: true
+  }
 
   /* FETCH DATA ON COMPONENT MOUNT */
   /* TODO: Implement API fetching here */
@@ -98,11 +122,9 @@ const Trainees = () => {
             <BreadcrumbsComponent routes={breadcrumbsRoutes}/>
           </div>
           <h1 className={styles["Trainees__title"]}>Trainee Masterlist</h1>
-          <div className={styles["Trainees__table"]}>
+          <div className={[styles["Trainees__table"], "ag-theme-alpine"].join(" ")}>
             <AgGridReact
-              columnDefs={columnDefs}
-              rowData={rowData}
-              rowHeight={rowHeight}
+              {...gridOptions}
             />
           </div>
         </div>

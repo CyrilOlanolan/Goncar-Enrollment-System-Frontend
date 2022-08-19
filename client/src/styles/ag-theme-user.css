@@ -1,0 +1,16 @@
+.ag-cell {
+    border-right-color: black !important;
+    border-right-width: 1px !important;
+    border-right-style: dotted !important;
+    font-size: .75rem;
+}
+
+.ag-header-cell,  .ag-header-group-cell {
+    border-right-color: black !important;
+    border-right-width: 1px !important;
+    border-right-style: dotted !important;
+
+    background-color: #D8E8F6;
+    font-weight: 700;
+    font-size: .75rem;
+}
