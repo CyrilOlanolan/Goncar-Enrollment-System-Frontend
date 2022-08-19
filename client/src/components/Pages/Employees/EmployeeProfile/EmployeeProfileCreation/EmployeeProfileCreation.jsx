@@ -80,7 +80,7 @@ const EmployeeProfileCreation = () => {
     <>
     <SideBar />
     <BubblePage>
-      <h1 className={styles["title"]}>Create Course Batch</h1>
+      <h1 className={styles["title"]}>Employee Profile Creation</h1>
 
       <form className={styles["EmployeeProfileCreation"]} onSubmit={submitForm}>
         <div className="disabled-fields">

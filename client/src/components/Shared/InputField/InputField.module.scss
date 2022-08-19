@@ -22,9 +22,10 @@
 
     /* VARIANT */
     &.traineeID {
-        max-width: 10rem;
+        max-width: 12rem;
         flex-direction: row;
         align-items: center;
+        width:fit-content;
 
         .InputField__label {
             white-space: nowrap;
@@ -32,6 +33,7 @@
         }
 
         .InputField__input {
+            max-width: 5rem;
             width: 100%;
         }
     }

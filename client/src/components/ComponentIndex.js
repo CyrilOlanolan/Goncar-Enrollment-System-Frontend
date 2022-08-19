@@ -27,6 +27,7 @@ export { default as Settings } from "./Pages/Settings/Settings.jsx"
 /* TRAINEES */
 export  { default as TraineeProfile } from "./Pages/Trainees/TraineeProfile/TraineeProfile.jsx"
 export  { default as TraineeProfileCreation } from "./Pages/Trainees/TraineeProfile/TraineeProfileCreation/TraineeProfileCreation.jsx"
+export  { default as TraineeRegistrationCreation } from "./Pages/Trainees/TraineeProfile/TraineeRegistrationCreation/TraineeRegistrationCreation.jsx";
 
 /* EMPLOYEE */
 export { default as EmployeeProfileCreation } from "./Pages/Employees/EmployeeProfile/EmployeeProfileCreation/EmployeeProfileCreation.jsx";
