@@ -13,6 +13,7 @@ export { default as InputYearPicker } from "./Shared/InputYearPicker/InputYearPi
 export { default as InputTextField } from "./Shared/InputTextField/InputTextField.jsx"
 export { default as BreadcrumbsComponent } from "./Shared/BreadcrumbsComponent/BreadcrumbsComponent.jsx"
 export { default as InputNumberField } from "./Shared/InputNumberField/InputNumberField.jsx"
+export { default as Tab } from "./Shared/Tab/Tab.jsx";
 
 /* PAGES */
 export { default as Dashboard } from "./Pages/Dashboard/Dashboard.jsx"
@@ -28,6 +29,7 @@ export { default as Settings } from "./Pages/Settings/Settings.jsx"
 export  { default as TraineeProfile } from "./Pages/Trainees/TraineeProfile/TraineeProfile.jsx"
 export  { default as TraineeProfileCreation } from "./Pages/Trainees/TraineeProfile/TraineeProfileCreation/TraineeProfileCreation.jsx"
 export  { default as TraineeRegistrationCreation } from "./Pages/Trainees/TraineeProfile/TraineeRegistrationCreation/TraineeRegistrationCreation.jsx";
+export  { default as TraineeRegistrationTabContent } from "./Pages/Trainees/TraineeProfile/TabContents/TraineeRegistrationTabContent.jsx";
 
 /* EMPLOYEE */
 export { default as EmployeeProfileCreation } from "./Pages/Employees/EmployeeProfile/EmployeeProfileCreation/EmployeeProfileCreation.jsx";
