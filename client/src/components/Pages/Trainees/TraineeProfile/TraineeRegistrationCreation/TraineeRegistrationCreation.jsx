@@ -10,6 +10,7 @@ import {
   InputDatePicker,
   FormButton
 } from '../../../../ComponentIndex';
+import { COURSES, ENROLLMENT_STATUS } from '../../../../../assets/utilities/constants';
 import styles from './TraineeRegistrationCreation.module.scss';
 
 // TODO: VALIDATION
@@ -27,16 +28,16 @@ const TraineeRegistrationCreation = () => {
 
   // CHANGE COURSE NAME HERE
   const COURSE_NAME_OPTIONS = [
-    "In-Service Enhancement",
-    "PLTC",
-    "RTC",
-    "BSSC"
+    COURSES.PLTC,
+    COURSES.RTC,
+    COURSES.BSSC,
+    COURSES.ISESTC
   ]
 
   const ENROLLMENT_STATUS_OPTIONS = [
-    "Active",
-    "Dropped",
-    "Finished"
+    ENROLLMENT_STATUS.ACTIVE,
+    ENROLLMENT_STATUS.DROPPED,
+    ENROLLMENT_STATUS.FINISHED
   ]
 
   function getEnrollmentStatus(enrollmentStatusValue) {

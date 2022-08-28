@@ -14,6 +14,7 @@ import {
 } from '../../../../ComponentIndex';
 import InputNumberField from '../../../../Shared/InputNumberField/InputNumberField';
 import styles from './TraineeProfileCreation.module.scss';
+import { EDUCATIONAL_ATTAINMENT, SEX } from '../../../../../assets/utilities/constants';
 
 const TraineeProfileCreation = () => {
   const today = new Date();
@@ -31,15 +32,14 @@ const TraineeProfileCreation = () => {
 
 
   const EDUCATIONAL_ATTAINMENT_OPTIONS = [
-    "High School Graduate",
-    "College Graduate",
-    "Undergraduate",
+    EDUCATIONAL_ATTAINMENT.HIGHSCHOOL,
+    EDUCATIONAL_ATTAINMENT.UNDERGRADUATE,
+    EDUCATIONAL_ATTAINMENT.COLLEGE
   ]
 
   const SEX_OPTIONS  = [
-    "Male",
-    "Female",
-    "Prefer not to say"
+    SEX.MALE,
+    SEX.FEMALE
   ]
 
   function getSex(sexValue) {

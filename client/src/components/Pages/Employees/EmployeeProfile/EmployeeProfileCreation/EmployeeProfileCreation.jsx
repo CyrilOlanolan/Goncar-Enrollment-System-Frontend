@@ -13,6 +13,7 @@ import {
   InputSelect
 } from '../../../../ComponentIndex';
 import styles from './EmployeeProfileCreation.module.scss';
+import { SEX, MARITAL_STATUS, EMPLOYEE_ROLE, EMPLOYMENT_STATUS } from "../../../../../assets/utilities/constants";
 
 const EmployeeProfileCreation = () => {
   const today = new Date();
@@ -29,27 +30,26 @@ const EmployeeProfileCreation = () => {
   var employmentStatus = "";
 
   const SEX_OPTIONS  = [
-    "Male",
-    "Female",
-    "Prefer not to say"
+    SEX.MALE,
+    SEX.FEMALE
   ]
 
   const MARITAL_STATUS_OPTIONS = [
-    "Single",
-    "Married",
-    "Anulled",
-    "Widowed",
+    MARITAL_STATUS.SINGLE,
+    MARITAL_STATUS.MARRIED,
+    MARITAL_STATUS.WIDOWED,
+    MARITAL_STATUS.ANULLED
   ]
 
   const EMPLOYEE_ROLE_OPTIONS = [
-    "Teacher",
-    "Cashier",
-    "Registrar"
+    EMPLOYEE_ROLE.TEACHER,
+    EMPLOYEE_ROLE.CASHIER,
+    EMPLOYEE_ROLE.REGISTRAR
   ]
 
   const EMPLOYMENT_STATUS_OPTIONS = [
-    "Active",
-    "Inactive",
+    EMPLOYMENT_STATUS.ACTIVE,
+    EMPLOYMENT_STATUS.INACTIVE
   ]
 
   function getSex(sexValue) {
