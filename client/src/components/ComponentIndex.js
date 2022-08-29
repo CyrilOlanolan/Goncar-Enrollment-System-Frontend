@@ -34,6 +34,9 @@ export  { default as TraineeRegistrationTabContent } from "./Pages/Trainees/Trai
 /* EMPLOYEE */
 export { default as EmployeeProfileCreation } from "./Pages/Employees/EmployeeProfile/EmployeeProfileCreation/EmployeeProfileCreation.jsx";
 
+/* FINANCE */
+export { default as PaymentCreation } from './Pages/Finance/PaymentCreation/PaymentCreation.jsx';
+
 /* BATCHES */
 export { default as BatchesCard } from './Pages/Batches/BatchesCard/BatchesCard.tsx';
 export { default as BatchesCreation } from './Pages/Batches/BatchesCreation/BatchesCreation.jsx';
