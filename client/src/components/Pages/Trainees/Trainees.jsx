@@ -51,7 +51,7 @@ const Trainees = () => {
       field: "traineeID",
       headerName: "ID",
       lockPosition: "left",
-      width: 90,
+      width: 75,
       sortable: true
     },
     {
@@ -82,6 +82,7 @@ const Trainees = () => {
       headerName: "Action",
       lockPosition: "left",
       cellRenderer: (params) => RenderActionButtons(params),
+      minWidth: 100,
       flex: 2,
     },
   ])

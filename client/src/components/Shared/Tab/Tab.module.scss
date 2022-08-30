@@ -1,0 +1,16 @@
+@use "../../../styles/variables.scss" as *;
+
+.Tab {
+    background-color: transparent;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    color: #9E9E9E;
+
+    &--active {
+        border-bottom: .1875rem solid $color--secondary;
+        color: $color--secondary;
+
+        font-weight: 700;
+    }
+}

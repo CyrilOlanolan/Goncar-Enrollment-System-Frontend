@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import styles from "./TraineeProfile.module.scss"
 import  {
   SideBar,
   BubblePage,
   BreadcrumbsComponent,
-  ActionButton
+  ActionButton,
+  Tab,
+  TraineeRegistrationTabContent
 } from "../../../ComponentIndex";
 
 /* SAMPLE DATA */
@@ -16,7 +18,13 @@ const TraineeProfile = () => {
   /* GET TRAINEE ID FROM URL */
   const { traineeID } = useParams();
 
-  console.log("TraineeID: ", traineeID);
+  const [activeTab, setActiveTab] = useState(0);
+
+  useEffect(
+    () => {
+      setActiveTab(activeTab)
+    }
+  , [activeTab])
 
   /* TODO: Remove details based on course */
   /* TODO: FETCH here */
@@ -35,7 +43,7 @@ const TraineeProfile = () => {
     {
       label: `${trainee.lastName}, ${trainee.firstName} ${trainee.middleName}`,
     }
-  ]
+  ];
 
   function handleEdit(id) {
     console.log(`You clicked edit for Trainee ID: ${id}!`);
@@ -78,6 +86,23 @@ const TraineeProfile = () => {
               {trainee.TINNum ? <p><span>TIN No.:</span> {trainee.TINNum}</p> : null}
               {trainee.SGLicense ? <p><span>SG License No.</span> {trainee.SGLicense}</p> : null}
               {trainee.expiryDate ? <p><span>SG License Expiry:</span> {trainee.expiryDate}</p> : null}
+            </div>
+          </div>
+
+          <div className={styles["TraineeProfile__content"]}>
+            <div className={styles["tabs"]}>
+              <Tab label={"TRAINEE REGISTRATION"}
+              onClick={() => setActiveTab(0)}
+              state={activeTab === 0 ? "active" : undefined} />
+              <Tab label={"TRANSACTION LOG"}
+              onClick={() => setActiveTab(1)}
+              state={activeTab === 1 ? "active" : undefined} />
+            </div>
+
+            <div className={styles["tab-content"]}>
+              {
+                activeTab === 0 ? <TraineeRegistrationTabContent /> : null
+              }
             </div>
           </div>
         </div>
