@@ -11,10 +11,12 @@ import {
   ActionButton,
   BreadcrumbsComponent,
 } from '../../ComponentIndex'
+import spinner from '../../../assets/svg/spinner.svg';
 import styles from './Trainees.module.scss';
-
-import sampleTrainees from '../../sampleData/sampleTrainees.json';
 import { useNavigate } from 'react-router-dom';
+
+/* SWR */
+import { useTrainees } from '../../../assets/utilities/swr';
 
 const Trainees = () => {
   const navigate = useNavigate();
@@ -32,7 +34,7 @@ const Trainees = () => {
   function RenderActionButtons(params) {
     return (
       <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-        <ActionButton label="View" variant={"view"} onClick={() => onClick(params.data.traineeID)} />
+        <ActionButton label="View" variant={"view"} onClick={() => onClick(params.data.traineeId)} />
       </div>
     )
   }
@@ -48,7 +50,7 @@ const Trainees = () => {
   /* SET COLUMN DEFINITIONS */
   const [columnDefs] = useState([
     {
-      field: "traineeID",
+      field: "traineeId",
       headerName: "ID",
       lockPosition: "left",
       width: 75,
@@ -64,14 +66,14 @@ const Trainees = () => {
       sortable: true
     },
     {
-      field: "",
+      field: "currentCourse",
       headerName: "Current Course",
       lockPosition: "left",
       width: 150,
       sortable: true
     },
     {
-      field: "",
+      field: "currentStatus",
       headerName: "Status",
       lockPosition: "left",
       width: 100,
@@ -100,11 +102,43 @@ const Trainees = () => {
 
   /* FETCH DATA ON COMPONENT MOUNT */
   /* TODO: Implement API fetching here */
+  const { trainees, isTraineesLoading, isTraineesError } = useTrainees();
+
   useEffect(
     () => {
-      setRowData(sampleTrainees);
+      if (isTraineesError) alert("Error fetching trainees data! Please refresh or check your internet connection.");
+      
+      let traineesRowData = [];
+
+      // FLATTEN OUT QUERY RESULT
+      if (!isTraineesLoading) {
+        for (let trainee of trainees) {
+          traineesRowData.push({
+            "traineeId": trainee.traineeId,
+            "lastName": trainee.lastName, 
+            "firstName": trainee.firstName,
+            "middleName": trainee.middleName,
+            "currentCourse": (() => {
+              if (trainee.registrations[0] === undefined) {
+                return "N/A";
+              }
+            
+              return trainee.registrations[0].batch.courses.courseName;
+            })(),
+            "currentStatus": (() => {
+              if (trainee.registrations[0] === undefined) {
+                return "Inactive";
+              }
+            
+              return trainee.registrations[0].registrationStatus;
+            })()
+          })
+        }
+      }
+
+      setRowData(traineesRowData)
     }
-  , [rowData])
+  , [trainees, isTraineesError, isTraineesLoading])
 
   function getFullName(params) {
     return `${params.data.lastName}, ${params.data.firstName} ${getMiddleInitial(params)}.`
@@ -123,11 +157,15 @@ const Trainees = () => {
             <BreadcrumbsComponent routes={breadcrumbsRoutes}/>
           </div>
           <h1 className={styles["Trainees__title"]}>Trainee Masterlist</h1>
-          <div className={[styles["Trainees__table"], "ag-theme-alpine"].join(" ")}>
-            <AgGridReact
-              {...gridOptions}
-            />
-          </div>
+          {
+            isTraineesLoading ?
+            <img className='spinner' src={spinner} alt="Loading..."/> :
+            <div className={[styles["Trainees__table"], "ag-theme-alpine"].join(" ")}>
+              <AgGridReact
+                {...gridOptions}
+              />
+            </div>
+          }
         </div>
       </BubblePage>
     </>

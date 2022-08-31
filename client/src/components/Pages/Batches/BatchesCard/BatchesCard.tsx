@@ -2,12 +2,12 @@ import React, { FC } from 'react'
 import styles from './BatchesCard.module.scss';
 
 type props = {
-    batchID: number,
+    batchId: number,
     batchName: string,
-    batchIdentifier: string,
+    laNumber: string,
     batchTeacher: string,
     batchPopulation: number,
-    batchMaxPopulation: number,
+    maxStudents: number,
 }
 
 const BatchesCard : FC<props> = (props) => {
@@ -20,10 +20,10 @@ const BatchesCard : FC<props> = (props) => {
         <div className={styles["name-population-div"]}>
           <p className={styles["batchName"]}>{props.batchName}</p>
           <p className={styles["batchPopulation"]}>
-            {`${props.batchPopulation} / ${props.batchMaxPopulation}`}
+            {`${props.batchPopulation} / ${props.maxStudents}`}
           </p>
         </div>
-        <p className={styles["batchIdentifier"]}>#{props.batchIdentifier}</p>
+        <p className={styles["batchIdentifier"]}>#{props.laNumber}</p>
       </div>
       <div className={styles["BatchesCard__details"]}>
         <p className={styles["batchTeacherTitle"]}>Teacher:</p>
@@ -32,7 +32,7 @@ const BatchesCard : FC<props> = (props) => {
 
       <button
         className={styles["BatchesCard__edit-button"]}
-        onClick={() => handleEditClick(props.batchID)}
+        onClick={() => handleEditClick(props.batchId)}
       >EDIT</button>
     </div>
   )
