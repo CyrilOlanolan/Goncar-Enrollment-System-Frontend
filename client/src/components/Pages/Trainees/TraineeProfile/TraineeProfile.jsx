@@ -118,7 +118,7 @@ const TraineeProfile = () => {
 
                 <div className={styles["tab-content"]}>
                   {
-                    activeTab === 0 ? <TraineeRegistrationTabContent /> : null
+                    activeTab === 0 ? <TraineeRegistrationTabContent traineeName={`${trainee.lastName}, ${trainee.firstName} ${trainee.middleName}`} /> : null
                   }
                 </div>
               </div>

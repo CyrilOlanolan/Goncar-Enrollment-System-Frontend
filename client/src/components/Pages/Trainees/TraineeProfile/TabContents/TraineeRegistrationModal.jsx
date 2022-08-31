@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 
 import styles from './TraineeRegistrationModal.module.scss';
 
-import { useTraineeRegistration, useTrainee } from '../../../../../assets/utilities/swr';
+import { useTraineeRegistration } from '../../../../../assets/utilities/swr';
 
 const style = {
   position: 'absolute',
@@ -21,10 +21,11 @@ const style = {
   p: 4,
 };
 
-const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID }) => {
+const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID, traineeName }) => {
   const [ registrationData, setRegistrationData ] = useState({});
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
+
   /* FETCH HERE */
   const { traineeRegistration, isTraineeRegistrationLoading, isTraineeRegistrationError } = useTraineeRegistration(traineeID, regID);
 
@@ -45,7 +46,7 @@ const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID })
         })
       }
     }
-    , [traineeRegistration, isTraineeRegistrationLoading, isTraineeRegistrationError, setRegistrationData])
+    , [traineeRegistration, isTraineeRegistrationLoading, isTraineeRegistrationError, setRegistrationData, traineeName])
 
     return (
       <div className={styles["TraineeRegistrationModal"]}>
@@ -64,6 +65,7 @@ const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID })
         <Fade in={openModal}>
           <Box sx={style}>
             <div className={styles["TraineeRegistrationModal__details"]}>
+              <h1 className={styles["name"]}>{traineeName}</h1>
               <p><span className={styles["field"]}>Course Taken</span>: {registrationData.courseTaken}</p>
               <p><span className={styles["field"]}>Registration Number</span>: {registrationData.registrationNumber}</p>
               <p><span className={styles["field"]}>Batch ID</span>: {registrationData.batchID}</p>

@@ -18,6 +18,7 @@
     "@types/react-dom": "^18.0.6",
     "ag-grid-community": "^28.0.2",
     "ag-grid-react": "^28.0.0",
+    "axios": "^0.27.2",
     "concurrently": "^7.2.1",
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.3",

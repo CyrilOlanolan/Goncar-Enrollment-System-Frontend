@@ -13,12 +13,11 @@ import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 import '../../../../../styles/ag-theme-user.css'; // Optional theme CSS
 
-const TraineeRegistrationTabContent = () => {
+const TraineeRegistrationTabContent = (traineeName) => {
   //CONTROLLING MODAL
   const [ openModal, setOpenModal ] = useState(false);
   const [ regID, setRegID ] = useState(undefined);
   const { traineeID } = useParams();
-  var regId;
 
   function RenderActionButtons(params) {
     return (
@@ -122,6 +121,7 @@ const TraineeRegistrationTabContent = () => {
       { 
         regID === undefined ? null :
         <TraineeRegistrationModal
+          traineeName={traineeName.traineeName}
           openModal={openModal}
           setOpenModal={setOpenModal}
           traineeID={traineeID}
