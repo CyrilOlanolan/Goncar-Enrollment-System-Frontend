@@ -1,0 +1,21 @@
+@use '../../../../../styles/variables.scss' as *;
+
+.TraineeRegistrationModal {
+    &__details {
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.5rem;
+
+        /* SUPPORT FOR iOS 14 below */
+        @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+            /* FOR FLEXBOX GAP SUPPORT */
+            & > *:not(:last-child) {
+                margin-bottom: 0.5rem;
+            }
+        }
+        .field {
+            font-weight: 700;
+            color: $color--secondary;
+        }
+    }
+}

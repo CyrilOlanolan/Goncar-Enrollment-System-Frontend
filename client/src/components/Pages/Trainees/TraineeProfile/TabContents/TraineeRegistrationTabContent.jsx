@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useTraineeRegistrations } from '../../../../../assets/utilities/swr';
 
-import { ActionButton } from '../../../../ComponentIndex';
+import {
+  ActionButton,
+  TraineeRegistrationModal,
+  Spinner
+} from '../../../../ComponentIndex';
 
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 import '../../../../../styles/ag-theme-user.css'; // Optional theme CSS
 
 const TraineeRegistrationTabContent = () => {
-  // const navigate = useNavigate();
+  //CONTROLLING MODAL
+  const [ openModal, setOpenModal ] = useState(false);
+  const [ regID, setRegID ] = useState(undefined);
+  const { traineeID } = useParams();
+  var regId;
 
   function RenderActionButtons(params) {
-    console.log(params.data)
     return (
       <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", columnGap: "0.5rem"}}>
         <ActionButton variant="view" onClick={() => onClick(params.data.registrationNumber)} />
@@ -21,9 +29,10 @@ const TraineeRegistrationTabContent = () => {
     )
   }
 
-  function onClick(id) {
-    // navigate(`/trainees/registration/${id}`);
+  function onClick(regId) {
     // MODAL HERE
+    setRegID(regId)
+    setOpenModal(true);
   }
 
   /* FOR TABLE */
@@ -82,29 +91,52 @@ const TraineeRegistrationTabContent = () => {
     paginationAutoPageSize: true
   }
 
-  useEffect(
-    /* FETCH HERE */
-    () => {
-      setRowData([{
-          registrationNumber: 1,
-          batchID: 2,
-          dateEnrolled: "January, 07, 2021",
-          course: "In-Service Enhancement",
-          trainingYear: "2021-2022",
-          batchName: "Agila",
-          status: "active"
-      }])
-    }
-  , [])
+  /* FETCH HERE */
+  const { traineeRegistrations, isTraineeRegistrationsLoading, isTraineeRegistrationsError } = useTraineeRegistrations(traineeID);
 
-  console.log(rowData);
+  useEffect(
+    () => {
+      if (isTraineeRegistrationsError) alert("Error fetching trainee registrations data! Please refresh or check your internet connection.");
+      
+      var traineeRegistrationsRowData = [];
+      
+      // FLATTEN DATA
+      if (!isTraineeRegistrationsLoading) {
+        for (let registration of traineeRegistrations) {
+          traineeRegistrationsRowData.push({
+            course: registration.batch.courses.courseName,
+            trainingYear: registration.batch.trainingYears.trainingYearSpan,
+            batchName: registration.batch.batchName,
+            status: registration.registrationStatus,
+            registrationNumber: registration.registrationNumber
+          })
+        }
+      }
+
+      setRowData(traineeRegistrationsRowData);
+    }
+  , [traineeRegistrations, isTraineeRegistrationsLoading, isTraineeRegistrationsError])
 
   return (
-    <div className={["ag-theme-alpine"].join(" ")} style={{position: "relative", height: "100%"}}>
-      <AgGridReact
-        {...gridOptions}
-      />
-    </div>
+    <>
+      { 
+        regID === undefined ? null :
+        <TraineeRegistrationModal
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          traineeID={traineeID}
+          regID={regID} />
+      }
+
+      {
+        isTraineeRegistrationsLoading ? <Spinner /> :
+        <div className={["ag-theme-alpine"].join(" ")} style={{position: "relative", height: "100%"}}>
+          <AgGridReact
+            {...gridOptions}
+          />
+        </div>
+      }
+    </>
   )
 }
 

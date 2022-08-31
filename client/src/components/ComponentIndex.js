@@ -14,6 +14,7 @@ export { default as InputTextField } from "./Shared/InputTextField/InputTextFiel
 export { default as BreadcrumbsComponent } from "./Shared/BreadcrumbsComponent/BreadcrumbsComponent.jsx"
 export { default as InputNumberField } from "./Shared/InputNumberField/InputNumberField.jsx"
 export { default as Tab } from "./Shared/Tab/Tab.jsx";
+export { default as Spinner } from "./Shared/Spinner/Spinner.jsx";
 
 /* PAGES */
 export { default as Dashboard } from "./Pages/Dashboard/Dashboard.jsx"
@@ -30,6 +31,7 @@ export  { default as TraineeProfile } from "./Pages/Trainees/TraineeProfile/Trai
 export  { default as TraineeProfileCreation } from "./Pages/Trainees/TraineeProfile/TraineeProfileCreation/TraineeProfileCreation.jsx"
 export  { default as TraineeRegistrationCreation } from "./Pages/Trainees/TraineeProfile/TraineeRegistrationCreation/TraineeRegistrationCreation.jsx";
 export  { default as TraineeRegistrationTabContent } from "./Pages/Trainees/TraineeProfile/TabContents/TraineeRegistrationTabContent.jsx";
+export  { default as TraineeRegistrationModal } from "./Pages/Trainees/TraineeProfile/TabContents/TraineeRegistrationModal.jsx";
 
 /* EMPLOYEE */
 export { default as EmployeeProfileCreation } from "./Pages/Employees/EmployeeProfile/EmployeeProfileCreation/EmployeeProfileCreation.jsx";

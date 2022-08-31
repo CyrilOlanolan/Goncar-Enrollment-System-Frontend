@@ -32,3 +32,23 @@ export function useTrainee(id) {
         isTraineeError: error
     }
 }
+
+export function useTraineeRegistrations(id) {
+    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/trainees/${id}/registrations`, fetcher);
+
+    return {
+        traineeRegistrations: data,
+        isTraineeRegistrationsLoading: !error && !data,
+        isTraineeRegistrationsError: error
+    }
+}
+
+export function useTraineeRegistration(id, regid) {
+    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/trainees/${id}/registrations/${regid}`, fetcher);
+
+    return {
+        traineeRegistration: data,
+        isTraineeRegistrationLoading: !error && !data,
+        isTraineeRegistrationError: error
+    }
+}

@@ -7,13 +7,13 @@ import  {
   BreadcrumbsComponent,
   ActionButton,
   Tab,
-  TraineeRegistrationTabContent
+  TraineeRegistrationTabContent,
+  Spinner
 } from "../../../ComponentIndex";
 
 /* SAMPLE DATA */
 import { useParams } from 'react-router-dom';
 import  { useTrainee } from '../../../../assets/utilities/swr';
-import spinner from '../../../../assets/svg/spinner.svg'
 
 const TraineeProfile = () => {
   
@@ -35,7 +35,7 @@ const TraineeProfile = () => {
   
   useEffect(
     () => {
-      if (isTraineeError) alert("Error fetching trainees data! Please refresh or check your internet connection.");
+      if (isTraineeError) alert("Error fetching trainee data! Please refresh or check your internet connection.");
     }
   , [trainee, isTraineeLoading, isTraineeError])
     
@@ -82,7 +82,7 @@ const TraineeProfile = () => {
             </div>
           </div>
           {
-            isTraineeLoading ? <img className='spinner' src={spinner} alt="Loading..."/> :
+            isTraineeLoading ? <Spinner /> :
             <>
               <h1 className={styles["TraineeProfile__name"]}>{`${trainee.lastName}, ${trainee.firstName} ${trainee.middleName}`.toUpperCase()}</h1>
               

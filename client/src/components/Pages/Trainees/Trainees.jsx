@@ -10,8 +10,8 @@ import {
   BubblePage,
   ActionButton,
   BreadcrumbsComponent,
+  Spinner
 } from '../../ComponentIndex'
-import spinner from '../../../assets/svg/spinner.svg';
 import styles from './Trainees.module.scss';
 import { useNavigate } from 'react-router-dom';
 
@@ -107,7 +107,7 @@ const Trainees = () => {
   useEffect(
     () => {
       if (isTraineesError) alert("Error fetching trainees data! Please refresh or check your internet connection.");
-      
+
       let traineesRowData = [];
 
       // FLATTEN OUT QUERY RESULT
@@ -159,7 +159,7 @@ const Trainees = () => {
           <h1 className={styles["Trainees__title"]}>Trainee Masterlist</h1>
           {
             isTraineesLoading ?
-            <img className='spinner' src={spinner} alt="Loading..."/> :
+            <Spinner /> :
             <div className={[styles["Trainees__table"], "ag-theme-alpine"].join(" ")}>
               <AgGridReact
                 {...gridOptions}
