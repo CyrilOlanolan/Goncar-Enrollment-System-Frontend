@@ -1,4 +1,6 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+
+import {SideBar} from '../../ComponentIndex';
 
 const Administrative = () => {
   return (
