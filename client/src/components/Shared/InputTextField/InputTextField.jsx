@@ -4,12 +4,15 @@ import TextField from '@mui/material/TextField';
 const InputTextField = React.forwardRef(({ 
   label, 
   defaultValue, 
+  onChange,
   required=false, 
   fullWidth=false, 
-  type, 
-  onChange,
+  disabled=false,
+  type,
+  value,
   name
 }, ref ) => {
+
   return (
     <TextField
       inputRef={ref}
@@ -17,9 +20,12 @@ const InputTextField = React.forwardRef(({
       required={required}
       id="outlined-required"
       label={label}
-      defaultValue={defaultValue}
+      // defaultValue={defaultValue}
+      onChange={onChange ? e => onChange(e.target.value) : undefined}
+      value={value}
       type={type}
       name={name}
+      disabled={disabled}
     />
   )
 });

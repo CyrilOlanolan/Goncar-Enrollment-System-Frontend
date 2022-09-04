@@ -1,38 +1,41 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useCourses } from '../../../../../assets/utilities/swr';
+
+/* MUI */
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import {
   SideBar,
   BubblePage,
   InputField,
-  InputSelect,
-  InputTextField,
-  InputRadio,
-  InputDatePicker,
   FormButton
 } from '../../../../ComponentIndex';
-import { COURSES, ENROLLMENT_STATUS } from '../../../../../assets/utilities/constants';
+import { ENROLLMENT_STATUS } from '../../../../../assets/utilities/constants';
 import styles from './TraineeRegistrationCreation.module.scss';
+
+import { useTrainee, useGroupedBatches } from '../../../../../assets/utilities/swr';
 
 // TODO: VALIDATION
 const TraineeRegistrationCreation = () => {
-  const [batchOptions, setBatchOptions] = useState([]);
-  const today = new Date();
-  const courseRef = useRef();
-  const batchRef = useRef();
-  const sssNumberRef = useRef();
-  const sbrNumberRef = useRef();
-  const tinNumberRef = useRef();
-  const sgLicenseNumberRef = useRef();
-  const dateEnrolledRef = useRef();
-  var enrollmentStatus = "";
+  const location = useLocation();
 
-  // CHANGE COURSE NAME HERE
-  const COURSE_NAME_OPTIONS = [
-    COURSES.PLTC,
-    COURSES.RTC,
-    COURSES.BSSC,
-    COURSES.ISESTC
-  ]
+  const traineeID = location.state.traineeID;
+  const regID = location.state.regID;
+
+  const [ courseOptions, setCourseOptions ] = useState([]);
+  const today = new Date();
 
   const ENROLLMENT_STATUS_OPTIONS = [
     ENROLLMENT_STATUS.ACTIVE,
@@ -40,31 +43,119 @@ const TraineeRegistrationCreation = () => {
     ENROLLMENT_STATUS.FINISHED
   ]
 
-  function getEnrollmentStatus(enrollmentStatusValue) {
-    enrollmentStatus = enrollmentStatusValue;
-  }
+  // FETCH AVAILABLE COURSES
+  const { courses, isCoursesLoading, isCoursesError } = useCourses();
+
+  useEffect(
+    () => {
+      if (isCoursesError) alert("Error fetching courses! Please refresh or check your internet connection.");
+      let courseFlattened = [];
+
+      // FLATTEN
+      if (!isCoursesLoading) {
+        for (let course of courses) {
+          courseFlattened.push(course.courseName);
+        }
+      }
+
+      setCourseOptions(courseFlattened);
+    }
+  , [courses, isCoursesLoading, isCoursesError])
+
+
+  // FETCH EXISTING TRAINEE DATA
+  const { trainee, isTraineeLoading, isTraineeError } = useTrainee(traineeID);
+
+  /* STATES */
+  const [selectedCourse, setSelectedCourse] = useState("");
+  const [selectedBatch, setSelectedBatch] = useState('');
+  const [sssNumber, setSSSNumber] = useState();
+  const [sbrNumber, setSBRNumber] = useState();
+  const [sgLicense, setSGLicense] = useState();
+  const [tinNumber, setTINNumber] = useState();
+  const [selectedEnrollmentStatus, setSelectedEnrollmentStatus] = useState(ENROLLMENT_STATUS_OPTIONS[0]);
+  const [sgExpiry, setSGExpiry] = useState();
+  const [dateEnrolled, setDateEnrolled] = useState(today);
+
+  useEffect(
+    () => {
+      if (isTraineeError) alert("Error fetching trainee data! Please refresh or check your internet connection.");
+
+      if (!isTraineeLoading) {
+        setSSSNumber(trainee?.SSSNum);
+        setSBRNumber(trainee?.SBRNum);
+        setSGLicense(trainee?.SGLicense);
+        setTINNumber(trainee?.TINNum);
+        setSGExpiry(trainee?.expiryDate);
+      }
+    }
+  , [trainee, isTraineeLoading, isTraineeError])
+
+  // FETCH EXISTING BATCHES
+  const { groupedBatches, isGroupedBatchesLoading, isGroupedBatchesError } = useGroupedBatches();
+  
+  const [coursesMap, setCoursesMap] = useState({}); // KEY: courseName, VALUE: courseId
+  const [batchesMap, setBatchesMap] = useState({}); // KEY: courseId, VALUE: Array of batches
+  const [availableBatches, setAvailableBatches] = useState([]);
 
   useEffect (
     () => {
-      // FETCH COURSE NAME OPTIONS
-      setBatchOptions([
-        "Agila",
-        "Cobra",
-        "Maliksi"
-      ]);
+      if (isGroupedBatchesError) alert("Error fetching grouped batches! Please refresh or check your internet connection.");
+      let coursesFlattened = {};
+      let batchesFlattened = {};
+      if (!isGroupedBatchesLoading) {
+        for (let i = 0; i < groupedBatches.length; i++) {
+          // MAP COURSES TO RESPECTIVE courseId
+          coursesFlattened[groupedBatches[i].courseName] =  groupedBatches[i].courseId
+          // MAP BATCHES TO RESPECTIVE courseId
+          batchesFlattened[groupedBatches[i].courseId] = groupedBatches[i].batch;
+        }
+      }
+
+      setCoursesMap(coursesFlattened);
+      setBatchesMap(batchesFlattened);
     }
-  , [])
+  , [groupedBatches, isGroupedBatchesLoading, isGroupedBatchesError])
+
+  // ON CHANGE OF SELECTED COURSE
+  useEffect(
+    () => {
+      // CLEAR BATCH FIELD EVERYTIME SELECTED COURSE CHANGES
+      setSelectedBatch("");
+
+      let courseIdentification = coursesMap[selectedCourse];
+
+      
+      let batchesInCourse = batchesMap[courseIdentification] ?? [];
+      let batchNamesFlattened = [];
+
+      for (let batches of batchesInCourse) {
+        batchNamesFlattened.push(batches.batchName);
+      }
+      
+      setAvailableBatches(batchNamesFlattened);
+    }
+  , [selectedCourse, batchesMap, coursesMap])
 
   function submitForm(event) {
     event.preventDefault();
-    console.log("Course Name: ", courseRef.current.value);
-    console.log("Batch Name: ", batchRef.current.value);
-    console.log("SSS Number: ", sssNumberRef.current.value);
-    console.log("SBR Number: ", sbrNumberRef.current.value);
-    console.log("TIN Number: ", tinNumberRef.current.value);
-    console.log("SG License Number: ", sgLicenseNumberRef.current.value);
-    console.log("Enrollment Status: ", enrollmentStatus);
-    console.log("Date Enrolled: ", dateEnrolledRef.current.value);
+    console.log("Course Name: ", selectedCourse);
+    console.log("Batch Name: ", selectedBatch);
+    console.log("SSS Number: ", sssNumber);
+    console.log("SBR Number: ", sbrNumber);
+    console.log("TIN Number: ", tinNumber);
+    console.log("SG License Number: ", sgLicense);
+    console.log("SG License Expiry: ", sgExpiry);
+    console.log("Enrollment Status: ", selectedEnrollmentStatus);
+    console.log("Date Enrolled: ", dateEnrolled);
+    // console.log("Course Name: ", courseRef.current.value);
+    // console.log("Batch Name: ", batchRef.current.value);
+    // console.log("SSS Number: ", sssNumberRef.current.value);
+    // console.log("SBR Number: ", sbrNumberRef.current.value);
+    // console.log("TIN Number: ", tinNumberRef.current.value);
+    // console.log("SG License Number: ", sgLicenseNumberRef.current.value);
+    // console.log("Enrollment Status: ", enrollmentStatus);
+    // console.log("Date Enrolled: ", dateEnrolledRef.current.value);
     // event.target.reset();
   }
 
@@ -79,88 +170,224 @@ const TraineeRegistrationCreation = () => {
             {/* CHANGE VALUES HERE */}
             <InputField
               label="Registration No."
-              value={1}
+              value={regID ?? 1}
               disabled={true}
               variant={"traineeID"}
             />
 
             <InputField
               label="Trainee ID"
-              value={1}
+              value={traineeID}
               disabled={true}
               variant={"traineeID"}
             />
           </div>
 
           <div className={styles["row-2"]}>
-            <InputSelect
+            <FormControl fullWidth required>
+              <InputLabel id="course-select-label">Course</InputLabel>
+              <Select
+                labelId="course-select-label"
+                id="cousrse-select"
+                name="course"
+                value={selectedCourse}
+                label="Course"
+                onChange={e => setSelectedCourse(e.target.value)}
+              >
+                {courseOptions.map((option, index) => {
+                  return <MenuItem key={index} value={option}>{option}</MenuItem>
+                })}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth required>
+              <InputLabel id="batch-select-label">Batch</InputLabel>
+              <Select
+                labelId="batch-select-label"
+                id="batch-select"
+                name="batch"
+                value={selectedBatch}
+                label="Course"
+                onChange={e => setSelectedBatch(e.target.value)}
+              >
+                {availableBatches.map((option, index) => {
+                  return <MenuItem key={index} value={option}>{option}</MenuItem>
+                })}
+              </Select>
+            </FormControl>
+
+            {/* <InputSelect
               label="Course"
-              options={COURSE_NAME_OPTIONS}
+              options={courseOptions}
               required={true}
               name="course"
               ref={courseRef}
+              value={selectedCourse}
+              onChange={setSelectedCourse}
               fullWidth={true}
-            />
+            /> */}
 
-            <InputSelect 
+            {/* <InputSelect 
               label="Batch Name"
-              options={batchOptions}
+              options={availableBatches ?? []}
               required={true}
               name="batch"
               ref={batchRef}
               fullWidth={true}
-            />
+              onChange={setSelectedBatch}
+              value={selectedBatch}
+            /> */}
           </div>
 
           <div className={styles["row-3"]}>
-            <InputTextField
+            <TextField
+              id="sss-text-field"
+              name="SSSNumber"
+              label="SSS Number"
+              value={sssNumber}
+              onChange={e => setSSSNumber(e.target.value)}
+              fullWidth={true} 
+              required
+            />
+
+            <TextField
+              id="sbr-text-field"
+              name="SBRNumber"
+              label="SBR Number"
+              value={sbrNumber}
+              onChange={e => setSBRNumber(e.target.value)}
+              fullWidth={true} 
+            />
+
+            {/* <InputTextField
               ref={sssNumberRef}
               label="SSS Number"
-              required={true}
+              // required={true}
               name="SSSNumber"
-              fullWidth={true} />
+              value={sssNumber}
+              onChange={setSSSNumber}
+              fullWidth={true} /> */}
 
+            {/* 
             <InputTextField
               ref={sbrNumberRef}
               label="SBR Number"
               required={true}
               name="SBRNumber"
-              fullWidth={true} />
+              value={sbrNumber}
+              onChange={setSBRNumber}
+              fullWidth={true} /> */}
           </div>
 
           <div className={styles["row-4"]}>
-            <InputTextField
+            <TextField
+              id="tin-text-field"
+              name="TINNumber"
+              label="TIN Number"
+              value={tinNumber}
+              onChange={e => setTINNumber(e.target.value)}
+              fullWidth={true}
+              required
+            />
+
+            <TextField
+              id="sg-license-text-field"
+              label="SG License Number"
+              value={sgLicense}
+              onChange={e => setSGLicense(e.target.value)}
+              fullWidth={true} 
+            />
+
+            {/* <InputTextField
               ref={tinNumberRef}
               label="TIN Number"
               required={true}
               name="TINNumber"
-              fullWidth={true} />
+              value={tinNumber}
+              onChange={setTINNumber}
+              fullWidth={true} /> */}
 
-            <InputTextField
+            {/* <InputTextField
               ref={sgLicenseNumberRef}
               label="SG License Number"
               required={true}
               name="sgLicenseNumber"
-              fullWidth={true} />
+              value={sgLicense}
+              onChange={setSGLicense}
+              fullWidth={true} /> */}
           </div>
 
           <div className={styles["row-5"]}>
-            <InputRadio
+
+            <FormControl required>
+              <FormLabel id="enrollment-status-radio-buttons-group">Enrollment Status</FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="enrollment-status-radio-buttons-group"
+                name="enrollment-status-radio-buttons-group"
+                value={selectedEnrollmentStatus}
+                onChange={e => setSelectedEnrollmentStatus(e.target.value)}
+              >
+                {ENROLLMENT_STATUS_OPTIONS.map((option, index) => {
+                  return (
+                    <FormControlLabel key={index} value={option} control={<Radio />} label={option} />
+                  )
+                })}
+              </RadioGroup>
+            </FormControl>
+
+            {/* <InputRadio
               label="Enrollment Status"
               required={true}
               options={ENROLLMENT_STATUS_OPTIONS}
               name="enrollmentStatus"
               onChange={getEnrollmentStatus}
-            />
+            /> */}
 
             <div className={styles["date-enrolled-wrapper"]}>
-              <InputDatePicker
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  minDate={today}
+                  label="SG License Expiry" 
+                  name="SG-License-Expiry" 
+                  value={sgExpiry}
+                  onChange={(newValue) => {
+                    setSGExpiry(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} fullWidth />}
+                />
+              </LocalizationProvider>
+
+              {/* <InputDatePicker
+                label="SG License Expiry" 
+                // required={true}
+                initialValue={sgExpiry}
+                minDate={today}
+                ref={sgExpiryRef}
+                fullWidth={true} /> */}
+            </div>
+
+            <div className={styles["date-enrolled-wrapper"]}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  maxDate={today}
+                  label="Date Enrolled" 
+                  name="Date-Enrolled" 
+                  value={dateEnrolled}
+                  onChange={(newValue) => {
+                    setDateEnrolled(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} fullWidth />}
+                />
+              </LocalizationProvider>
+
+              {/* <InputDatePicker
                 label="Date Enrolled" 
-                required={true}
+                // required={true}
                 initialValue={today}
                 maxDate={today}
                 ref={dateEnrolledRef}
-                fullWidth={true} />
+                fullWidth={true} /> */}
             </div>
           </div>
 
