@@ -148,15 +148,6 @@ const TraineeRegistrationCreation = () => {
     console.log("SG License Expiry: ", sgExpiry);
     console.log("Enrollment Status: ", selectedEnrollmentStatus);
     console.log("Date Enrolled: ", dateEnrolled);
-    // console.log("Course Name: ", courseRef.current.value);
-    // console.log("Batch Name: ", batchRef.current.value);
-    // console.log("SSS Number: ", sssNumberRef.current.value);
-    // console.log("SBR Number: ", sbrNumberRef.current.value);
-    // console.log("TIN Number: ", tinNumberRef.current.value);
-    // console.log("SG License Number: ", sgLicenseNumberRef.current.value);
-    // console.log("Enrollment Status: ", enrollmentStatus);
-    // console.log("Date Enrolled: ", dateEnrolledRef.current.value);
-    // event.target.reset();
   }
 
   return (
@@ -215,28 +206,6 @@ const TraineeRegistrationCreation = () => {
                 })}
               </Select>
             </FormControl>
-
-            {/* <InputSelect
-              label="Course"
-              options={courseOptions}
-              required={true}
-              name="course"
-              ref={courseRef}
-              value={selectedCourse}
-              onChange={setSelectedCourse}
-              fullWidth={true}
-            /> */}
-
-            {/* <InputSelect 
-              label="Batch Name"
-              options={availableBatches ?? []}
-              required={true}
-              name="batch"
-              ref={batchRef}
-              fullWidth={true}
-              onChange={setSelectedBatch}
-              value={selectedBatch}
-            /> */}
           </div>
 
           <div className={styles["row-3"]}>
@@ -258,25 +227,6 @@ const TraineeRegistrationCreation = () => {
               onChange={e => setSBRNumber(e.target.value)}
               fullWidth={true} 
             />
-
-            {/* <InputTextField
-              ref={sssNumberRef}
-              label="SSS Number"
-              // required={true}
-              name="SSSNumber"
-              value={sssNumber}
-              onChange={setSSSNumber}
-              fullWidth={true} /> */}
-
-            {/* 
-            <InputTextField
-              ref={sbrNumberRef}
-              label="SBR Number"
-              required={true}
-              name="SBRNumber"
-              value={sbrNumber}
-              onChange={setSBRNumber}
-              fullWidth={true} /> */}
           </div>
 
           <div className={styles["row-4"]}>
@@ -297,24 +247,6 @@ const TraineeRegistrationCreation = () => {
               onChange={e => setSGLicense(e.target.value)}
               fullWidth={true} 
             />
-
-            {/* <InputTextField
-              ref={tinNumberRef}
-              label="TIN Number"
-              required={true}
-              name="TINNumber"
-              value={tinNumber}
-              onChange={setTINNumber}
-              fullWidth={true} /> */}
-
-            {/* <InputTextField
-              ref={sgLicenseNumberRef}
-              label="SG License Number"
-              required={true}
-              name="sgLicenseNumber"
-              value={sgLicense}
-              onChange={setSGLicense}
-              fullWidth={true} /> */}
           </div>
 
           <div className={styles["row-5"]}>
@@ -336,14 +268,6 @@ const TraineeRegistrationCreation = () => {
               </RadioGroup>
             </FormControl>
 
-            {/* <InputRadio
-              label="Enrollment Status"
-              required={true}
-              options={ENROLLMENT_STATUS_OPTIONS}
-              name="enrollmentStatus"
-              onChange={getEnrollmentStatus}
-            /> */}
-
             <div className={styles["date-enrolled-wrapper"]}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
@@ -357,14 +281,6 @@ const TraineeRegistrationCreation = () => {
                   renderInput={(params) => <TextField {...params} fullWidth />}
                 />
               </LocalizationProvider>
-
-              {/* <InputDatePicker
-                label="SG License Expiry" 
-                // required={true}
-                initialValue={sgExpiry}
-                minDate={today}
-                ref={sgExpiryRef}
-                fullWidth={true} /> */}
             </div>
 
             <div className={styles["date-enrolled-wrapper"]}>
@@ -380,14 +296,6 @@ const TraineeRegistrationCreation = () => {
                   renderInput={(params) => <TextField {...params} fullWidth />}
                 />
               </LocalizationProvider>
-
-              {/* <InputDatePicker
-                label="Date Enrolled" 
-                // required={true}
-                initialValue={today}
-                maxDate={today}
-                ref={dateEnrolledRef}
-                fullWidth={true} /> */}
             </div>
           </div>
 
