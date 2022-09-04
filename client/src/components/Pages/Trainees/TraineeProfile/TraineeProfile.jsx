@@ -8,15 +8,16 @@ import  {
   ActionButton,
   Tab,
   TraineeRegistrationTabContent,
-  Spinner
+  Spinner,
+  NewButton
 } from "../../../ComponentIndex";
 
 /* SAMPLE DATA */
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import  { useTrainee } from '../../../../assets/utilities/swr';
 
 const TraineeProfile = () => {
-  
+  const navigate = useNavigate();
   /* GET TRAINEE ID FROM URL */
   const { traineeID } = useParams();
   
@@ -36,6 +37,8 @@ const TraineeProfile = () => {
   useEffect(
     () => {
       if (isTraineeError) alert("Error fetching trainee data! Please refresh or check your internet connection.");
+
+      console.log(trainee);
     }
   , [trainee, isTraineeLoading, isTraineeError])
     
@@ -58,6 +61,14 @@ const TraineeProfile = () => {
         label: `${trainee.lastName}, ${trainee.firstName} ${trainee.middleName}`,
       }
     )
+  }
+
+  function handleNewRegistration(traineeId) {
+    navigate('/trainee/new', {
+      state: {
+        traineeID: traineeId,
+      }
+    })
   }
 
   function handleEdit(id) {
@@ -117,6 +128,9 @@ const TraineeProfile = () => {
                 </div>
 
                 <div className={styles["tab-content"]}>
+                  <div className={styles["new-button"]}>
+                    {activeTab === 0 ? <NewButton label="CREATE NEW REGISTRATION" onClick={() => handleNewRegistration(traineeID)} /> : <NewButton label="CREATE NEW PAYMENT" />}
+                  </div>
                   {
                     activeTab === 0 ? <TraineeRegistrationTabContent traineeName={`${trainee.lastName}, ${trainee.firstName} ${trainee.middleName}`} /> : null
                   }

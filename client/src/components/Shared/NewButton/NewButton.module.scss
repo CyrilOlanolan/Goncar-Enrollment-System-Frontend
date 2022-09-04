@@ -1,0 +1,19 @@
+@use '../../../styles/variables.scss' as *;
+
+.NewButton {
+    padding: 0.5rem 1rem;
+    font-size: 16px;
+    color: $color--secondary;
+    background-color: transparent;
+    border: 1px solid $color--secondary;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    
+    transition: all 0.3s ease;
+
+    &:active, &:hover {
+        background-color: $color--secondary;
+        color: $color--white;
+    }
+}

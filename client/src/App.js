@@ -11,6 +11,7 @@ import {
   Settings,
   TraineeProfileCreation,
   TraineeProfile,
+  TraineeRegistrationCreation
 } from "./components/ComponentIndex";
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
 
         <Route path="/trainees" element={<Trainees />} />
         <Route path="/trainees/:traineeID" element={<TraineeProfile />} />
+        <Route path="/trainee/edit" element={<TraineeRegistrationCreation />} />
+        <Route path="/trainee/new" element={<TraineeRegistrationCreation />} />
 
         <Route path="/batches" element={<Batches />} />
         <Route path="/employees" element={<Employees />} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -10,13 +10,13 @@ const InputSelect = React.forwardRef(({
   options,
   name,
   required=false,
-  fullWidth=false
+  fullWidth=false,
+  disabled=false,
+  onChange,
+  value
 }, ref) => {
-  const [value, setValue] = React.useState("");
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+  const [ defValue, setDefValue ] = useState('');
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -26,12 +26,13 @@ const InputSelect = React.forwardRef(({
           fullWidth={fullWidth}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={value}
+          value={value ?? defValue}
           label={label}
-          onChange={handleChange}
+          onChange={onChange ? (e) => onChange(e.target.value) : (e) => setDefValue(e.target.value)}
           ref={ref}
           name={name}
           inputRef={ref}
+          disabled={disabled}
         >
           {options.map((option, index) => {
             return <MenuItem key={index} value={option}>{option}</MenuItem>

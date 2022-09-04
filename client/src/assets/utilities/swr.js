@@ -52,3 +52,24 @@ export function useTraineeRegistration(id, regid) {
         isTraineeRegistrationError: error
     }
 }
+
+export function useCourses() {
+    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/courses`, fetcher);
+
+    return {
+        courses: data,
+        isCoursesLoading: !error && !data,
+        isCoursesError: error
+    }
+}
+
+export function useGroupedBatches() {
+    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/courses/batches/grouped`, fetcher);
+
+    return {
+        groupedBatches: data,
+        isGroupedBatchesLoading: !error && !data,
+        isGroupedBatchesError: error
+    }
+}
+

@@ -15,6 +15,7 @@ export { default as BreadcrumbsComponent } from "./Shared/BreadcrumbsComponent/B
 export { default as InputNumberField } from "./Shared/InputNumberField/InputNumberField.jsx"
 export { default as Tab } from "./Shared/Tab/Tab.jsx";
 export { default as Spinner } from "./Shared/Spinner/Spinner.jsx";
+export { default as NewButton } from "./Shared/NewButton/NewButton.jsx";
 
 /* PAGES */
 export { default as Dashboard } from "./Pages/Dashboard/Dashboard.jsx"

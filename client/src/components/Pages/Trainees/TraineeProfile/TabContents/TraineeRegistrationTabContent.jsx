@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useTraineeRegistrations } from '../../../../../assets/utilities/swr';
 
 import {
@@ -14,6 +14,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 import '../../../../../styles/ag-theme-user.css'; // Optional theme CSS
 
 const TraineeRegistrationTabContent = (traineeName) => {
+  const navigate = useNavigate();
   //CONTROLLING MODAL
   const [ openModal, setOpenModal ] = useState(false);
   const [ regID, setRegID ] = useState(undefined);
@@ -22,16 +23,10 @@ const TraineeRegistrationTabContent = (traineeName) => {
   function RenderActionButtons(params) {
     return (
       <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", columnGap: "0.5rem"}}>
-        <ActionButton variant="view" onClick={() => onClick(params.data.registrationNumber)} />
-        <ActionButton variant="edit" onClick={() => onClick(params.data.registrationNumber)} />
+        <ActionButton variant="view" onClick={() => onClickView(params.data.registrationNumber)} />
+        <ActionButton variant="edit" onClick={() => onClickEdit(params.data.registrationNumber)} />
       </div>
     )
-  }
-
-  function onClick(regId) {
-    // MODAL HERE
-    setRegID(regId)
-    setOpenModal(true);
   }
 
   /* FOR TABLE */
@@ -90,6 +85,21 @@ const TraineeRegistrationTabContent = (traineeName) => {
     paginationAutoPageSize: true
   }
 
+  function onClickEdit(regId) {
+    navigate('/trainee/edit', {
+      state: {
+        traineeID: traineeID,
+        regID: regId,
+      }
+    })
+  }
+
+  function onClickView(regId) {
+    // MODAL HERE
+    setRegID(regId)
+    setOpenModal(true);
+  }
+
   /* FETCH HERE */
   const { traineeRegistrations, isTraineeRegistrationsLoading, isTraineeRegistrationsError } = useTraineeRegistrations(traineeID);
 
@@ -115,7 +125,6 @@ const TraineeRegistrationTabContent = (traineeName) => {
       setRowData(traineeRegistrationsRowData);
     }
   , [traineeRegistrations, isTraineeRegistrationsLoading, isTraineeRegistrationsError])
-
   return (
     <>
       { 

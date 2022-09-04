@@ -46,7 +46,7 @@ const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID, t
         })
       }
     }
-    , [traineeRegistration, isTraineeRegistrationLoading, isTraineeRegistrationError, setRegistrationData, traineeName])
+    , [traineeRegistration, isTraineeRegistrationLoading, isTraineeRegistrationError, setRegistrationData])
 
     return (
       <div className={styles["TraineeRegistrationModal"]}>
