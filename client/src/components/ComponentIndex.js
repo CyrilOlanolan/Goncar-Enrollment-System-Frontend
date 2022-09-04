@@ -24,7 +24,14 @@ export { default as Batches } from "./Pages/Batches/Batches.jsx"
 export { default as Employees } from "./Pages/Employees/Employees.jsx"
 export { default as Finance } from "./Pages/Finance/Finance.jsx"
 export { default as Administrative } from "./Pages/Administrative/Administrative.jsx"
-export { default as Settings } from "./Pages/Settings/Settings.jsx"
+export { default as Settings } from "./Pages/Settings/Settings.jsx";
+
+/* COURSES */
+export { default as RTC } from "./Pages/Courses/RTC/RTC.jsx"
+export { default as PLTC } from "./Pages/Courses/PLTC/PLTC.jsx"
+export { default as ISESTC} from "./Pages/Courses/ISESTC/ISESTC.jsx"
+export { default as BSSC} from "./Pages/Courses/BSSC/BSSC.jsx"
+
 
 /* TRAINEES */
 export  { default as TraineeProfile } from "./Pages/Trainees/TraineeProfile/TraineeProfile.jsx"

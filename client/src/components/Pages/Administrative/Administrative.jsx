@@ -3,8 +3,10 @@ import { AgGridReact } from 'ag-grid-react'; //AG grid react component
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 
 import {SideBar, BubblePage, WelcomeBubble, DashboardCards, 
-  BreadcrumbsComponent} from '../../ComponentIndex';
+  BreadcrumbsComponent, ActionButton} from '../../ComponentIndex';
 import styles from "./Administrative.module.scss"
+
+import { COURSES } from '../../../assets/utilities/constants';
 
 const Administrative = () => {
 
@@ -19,6 +21,14 @@ const Administrative = () => {
       href: "/Administrative",
     }
   ];
+
+  function RenderActionButtons(params) {
+    return (
+      <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+        <ActionButton label="View" variant={"view"} onClick={() => onClick(params.data.traineeId)} />
+      </div>
+    )
+  }
 
    //TABLE
    const [rowData, setRowData] = useState([]);
@@ -50,7 +60,15 @@ const Administrative = () => {
        lockPosition:"left",
        width:"150",
        sortable: true
-     }
+     },
+     {
+      field: "",
+      headerName: "Action",
+      lockPosition: "left",
+      callRender: (params) => RenderActionButtons(params),
+      minWidth: 100,
+      flex: 2,
+     },
    ])
  
  
@@ -72,12 +90,19 @@ const Administrative = () => {
       <SideBar />
       <div classname="container">
         <BubblePage>
-          <BreadcrumbsComponent routes={breadcrumbsRoutes} />
-          <h3>Courses</h3>
+          <div className={styles["Course"]}>
+            <div className={styles["Trainees__header-actions"]}>
+              <BreadcrumbsComponent routes={breadcrumbsRoutes} />
+            </div>
+              <h1 className={styles["Course_Title"]}>Course</h1>
 
-          
+             <div className={[styles["Course_Table"], "ag-theme-alpine"].join(" ")}>
+                <AgGridReact
+                  {...gridOptions}
+                />
 
-
+             </div>
+          </div>
         </BubblePage>
 
 
