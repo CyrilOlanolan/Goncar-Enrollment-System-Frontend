@@ -3,7 +3,6 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
 
 import styles from './TraineeRegistrationModal.module.scss';
 
@@ -36,13 +35,13 @@ const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID, t
       // FLATTEN
       if (!isTraineeRegistrationLoading) {
         setRegistrationData({
-          courseTaken: traineeRegistration[0].batch.courses.courseName,
-          registrationNumber: traineeRegistration.registrationNumber,
-          batchID: traineeRegistration[0].batch.batchId,
-          batchName: traineeRegistration[0].batch.batchName,
-          trainingYear: traineeRegistration[0].batch.trainingYears.trainingYearSpan,
-          dateEnrolled: traineeRegistration[0].dateEnrolled,
-          enrollmentStatus: traineeRegistration[0].registrationStatus
+          courseTaken: traineeRegistration[0]?.batch?.courses?.courseName,
+          registrationNumber: traineeRegistration?.registrationNumber,
+          batchID: traineeRegistration[0]?.batch.batchId,
+          batchName: traineeRegistration[0]?.batch.batchName,
+          trainingYear: traineeRegistration[0]?.batch.trainingYears.trainingYearSpan,
+          dateEnrolled: traineeRegistration[0]?.dateEnrolled,
+          enrollmentStatus: traineeRegistration[0]?.registrationStatus
         })
       }
     }
@@ -50,7 +49,6 @@ const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID, t
 
     return (
       <div className={styles["TraineeRegistrationModal"]}>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

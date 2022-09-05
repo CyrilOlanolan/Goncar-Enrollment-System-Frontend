@@ -73,3 +73,13 @@ export function useGroupedBatches() {
     }
 }
 
+export function useTotalRegistrations() {
+    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/trainees/registrations/total`, fetcher);
+
+    return {
+        totalRegistrations: data,
+        isTotalRegistrationsLoading: !error && !data,
+        isTotalRegistrationsError: error
+    }
+}
+
