@@ -19,7 +19,7 @@ function App() {
     /* GO BACK: window.history.go(-1) */
     <div className="App">
       <Routes>
-        <Route path="/" element={<TraineeProfileCreation />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/dashboard" element={<Dashboard />} />
 

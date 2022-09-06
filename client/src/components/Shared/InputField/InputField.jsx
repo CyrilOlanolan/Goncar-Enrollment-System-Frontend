@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./InputField.module.scss";
 
 const InputField = ({
@@ -12,7 +12,6 @@ const InputField = ({
   variant,
   style
 }) => {
-  const [val,] = useState(value);
 
   return (
     <>
@@ -22,7 +21,7 @@ const InputField = ({
         </label>
         <input 
           disabled={disabled}
-          value={val}
+          value={value}
           type={type} 
           className={styles["InputField__input"]} 
           onChange={onChange} 

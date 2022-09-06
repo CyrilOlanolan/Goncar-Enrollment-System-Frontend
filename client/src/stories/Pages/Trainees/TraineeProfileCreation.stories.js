@@ -1,10 +1,10 @@
-import { TraineeProfileCreation } from '../../../components/ComponentIndex';
+// import { TraineeProfileCreation } from '../../../components/ComponentIndex';
 
-export default {
-  title: 'Trainees/Trainee Profile Creation',
-  component: TraineeProfileCreation
-};
+// export default {
+//   title: 'Trainees/Trainee Profile Creation',
+//   component: TraineeProfileCreation
+// };
 
-export const Main = {
-  args: {}
-};
+// export const Main = {
+//   args: {}
+// };

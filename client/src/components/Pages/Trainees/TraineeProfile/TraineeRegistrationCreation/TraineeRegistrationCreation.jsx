@@ -25,23 +25,46 @@ import {
 import { ENROLLMENT_STATUS } from '../../../../../assets/utilities/constants';
 import styles from './TraineeRegistrationCreation.module.scss';
 
-import { useTrainee, useGroupedBatches } from '../../../../../assets/utilities/swr';
+import { useTrainee, useGroupedBatches, useTraineeRegistration, useTotalRegistrations } from '../../../../../assets/utilities/swr';
 
 // TODO: VALIDATION
 const TraineeRegistrationCreation = () => {
-  const location = useLocation();
-
-  const traineeID = location.state.traineeID;
-  const regID = location.state.regID;
-
   const [ courseOptions, setCourseOptions ] = useState([]);
-  const today = new Date();
-
   const ENROLLMENT_STATUS_OPTIONS = [
     ENROLLMENT_STATUS.ACTIVE,
     ENROLLMENT_STATUS.DROPPED,
     ENROLLMENT_STATUS.FINISHED
   ]
+  const today = new Date();
+
+  /* STATES */
+  const [selectedCourse, setSelectedCourse] = useState('');
+  const [selectedBatch, setSelectedBatch] = useState('');
+  const [sssNumber, setSSSNumber] = useState('');
+  const [sbrNumber, setSBRNumber] = useState('');
+  const [sgLicense, setSGLicense] = useState('');
+  const [tinNumber, setTINNumber] = useState('');
+  const [selectedEnrollmentStatus, setSelectedEnrollmentStatus] = useState(ENROLLMENT_STATUS_OPTIONS[0]);
+  const [sgExpiry, setSGExpiry] = useState('');
+  const [dateEnrolled, setDateEnrolled] = useState(today);
+
+  const location = useLocation();
+
+  const traineeID = location.state.traineeID;
+
+  // GET NUMBER OF REGISTRATIONS FOR UNIQUE ID
+  const [ regID, setRegID ] = useState(-1);
+  // const [ regDetails, setRegDetails ] = useState({});
+  const { totalRegistrations, isTotalRegistrationsLoading, isTotalRegistrationsError } = useTotalRegistrations();
+
+  useEffect(
+    () => {
+      if (isTotalRegistrationsError) alert("Error fetching total registrations! Please check internet connection!");
+      if (!isTotalRegistrationsLoading) {
+        setRegID(location.state.regID ?? (totalRegistrations._count + 1));
+      }
+    }
+  , [totalRegistrations, isTotalRegistrationsLoading, isTotalRegistrationsError, regID, location.state.regID])
 
   // FETCH AVAILABLE COURSES
   const { courses, isCoursesLoading, isCoursesError } = useCourses();
@@ -65,17 +88,6 @@ const TraineeRegistrationCreation = () => {
 
   // FETCH EXISTING TRAINEE DATA
   const { trainee, isTraineeLoading, isTraineeError } = useTrainee(traineeID);
-
-  /* STATES */
-  const [selectedCourse, setSelectedCourse] = useState("");
-  const [selectedBatch, setSelectedBatch] = useState('');
-  const [sssNumber, setSSSNumber] = useState();
-  const [sbrNumber, setSBRNumber] = useState();
-  const [sgLicense, setSGLicense] = useState();
-  const [tinNumber, setTINNumber] = useState();
-  const [selectedEnrollmentStatus, setSelectedEnrollmentStatus] = useState(ENROLLMENT_STATUS_OPTIONS[0]);
-  const [sgExpiry, setSGExpiry] = useState();
-  const [dateEnrolled, setDateEnrolled] = useState(today);
 
   useEffect(
     () => {
@@ -124,7 +136,6 @@ const TraineeRegistrationCreation = () => {
       setSelectedBatch("");
 
       let courseIdentification = coursesMap[selectedCourse];
-
       
       let batchesInCourse = batchesMap[courseIdentification] ?? [];
       let batchNamesFlattened = [];
@@ -136,6 +147,20 @@ const TraineeRegistrationCreation = () => {
       setAvailableBatches(batchNamesFlattened);
     }
   , [selectedCourse, batchesMap, coursesMap])
+
+  // FETCH REG DETAILS IF FROM EDIT BUTTON
+  const { traineeRegistration, isTraineeRegistrationLoading, isTraineeRegistrationError } = useTraineeRegistration(traineeID, regID);
+
+  useEffect(
+    () => {
+      if (isTraineeRegistrationError) console.log("ERROR");
+    
+      if (!isTraineeRegistrationLoading) {
+        setSelectedCourse(traineeRegistration[0]?.batch?.courses?.courseName ?? "");
+        setSelectedBatch(selectedCourse ? (traineeRegistration[0]?.batch.batchName ?? "") : "");
+      }
+    }
+  , [traineeRegistration, isTraineeRegistrationLoading, isTraineeRegistrationError, selectedCourse, selectedBatch])
 
   function submitForm(event) {
     event.preventDefault();
@@ -161,14 +186,14 @@ const TraineeRegistrationCreation = () => {
             {/* CHANGE VALUES HERE */}
             <InputField
               label="Registration No."
-              value={regID ?? 1}
+              value={regID ?? ""}
               disabled={true}
               variant={"traineeID"}
             />
 
             <InputField
               label="Trainee ID"
-              value={traineeID}
+              value={traineeID ?? ""}
               disabled={true}
               variant={"traineeID"}
             />
@@ -181,7 +206,7 @@ const TraineeRegistrationCreation = () => {
                 labelId="course-select-label"
                 id="cousrse-select"
                 name="course"
-                value={selectedCourse}
+                value={selectedCourse ?? ''}
                 label="Course"
                 onChange={e => setSelectedCourse(e.target.value)}
               >
@@ -197,9 +222,10 @@ const TraineeRegistrationCreation = () => {
                 labelId="batch-select-label"
                 id="batch-select"
                 name="batch"
-                value={selectedBatch}
+                value={selectedBatch ?? ""}
                 label="Course"
                 onChange={e => setSelectedBatch(e.target.value)}
+                disabled={selectedCourse ? false : true}
               >
                 {availableBatches.map((option, index) => {
                   return <MenuItem key={index} value={option}>{option}</MenuItem>
@@ -213,7 +239,7 @@ const TraineeRegistrationCreation = () => {
               id="sss-text-field"
               name="SSSNumber"
               label="SSS Number"
-              value={sssNumber}
+              value={sssNumber ?? ""}
               onChange={e => setSSSNumber(e.target.value)}
               fullWidth={true} 
               required
@@ -223,7 +249,7 @@ const TraineeRegistrationCreation = () => {
               id="sbr-text-field"
               name="SBRNumber"
               label="SBR Number"
-              value={sbrNumber}
+              value={sbrNumber ?? ""}
               onChange={e => setSBRNumber(e.target.value)}
               fullWidth={true} 
             />
@@ -234,7 +260,7 @@ const TraineeRegistrationCreation = () => {
               id="tin-text-field"
               name="TINNumber"
               label="TIN Number"
-              value={tinNumber}
+              value={tinNumber ?? ""}
               onChange={e => setTINNumber(e.target.value)}
               fullWidth={true}
               required
@@ -243,7 +269,7 @@ const TraineeRegistrationCreation = () => {
             <TextField
               id="sg-license-text-field"
               label="SG License Number"
-              value={sgLicense}
+              value={sgLicense ?? ""}
               onChange={e => setSGLicense(e.target.value)}
               fullWidth={true} 
             />
@@ -257,7 +283,7 @@ const TraineeRegistrationCreation = () => {
                 row
                 aria-labelledby="enrollment-status-radio-buttons-group"
                 name="enrollment-status-radio-buttons-group"
-                value={selectedEnrollmentStatus}
+                value={selectedEnrollmentStatus ?? ""}
                 onChange={e => setSelectedEnrollmentStatus(e.target.value)}
               >
                 {ENROLLMENT_STATUS_OPTIONS.map((option, index) => {
@@ -289,7 +315,7 @@ const TraineeRegistrationCreation = () => {
                   maxDate={today}
                   label="Date Enrolled" 
                   name="Date-Enrolled" 
-                  value={dateEnrolled}
+                  value={dateEnrolled ?? ""}
                   onChange={(newValue) => {
                     setDateEnrolled(newValue);
                   }}
