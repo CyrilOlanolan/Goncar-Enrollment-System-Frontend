@@ -22,7 +22,6 @@ const style = {
 
 const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID, traineeName }) => {
   const [ registrationData, setRegistrationData ] = useState({});
-  const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
 
   /* FETCH HERE */
@@ -36,7 +35,7 @@ const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID, t
       if (!isTraineeRegistrationLoading) {
         setRegistrationData({
           courseTaken: traineeRegistration[0]?.batch?.courses?.courseName,
-          registrationNumber: traineeRegistration?.registrationNumber,
+          registrationNumber: traineeRegistration[0]?.registrationNumber,
           batchID: traineeRegistration[0]?.batch.batchId,
           batchName: traineeRegistration[0]?.batch.batchName,
           trainingYear: traineeRegistration[0]?.batch.trainingYears.trainingYearSpan,
