@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { SideBar, BubblePage, BreadcrumbsComponent, } from '../../../ComponentIndex';
-import styles from "../RTC/RTC.module.scss";
+import styles from "./RTC.module.scss";
 
 const RTC = () => {
 
@@ -29,7 +29,7 @@ const RTC = () => {
     return (
         <>
         <SideBar />
-        <div className={styles ["RTC_Course"]}> 
+        <div className={styles["RTC_Course"]}> 
             <BubblePage>
                 <BreadcrumbsComponent routes={breadcrumbsRoutes} />
                     <h1>REFRESHER TRAINING COURSE</h1><br></br>
