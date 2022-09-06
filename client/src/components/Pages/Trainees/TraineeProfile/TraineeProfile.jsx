@@ -110,7 +110,6 @@ const TraineeProfile = () => {
                 <div className={styles["col-2"]}>
                   {/* CHECK IF PROP IS FALSY, IF IT IS: DONT RENDER */}
                   {trainee.SSSNum ? <p><span>SSS No.:</span> {trainee.SSSNum}</p> : null}
-                  {trainee.SBRNum ? <p><span>SBR No.:</span> {trainee.SBRNum}</p> : null}
                   {trainee.TINNum ? <p><span>TIN No.:</span> {trainee.TINNum}</p> : null}
                   {trainee.SGLicense ? <p><span>SG License No.</span> {trainee.SGLicense}</p> : null}
                   {trainee.expiryDate ? <p><span>SG License Expiry:</span> {trainee.expiryDate}</p> : null}

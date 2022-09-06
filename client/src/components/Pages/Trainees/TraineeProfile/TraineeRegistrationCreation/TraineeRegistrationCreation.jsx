@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useCourses } from '../../../../../assets/utilities/swr';
-import axios from 'axios';
 
 /* MUI */
 import TextField from '@mui/material/TextField';
@@ -44,7 +43,6 @@ const TraineeRegistrationCreation = () => {
   const [selectedCourse, setSelectedCourse] = useState('');
   const [selectedBatch, setSelectedBatch] = useState('');
   const [sssNumber, setSSSNumber] = useState('');
-  const [sbrNumber, setSBRNumber] = useState('');
   const [sgLicense, setSGLicense] = useState('');
   const [tinNumber, setTINNumber] = useState('');
   const [selectedEnrollmentStatus, setSelectedEnrollmentStatus] = useState(ENROLLMENT_STATUS_OPTIONS[0]);
@@ -98,7 +96,6 @@ const TraineeRegistrationCreation = () => {
 
       if (!isTraineeLoading) {
         setSSSNumber(trainee?.SSSNum);
-        setSBRNumber(trainee?.SBRNum);
         setSGLicense(trainee?.SGLicense);
         setTINNumber(trainee?.TINNum);
         setSGExpiry(trainee?.expiryDate);
@@ -270,17 +267,6 @@ const TraineeRegistrationCreation = () => {
             />
 
             <TextField
-              id="sbr-text-field"
-              name="SBRNumber"
-              label="SBR Number"
-              value={sbrNumber ?? ""}
-              onChange={e => setSBRNumber(e.target.value)}
-              fullWidth={true} 
-            />
-          </div>
-
-          <div className={styles["row-4"]}>
-            <TextField
               id="tin-text-field"
               name="TINNumber"
               label="TIN Number"
@@ -289,7 +275,9 @@ const TraineeRegistrationCreation = () => {
               fullWidth={true}
               required
             />
+          </div>
 
+          <div className={styles["row-4"]}>
             <TextField
               id="sg-license-text-field"
               label="SG License Number"
@@ -297,10 +285,24 @@ const TraineeRegistrationCreation = () => {
               onChange={e => setSGLicense(e.target.value)}
               fullWidth={true} 
             />
+
+            <div className={styles["sg-license-expiry-wrapper"]}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  minDate={today}
+                  label="SG License Expiry" 
+                  name="SG-License-Expiry" 
+                  value={sgExpiry}
+                  onChange={(newValue) => {
+                    setSGExpiry(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} fullWidth />}
+                />
+              </LocalizationProvider>
+            </div>
           </div>
 
           <div className={styles["row-5"]}>
-
             <FormControl required>
               <FormLabel id="enrollment-status-radio-buttons-group">Enrollment Status</FormLabel>
               <RadioGroup
@@ -317,21 +319,6 @@ const TraineeRegistrationCreation = () => {
                 })}
               </RadioGroup>
             </FormControl>
-
-            <div className={styles["date-enrolled-wrapper"]}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  minDate={today}
-                  label="SG License Expiry" 
-                  name="SG-License-Expiry" 
-                  value={sgExpiry}
-                  onChange={(newValue) => {
-                    setSGExpiry(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} fullWidth />}
-                />
-              </LocalizationProvider>
-            </div>
 
             <div className={styles["date-enrolled-wrapper"]}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
