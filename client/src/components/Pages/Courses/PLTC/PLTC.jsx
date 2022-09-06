@@ -13,12 +13,12 @@ const PLTC = () => {
           onclick: () => console.log("Hi")
         },
         {
-          label: "Course",
-          href: "/Course",
+          label: "Administrative",
+          href: "/Administrative",
         },
         {
-            label: "Administrative",
-            href: "/Administrative"
+            label: "Course",
+            href: "/Course"
         },
         {
             label: "Pre-Licensing Training Course (PLTC)",
