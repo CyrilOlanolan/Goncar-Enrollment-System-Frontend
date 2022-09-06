@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useCourses } from '../../../../../assets/utilities/swr';
+import axios from 'axios';
 
 /* MUI */
 import TextField from '@mui/material/TextField';
@@ -26,6 +27,7 @@ import { ENROLLMENT_STATUS } from '../../../../../assets/utilities/constants';
 import styles from './TraineeRegistrationCreation.module.scss';
 
 import { useTrainee, useGroupedBatches, useTraineeRegistration, useTotalRegistrations } from '../../../../../assets/utilities/swr';
+import { postTraineeRegistration } from '../../../../../assets/utilities/axiosUtility';
 
 // TODO: VALIDATION
 const TraineeRegistrationCreation = () => {
@@ -35,6 +37,7 @@ const TraineeRegistrationCreation = () => {
     ENROLLMENT_STATUS.DROPPED,
     ENROLLMENT_STATUS.FINISHED
   ]
+
   const today = new Date();
 
   /* STATES */
@@ -108,6 +111,7 @@ const TraineeRegistrationCreation = () => {
   
   const [coursesMap, setCoursesMap] = useState({}); // KEY: courseName, VALUE: courseId
   const [batchesMap, setBatchesMap] = useState({}); // KEY: courseId, VALUE: Array of batches
+  const [batchesIDMap, setBatchesIDMap] = useState({}); // KEY: batchName, VALUE: batchID
   const [availableBatches, setAvailableBatches] = useState([]);
 
   useEffect (
@@ -138,12 +142,15 @@ const TraineeRegistrationCreation = () => {
       let courseIdentification = coursesMap[selectedCourse];
       
       let batchesInCourse = batchesMap[courseIdentification] ?? [];
+      let batchIDNameMap = {};
       let batchNamesFlattened = [];
 
       for (let batches of batchesInCourse) {
+        batchIDNameMap[batches.batchName] = batches.batchId;
         batchNamesFlattened.push(batches.batchName);
       }
-      
+
+      setBatchesIDMap(batchIDNameMap);
       setAvailableBatches(batchNamesFlattened);
     }
   , [selectedCourse, batchesMap, coursesMap])
@@ -155,7 +162,7 @@ const TraineeRegistrationCreation = () => {
     () => {
       if (isTraineeRegistrationError) console.log("ERROR");
     
-      if (!isTraineeRegistrationLoading) {
+      if (!isTraineeRegistrationLoading && traineeRegistration[0] !== undefined) {
         setSelectedCourse(traineeRegistration[0]?.batch?.courses?.courseName ?? "");
         setSelectedBatch(selectedCourse ? (traineeRegistration[0]?.batch.batchName ?? "") : "");
       }
@@ -164,15 +171,32 @@ const TraineeRegistrationCreation = () => {
 
   function submitForm(event) {
     event.preventDefault();
-    console.log("Course Name: ", selectedCourse);
-    console.log("Batch Name: ", selectedBatch);
-    console.log("SSS Number: ", sssNumber);
-    console.log("SBR Number: ", sbrNumber);
-    console.log("TIN Number: ", tinNumber);
-    console.log("SG License Number: ", sgLicense);
-    console.log("SG License Expiry: ", sgExpiry);
-    console.log("Enrollment Status: ", selectedEnrollmentStatus);
-    console.log("Date Enrolled: ", dateEnrolled);
+
+    postTraineeRegistration(traineeID, {
+      batchId: batchesIDMap[selectedBatch],
+      SSSNum: sssNumber,
+      TINNum: tinNumber,
+      SGLicense: sgLicense,
+      expiryDate: sgExpiry,
+      dateEnrolled: dateEnrolled,
+      registrationStatus: selectedEnrollmentStatus
+    })
+
+    // GO BACK
+    window.history.go(-1);
+
+    // console.log("Trainee ID: ", traineeID);
+    // console.log("Reg ID: ", regID);
+    // console.log("Course Name: ", selectedCourse);
+    // console.log("Batch Name: ", selectedBatch);
+    // console.log("Batch ID: ", batchesIDMap[selectedBatch]);
+    // console.log("SSS Number: ", sssNumber);
+    // console.log("SBR Number: ", sbrNumber);
+    // console.log("TIN Number: ", tinNumber);
+    // console.log("SG License Number: ", sgLicense);
+    // console.log("SG License Expiry: ", sgExpiry);
+    // console.log("Enrollment Status: ", selectedEnrollmentStatus);
+    // console.log("Date Enrolled: ", dateEnrolled);
   }
 
   return (
