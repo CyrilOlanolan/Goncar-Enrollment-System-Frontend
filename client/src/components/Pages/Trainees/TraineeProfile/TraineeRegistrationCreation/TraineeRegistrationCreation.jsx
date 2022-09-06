@@ -25,7 +25,7 @@ import {
 import { ENROLLMENT_STATUS } from '../../../../../assets/utilities/constants';
 import styles from './TraineeRegistrationCreation.module.scss';
 
-import { useTrainee, useGroupedBatches, useTraineeRegistration, useTotalRegistrations } from '../../../../../assets/utilities/swr';
+import { useTrainee, useGroupedBatches, useTraineeRegistration, useLatestRegistrationID } from '../../../../../assets/utilities/swr';
 import { postTraineeRegistration } from '../../../../../assets/utilities/axiosUtility';
 
 // TODO: VALIDATION
@@ -55,17 +55,16 @@ const TraineeRegistrationCreation = () => {
 
   // GET NUMBER OF REGISTRATIONS FOR UNIQUE ID
   const [ regID, setRegID ] = useState(-1);
-  // const [ regDetails, setRegDetails ] = useState({});
-  const { totalRegistrations, isTotalRegistrationsLoading, isTotalRegistrationsError } = useTotalRegistrations();
+  const { latestRegistrationID, isLatestRegistrationIDLoading, isLatestRegistrationIDError } = useLatestRegistrationID();
 
   useEffect(
     () => {
-      if (isTotalRegistrationsError) alert("Error fetching total registrations! Please check internet connection!");
-      if (!isTotalRegistrationsLoading) {
-        setRegID(location.state.regID ?? (totalRegistrations._count + 1));
+      if (isLatestRegistrationIDError) alert("Error fetching total registrations! Please check internet connection!");
+      if (!isLatestRegistrationIDLoading) {
+        setRegID(location.state.regID ?? (latestRegistrationID._max.registrationNumber + 1));
       }
     }
-  , [totalRegistrations, isTotalRegistrationsLoading, isTotalRegistrationsError, regID, location.state.regID])
+  , [latestRegistrationID, isLatestRegistrationIDLoading, isLatestRegistrationIDError, regID, location.state.regID])
 
   // FETCH AVAILABLE COURSES
   const { courses, isCoursesLoading, isCoursesError } = useCourses();

@@ -83,3 +83,13 @@ export function useTotalRegistrations() {
     }
 }
 
+export function useLatestRegistrationID() {
+    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/trainees/registrations/max`, fetcher);
+
+    return {
+        latestRegistrationID: data,
+        isLatestRegistrationIDLoading: !error && !data,
+        isLatestRegistrationIDError: error
+    }
+}
+
