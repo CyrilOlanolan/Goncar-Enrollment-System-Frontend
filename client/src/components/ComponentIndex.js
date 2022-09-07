@@ -40,6 +40,7 @@ export  { default as TraineeProfileCreation } from "./Pages/Trainees/TraineeProf
 export  { default as TraineeRegistrationCreation } from "./Pages/Trainees/TraineeProfile/TraineeRegistrationCreation/TraineeRegistrationCreation.jsx";
 export  { default as TraineeRegistrationTabContent } from "./Pages/Trainees/TraineeProfile/TabContents/TraineeRegistrationTabContent.jsx";
 export  { default as TraineeRegistrationModal } from "./Pages/Trainees/TraineeProfile/TabContents/TraineeRegistrationModal.jsx";
+export  { default as TraineeRegistrationEdit } from "./Pages/Trainees/TraineeProfile/TraineeRegistrationEdit/TraineeRegistrationEdit.jsx";
 
 /* EMPLOYEE */
 export { default as EmployeeProfileCreation } from "./Pages/Employees/EmployeeProfile/EmployeeProfileCreation/EmployeeProfileCreation.jsx";

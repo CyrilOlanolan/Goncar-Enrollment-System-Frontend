@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useCourses } from '../../../../../assets/utilities/swr';
-import dayjs from 'dayjs';
-
+import axios from "axios";
 /* MUI */
-import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -13,9 +11,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import {
   SideBar,
@@ -24,13 +19,13 @@ import {
   FormButton
 } from '../../../../ComponentIndex';
 import { ENROLLMENT_STATUS } from '../../../../../assets/utilities/constants';
-import styles from './TraineeRegistrationCreation.module.scss';
+import styles from './TraineeRegistrationEdit.module.scss';
 
-import { useTrainee, useGroupedBatches, useTraineeRegistration, useLatestRegistrationID } from '../../../../../assets/utilities/swr';
-import { postTraineeRegistration } from '../../../../../assets/utilities/axiosUtility';
+import { useGroupedBatches, useLatestRegistrationID } from '../../../../../assets/utilities/swr';
+import { putTraineeRegistration } from '../../../../../assets/utilities/axiosUtility';
 
 // TODO: VALIDATION
-const TraineeRegistrationCreation = () => {
+const TraineeRegistrationEdit = () => {
   const [ courseOptions, setCourseOptions ] = useState([]);
   const ENROLLMENT_STATUS_OPTIONS = [
     ENROLLMENT_STATUS.ACTIVE,
@@ -38,34 +33,37 @@ const TraineeRegistrationCreation = () => {
     ENROLLMENT_STATUS.FINISHED
   ]
 
-  const today = new Date();
-
   /* STATES */
   const [selectedCourse, setSelectedCourse] = useState('');
   const [selectedBatch, setSelectedBatch] = useState('');
-  const [sssNumber, setSSSNumber] = useState('');
-  const [sgLicense, setSGLicense] = useState('');
-  const [tinNumber, setTINNumber] = useState('');
   const [selectedEnrollmentStatus, setSelectedEnrollmentStatus] = useState(ENROLLMENT_STATUS_OPTIONS[0]);
-  const [sgExpiry, setSGExpiry] = useState('');
-  const [dateEnrolled, setDateEnrolled] = useState(today);
 
   const location = useLocation();
 
   const traineeID = location.state.traineeID;
 
   // GET NUMBER OF REGISTRATIONS FOR UNIQUE ID
-  const [ regID, setRegID ] = useState(-1);
-  const { latestRegistrationID, isLatestRegistrationIDLoading, isLatestRegistrationIDError } = useLatestRegistrationID();
+  const [ regID, setRegID ] = useState(location.state.regID);
 
+  // const [ regData, setRegData ] = useState('');
+
+  // FETCH REG DETAILS
   useEffect(
     () => {
-      if (isLatestRegistrationIDError) alert("Error fetching total registrations! Please check internet connection!");
-      if (!isLatestRegistrationIDLoading) {
-        setRegID(location.state.regID ?? (latestRegistrationID._max.registrationNumber + 1));
-      }
+      axios.get(`https://goncar-system-backend.herokuapp.com/api/trainees/${traineeID}/registrations/${regID}`)
+      .then (function (response) {
+        setSelectedCourse(response.data[0]?.batch?.courses?.courseName ?? "");
+        setTimeout(
+          () => {
+            setSelectedBatch(response.data[0]?.batch?.batchName ?? "");
+          }
+        , [100])
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
     }
-  , [latestRegistrationID, isLatestRegistrationIDLoading, isLatestRegistrationIDError, regID, location.state.regID])
+  , [traineeID, regID]);
 
   // FETCH AVAILABLE COURSES
   const { courses, isCoursesLoading, isCoursesError } = useCourses();
@@ -85,23 +83,6 @@ const TraineeRegistrationCreation = () => {
       setCourseOptions(courseFlattened);
     }
   , [courses, isCoursesLoading, isCoursesError])
-
-
-  // FETCH EXISTING TRAINEE DATA
-  const { trainee, isTraineeLoading, isTraineeError } = useTrainee(traineeID);
-
-  useEffect(
-    () => {
-      if (isTraineeError) alert("Error fetching trainee data! Please refresh or check your internet connection.");
-
-      if (!isTraineeLoading) {
-        setSSSNumber(trainee?.SSSNum);
-        setSGLicense(trainee?.SGLicense);
-        setTINNumber(trainee?.TINNum);
-        setSGExpiry(trainee?.expiryDate);
-      }
-    }
-  , [trainee, isTraineeLoading, isTraineeError])
 
   // FETCH EXISTING BATCHES
   const { groupedBatches, isGroupedBatchesLoading, isGroupedBatchesError } = useGroupedBatches();
@@ -135,6 +116,7 @@ const TraineeRegistrationCreation = () => {
     () => {
       // CLEAR BATCH FIELD EVERYTIME SELECTED COURSE CHANGES
       setSelectedBatch("");
+      console.log('asdasd')
 
       let courseIdentification = coursesMap[selectedCourse];
       
@@ -152,45 +134,34 @@ const TraineeRegistrationCreation = () => {
     }
   , [selectedCourse, batchesMap, coursesMap])
 
-  // FETCH REG DETAILS IF FROM EDIT BUTTON
-  const { traineeRegistration, isTraineeRegistrationLoading, isTraineeRegistrationError } = useTraineeRegistration(traineeID, regID);
-
-  useEffect(
-    () => {
-      if (isTraineeRegistrationError) console.log("ERROR");
-    
-      if (!isTraineeRegistrationLoading && traineeRegistration[0] !== undefined) {
-        setSelectedCourse(traineeRegistration[0]?.batch?.courses?.courseName ?? "");
-        setSelectedBatch(selectedCourse ? (traineeRegistration[0]?.batch.batchName ?? "") : "");
-      }
-    }
-  , [traineeRegistration, isTraineeRegistrationLoading, isTraineeRegistrationError, selectedCourse, selectedBatch])
-
   function submitForm(event) {
     event.preventDefault();
 
-    postTraineeRegistration(traineeID, {
+    putTraineeRegistration(traineeID, regID, {
       batchId: batchesIDMap[selectedBatch],
-      SSSNum: sssNumber,
-      TINNum: tinNumber,
-      SGLicense: sgLicense,
-      expiryDate: sgExpiry,
-      dateEnrolled: dateEnrolled,
       registrationStatus: selectedEnrollmentStatus
-    })
-
-    // console.log("TRIAL: ", {
-    //   batchId: batchesIDMap[selectedBatch],
-    //   SSSNum: sssNumber,
-    //   TINNum: tinNumber,
-    //   SGLicense: sgLicense,
-    //   expiryDate: sgExpiry,
-    //   dateEnrolled: dayjs(dateEnrolled).format('MM/DD/YYYY'),
-    //   registrationStatus: selectedEnrollmentStatus
-    // })
+    });
+    
+    console.log("TRAINEE ID ", traineeID)
+    console.log("REG ID ", regID)
+    console.log("BATCH ID ", batchesIDMap[selectedBatch])
+    console.log("registration status ", selectedEnrollmentStatus)
 
     // GO BACK
     window.history.go(-1);
+
+    // console.log("Trainee ID: ", traineeID);
+    // console.log("Reg ID: ", regID);
+    // console.log("Course Name: ", selectedCourse);
+    // console.log("Batch Name: ", selectedBatch);
+    // console.log("Batch ID: ", batchesIDMap[selectedBatch]);
+    // console.log("SSS Number: ", sssNumber);
+    // console.log("SBR Number: ", sbrNumber);
+    // console.log("TIN Number: ", tinNumber);
+    // console.log("SG License Number: ", sgLicense);
+    // console.log("SG License Expiry: ", sgExpiry);
+    // console.log("Enrollment Status: ", selectedEnrollmentStatus);
+    // console.log("Date Enrolled: ", dateEnrolled);
   }
 
   return (
@@ -244,59 +215,13 @@ const TraineeRegistrationCreation = () => {
                 label="Course"
                 onChange={e => setSelectedBatch(e.target.value)}
                 disabled={selectedCourse ? false : true}
+                defaultValue={""}
               >
                 {availableBatches.map((option, index) => {
                   return <MenuItem key={index} value={option}>{option}</MenuItem>
                 })}
               </Select>
             </FormControl>
-          </div>
-
-          <div className={styles["row-3"]}>
-            <TextField
-              id="sss-text-field"
-              name="SSSNumber"
-              label="SSS Number"
-              value={sssNumber ?? ""}
-              onChange={e => setSSSNumber(e.target.value)}
-              fullWidth={true} 
-              required
-            />
-
-            <TextField
-              id="tin-text-field"
-              name="TINNumber"
-              label="TIN Number"
-              value={tinNumber ?? ""}
-              onChange={e => setTINNumber(e.target.value)}
-              fullWidth={true}
-              required
-            />
-          </div>
-
-          <div className={styles["row-4"]}>
-            <TextField
-              id="sg-license-text-field"
-              label="SG License Number"
-              value={sgLicense ?? ""}
-              onChange={e => setSGLicense(e.target.value)}
-              fullWidth={true} 
-            />
-
-            <div className={styles["sg-license-expiry-wrapper"]}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  minDate={today}
-                  label="SG License Expiry" 
-                  name="SG-License-Expiry" 
-                  value={sgExpiry}
-                  onChange={(newValue) => {
-                    setSGExpiry(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} fullWidth />}
-                />
-              </LocalizationProvider>
-            </div>
           </div>
 
           <div className={styles["row-5"]}>
@@ -316,26 +241,10 @@ const TraineeRegistrationCreation = () => {
                 })}
               </RadioGroup>
             </FormControl>
-
-            <div className={styles["date-enrolled-wrapper"]}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  maxDate={today}
-                  label="Date Enrolled" 
-                  name="Date-Enrolled" 
-                  value={dateEnrolled ?? ""}
-                  onChange={(newValue) => {
-                    setDateEnrolled(newValue);
-                  }}
-                  inputFormat="MM/dd/yyyy"
-                  renderInput={(params) => <TextField {...params} fullWidth />}
-                />
-              </LocalizationProvider>
-            </div>
           </div>
 
           <div className={styles["form_buttons"]}>
-            <FormButton label="Submit" type="submit" />
+            <FormButton label="Update" type="submit" />
             {/* GO BACK TO PREVIOUS PAGE */}
             <FormButton label="Cancel" variant="cancel" type="button" onClick={() => window.history.go(-1)}/>
           </div>
@@ -345,4 +254,4 @@ const TraineeRegistrationCreation = () => {
   )
 }
 
-export default TraineeRegistrationCreation;
+export default TraineeRegistrationEdit;

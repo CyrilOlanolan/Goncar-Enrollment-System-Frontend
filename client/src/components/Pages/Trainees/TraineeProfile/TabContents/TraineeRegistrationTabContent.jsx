@@ -125,6 +125,7 @@ const TraineeRegistrationTabContent = (traineeName) => {
       setRowData(traineeRegistrationsRowData);
     }
   , [traineeRegistrations, isTraineeRegistrationsLoading, isTraineeRegistrationsError])
+
   return (
     <>
       { 
