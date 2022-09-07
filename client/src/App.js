@@ -24,8 +24,12 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/dashboard" element={<Dashboard />} />
 
+        {/* TRAINEE ROUTES */}
         <Route path="/trainees" element={<Trainees />} />
         <Route path="/trainees/:traineeID" element={<TraineeProfile />} />
+        <Route path="/trainees/new" element={<TraineeProfileCreation />} />
+
+        {/* TRAINEE REGISTRATION ROUTES */}
         <Route path="/trainee/edit" element={<TraineeRegistrationEdit />} />
         <Route path="/trainee/new" element={<TraineeRegistrationCreation />} />
 

@@ -175,7 +175,7 @@ const TraineeRegistrationCreation = () => {
       TINNum: tinNumber,
       SGLicense: sgLicense,
       expiryDate: sgExpiry,
-      dateEnrolled: dateEnrolled,
+      dateEnrolled: dayjs(dateEnrolled).format('MM/DD/YYYY'),
       registrationStatus: selectedEnrollmentStatus
     })
 

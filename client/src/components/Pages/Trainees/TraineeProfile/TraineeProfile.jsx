@@ -78,7 +78,7 @@ const TraineeProfile = () => {
   function handleDelete(id) {
     console.log(`You clicked delete for Trainee ID: ${id}!`);
   }
-    
+
   return (
     <>
       <SideBar />

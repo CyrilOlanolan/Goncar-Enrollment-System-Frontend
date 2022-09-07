@@ -1,6 +1,5 @@
 TRAINEES
     > TraineeProfile
-    > TraineeProfileCreation
     > TraineeRegistration
 
 BATCHES

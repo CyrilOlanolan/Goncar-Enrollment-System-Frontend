@@ -10,7 +10,8 @@ import {
   BubblePage,
   ActionButton,
   BreadcrumbsComponent,
-  Spinner
+  Spinner,
+  NewButton
 } from '../../ComponentIndex'
 import styles from './Trainees.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -148,6 +149,10 @@ const Trainees = () => {
     return params.data.middleName[0];
   }
 
+  function handleNewTraineeProfile() {
+    navigate('/trainees/new');
+  }
+
   return (
     <>
       <SideBar />
@@ -157,6 +162,9 @@ const Trainees = () => {
             <BreadcrumbsComponent routes={breadcrumbsRoutes}/>
           </div>
           <h1 className={styles["Trainees__title"]}>Trainee Masterlist</h1>
+          <div className={styles["new-button"]}>
+            <NewButton label="NEW TRAINEE PROFILE" onClick={handleNewTraineeProfile}/>
+          </div>
           {
             isTraineesLoading ?
             <Spinner /> :
