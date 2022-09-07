@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import dayjs from 'dayjs';
 
 /* MUI */
@@ -19,18 +19,10 @@ import {
   SideBar, 
   BubblePage, 
   InputField,
-  InputRadio,
-  InputDatePicker,
-  InputTextArea,
-  InputSelect,
-  InputYearPicker,
-  InputTextField,
   FormButton,
 } from '../../../../ComponentIndex';
-import InputNumberField from '../../../../Shared/InputNumberField/InputNumberField';
 import styles from './TraineeProfileCreation.module.scss';
 import { EDUCATIONAL_ATTAINMENT, SEX } from '../../../../../assets/utilities/constants';
-import { isNullishCoalesce } from 'typescript';
 
 const TraineeProfileCreation = () => {
   var todayMinusEighteenYears = dayjs().subtract(18, 'year').toDate();
