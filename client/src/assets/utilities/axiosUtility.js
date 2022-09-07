@@ -33,3 +33,20 @@ export function putTraineeRegistration(id, regId, data) {
         return error;
     })
 }
+
+export function postTrainee(data) {
+    axios.post(
+        `https://goncar-system-backend.herokuapp.com/api/trainees`,
+        data
+    )
+    .then(function (response) {
+        console.log("SUCCESS POST");
+        console.log(response);
+        return response;
+    })
+    .catch(function (error) {
+        console.log("ERROR POST");
+        console.log(error);
+        return error;
+    })
+}

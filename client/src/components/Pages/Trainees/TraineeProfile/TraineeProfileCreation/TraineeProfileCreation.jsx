@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import dayjs from 'dayjs';
 
 /* MUI */
@@ -23,6 +23,8 @@ import {
 } from '../../../../ComponentIndex';
 import styles from './TraineeProfileCreation.module.scss';
 import { EDUCATIONAL_ATTAINMENT, SEX } from '../../../../../assets/utilities/constants';
+import { useLatestTraineeID } from '../../../../../assets/utilities/swr';
+import { postTrainee } from '../../../../../assets/utilities/axiosUtility';
 
 const TraineeProfileCreation = () => {
   var todayMinusEighteenYears = dayjs().subtract(18, 'year').toDate();
@@ -38,6 +40,19 @@ const TraineeProfileCreation = () => {
     SEX.MALE,
     SEX.FEMALE
   ]
+
+  // GET NUMBER OF REGISTRATIONS FOR UNIQUE ID
+  const [ availableTraineeID, setAvailableTraineeID ] = useState(-1);
+  const { latestTraineeID, isLatestTraineeIDLoading, isLatestTraineeIDError } = useLatestTraineeID();
+
+  useEffect(
+    () => {
+      if (isLatestTraineeIDError) alert("Error fetching total registrations! Please check internet connection!");
+      if (!isLatestTraineeIDLoading) {
+        setAvailableTraineeID(latestTraineeID._max.traineeId + 1);
+      }
+    }
+  , [latestTraineeID, isLatestTraineeIDLoading, isLatestTraineeIDError, availableTraineeID])
 
   function submitForm(event) {
     event.preventDefault();
@@ -56,16 +71,37 @@ const TraineeProfileCreation = () => {
       })
     }
 
-    console.log("First Name: ", firstName);
-    console.log("Middle Name: ", middleName);
-    console.log("Last Name: ", lastName);
-    console.log("Sex: ", sex);
-    console.log("Birthday: ", dayjs(birthdate).format('MM/DD/YYYY'));
-    console.log("Address: ", address);
-    console.log("Contact number: ", contact);
-    console.log("Email: ", email);
-    console.log("Educational Attainment: ", educationalAttainment);
-    console.log("Year: ", dayjs(yearGraduated).format('MM/DD/YYYY'));
+    if (birthdate && yearGraduated) {
+      let data = {
+          firstName: firstName,
+          middleName: middleName,
+          lastName: lastName,
+          birthDay: birthdate,
+          sex: sex,
+          address: address,
+          emailAdd: email,
+          cpNum: contact,
+          educationalAttainment: educationalAttainment,
+          yearGrad: yearGraduated
+      }
+
+      if (middleName) {
+        data[middleName] = middleName;
+      }
+      
+      postTrainee(data)
+    }
+
+    // console.log("First Name: ", firstName);
+    // console.log("Middle Name: ", middleName);
+    // console.log("Last Name: ", lastName);
+    // console.log("Sex: ", sex);
+    // console.log("Birthday: ", dayjs(birthdate).format('MM/DD/YYYY'));
+    // console.log("Address: ", address);
+    // console.log("Contact number: ", contact);
+    // console.log("Email: ", email);
+    // console.log("Educational Attainment: ", educationalAttainment);
+    // console.log("Year: ", dayjs(yearGraduated).format('MM/DD/YYYY'));
 
     window.history.go(-1);
 
@@ -104,7 +140,7 @@ const TraineeProfileCreation = () => {
           {/* CHANGE TRAINEE ID HERE */}
           <InputField
             label="Trainee ID"
-            value={1}
+            value={availableTraineeID ?? ""}
             disabled={true}
             variant={"traineeID"}
             style={{marginLeft: "auto"}} />
