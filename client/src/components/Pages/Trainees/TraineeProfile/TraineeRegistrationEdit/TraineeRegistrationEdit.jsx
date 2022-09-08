@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useCourses } from '../../../../../assets/utilities/swr';
 import axios from "axios";
 /* MUI */
@@ -21,11 +21,13 @@ import {
 import { ENROLLMENT_STATUS } from '../../../../../assets/utilities/constants';
 import styles from './TraineeRegistrationEdit.module.scss';
 
-import { useGroupedBatches, useLatestRegistrationID } from '../../../../../assets/utilities/swr';
+import { useGroupedBatches } from '../../../../../assets/utilities/swr';
 import { putTraineeRegistration } from '../../../../../assets/utilities/axiosUtility';
 
 // TODO: VALIDATION
 const TraineeRegistrationEdit = () => {
+  const navigate = useNavigate();
+
   const [ courseOptions, setCourseOptions ] = useState([]);
   const ENROLLMENT_STATUS_OPTIONS = [
     ENROLLMENT_STATUS.ACTIVE,
@@ -43,9 +45,7 @@ const TraineeRegistrationEdit = () => {
   const traineeID = location.state.traineeID;
 
   // GET NUMBER OF REGISTRATIONS FOR UNIQUE ID
-  const [ regID, setRegID ] = useState(location.state.regID);
-
-  // const [ regData, setRegData ] = useState('');
+  const [ regID ] = useState(location.state.regID);
 
   // FETCH REG DETAILS
   useEffect(
@@ -137,38 +137,27 @@ const TraineeRegistrationEdit = () => {
   function submitForm(event) {
     event.preventDefault();
 
-    putTraineeRegistration(traineeID, regID, {
+    let data = {
       batchId: batchesIDMap[selectedBatch],
       registrationStatus: selectedEnrollmentStatus
-    });
-    
-    console.log("TRAINEE ID ", traineeID)
-    console.log("REG ID ", regID)
-    console.log("BATCH ID ", batchesIDMap[selectedBatch])
-    console.log("registration status ", selectedEnrollmentStatus)
+    }
 
-    // GO BACK
-    window.history.go(-1);
-
-    // console.log("Trainee ID: ", traineeID);
-    // console.log("Reg ID: ", regID);
-    // console.log("Course Name: ", selectedCourse);
-    // console.log("Batch Name: ", selectedBatch);
-    // console.log("Batch ID: ", batchesIDMap[selectedBatch]);
-    // console.log("SSS Number: ", sssNumber);
-    // console.log("SBR Number: ", sbrNumber);
-    // console.log("TIN Number: ", tinNumber);
-    // console.log("SG License Number: ", sgLicense);
-    // console.log("SG License Expiry: ", sgExpiry);
-    // console.log("Enrollment Status: ", selectedEnrollmentStatus);
-    // console.log("Date Enrolled: ", dateEnrolled);
+    putTraineeRegistration(traineeID, regID, data)
+    .then(
+      (status) => {
+        if (status === 200) {
+          navigate(`/trainees/${traineeID}`);
+        }
+        else alert(`BAD REQUEST: ${status}`);
+      }
+    )
   }
 
   return (
     <>
       <SideBar />
       <BubblePage>
-        <h1 className={styles["title"]}>Create Trainee Registration</h1>
+        <h1 className={styles["title"]}>Edit Trainee Registration</h1>
 
         <form className={styles["TraineeRegistrationCreation"]} onSubmit={submitForm}>
           <div className={styles["header"]}>

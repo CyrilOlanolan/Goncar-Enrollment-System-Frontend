@@ -8,15 +8,15 @@ var timezone = require('dayjs/plugin/timezone')
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-function getDateTime() {
+export function getDateTime() {
     return dayjs().tz("Asia/Manila").toDate();
 }
 
-function getDateString() {
+export function getDateString() {
     return dayjs().tz("Asia/Manila").format("DD MMMM YYYY");
 }
 
-function getTimeString() {
+export function getTimeString() {
     return {
         hours: dayjs().tz("Asia/Manila").format("hh"),
         minutes: dayjs().tz("Asia/Manila").format("mm"),
@@ -25,4 +25,6 @@ function getTimeString() {
     }
 }
 
-export { getDateTime, getDateString, getTimeString };
+export function stringifyDate(date) {
+    return dayjs(date).format("MM/DD/YYYY");
+}

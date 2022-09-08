@@ -33,8 +33,8 @@ function App() {
         <Route path="/trainee/edit" element={<TraineeProfileEdit />} />
 
         {/* TRAINEE REGISTRATION ROUTES */}
-        <Route path="/trainee/edit" element={<TraineeRegistrationEdit />} />
-        <Route path="/trainee/new" element={<TraineeRegistrationCreation />} />
+        <Route path="/trainee/registrations/new" element={<TraineeRegistrationCreation />} />
+        <Route path="/trainee/registration/edit" element={<TraineeRegistrationEdit />} />
 
         <Route path="/batches" element={<Batches />} />
         <Route path="/employees" element={<Employees />} />

@@ -7,6 +7,7 @@ import Fade from '@mui/material/Fade';
 import styles from './TraineeRegistrationModal.module.scss';
 
 import { useTraineeRegistration } from '../../../../../assets/utilities/swr';
+import { stringifyDate } from '../../../../../assets/utilities/datetime';
 
 const style = {
   position: 'absolute',
@@ -68,7 +69,7 @@ const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID, t
               <p><span className={styles["field"]}>Batch ID</span>: {registrationData.batchID}</p>
               <p><span className={styles["field"]}>Batch Name</span>: {registrationData.batchName}</p>
               <p><span className={styles["field"]}>Training Year</span>: {registrationData.trainingYear}</p>
-              <p><span className={styles["field"]}>Date Enrolled</span>: {registrationData.dateEnrolled}</p>
+              <p><span className={styles["field"]}>Date Enrolled</span>: {stringifyDate(registrationData.dateEnrolled)}</p>
               <p><span className={styles["field"]}>Enrollment Status</span>: {registrationData.enrollmentStatus}</p>
             </div>
           </Box>

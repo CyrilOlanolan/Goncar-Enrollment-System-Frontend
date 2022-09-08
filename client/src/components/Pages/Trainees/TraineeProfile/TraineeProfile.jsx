@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
 
-import styles from "./TraineeProfile.module.scss"
 import  {
   SideBar,
   BubblePage,
@@ -11,10 +11,10 @@ import  {
   Spinner,
   NewButton
 } from "../../../ComponentIndex";
+import styles from "./TraineeProfile.module.scss"
 
-/* SAMPLE DATA */
-import { useNavigate, useParams } from 'react-router-dom';
 import  { useTrainee } from '../../../../assets/utilities/swr';
+import { stringifyDate } from '../../../../assets/utilities/datetime';
 
 const TraineeProfile = () => {
   const navigate = useNavigate();
@@ -41,8 +41,7 @@ const TraineeProfile = () => {
       console.log(trainee);
     }
   , [trainee, isTraineeLoading, isTraineeError])
-    
-    
+
   var breadcrumbsRoutes = [
     {
       label: "Dashboard",
@@ -64,7 +63,7 @@ const TraineeProfile = () => {
   }
 
   function handleNewRegistration(traineeId) {
-    navigate('/trainee/new', {
+    navigate('/trainee/registrations/new', {
       state: {
         traineeID: traineeId,
       }
@@ -104,7 +103,7 @@ const TraineeProfile = () => {
               <div className={styles["TraineeProfile__details"]}>
                 <div className={styles["col-1"]}>
                   <p><span>Trainee ID:</span> {trainee.traineeId}</p>
-                  <p><span>Date of Birth:</span> {trainee.birthDay}</p>
+                  <p><span>Date of Birth:</span> {stringifyDate(trainee.birthDay)}</p>
                   <p><span>Sex:</span> {trainee.sex}</p>
                   <p><span>Address:</span> {trainee.address}</p>
                   <p><span>E-mail:</span> {trainee.emailAdd}</p>
@@ -118,7 +117,7 @@ const TraineeProfile = () => {
                   {trainee.SSSNum ? <p><span>SSS No.:</span> {trainee.SSSNum}</p> : null}
                   {trainee.TINNum ? <p><span>TIN No.:</span> {trainee.TINNum}</p> : null}
                   {trainee.SGLicense ? <p><span>SG License No.</span> {trainee.SGLicense}</p> : null}
-                  {trainee.expiryDate ? <p><span>SG License Expiry:</span> {trainee.expiryDate}</p> : null}
+                  {trainee.expiryDate ? <p><span>SG License Expiry:</span> {stringifyDate(trainee.expiryDate)}</p> : null}
                 </div>
               </div>
 

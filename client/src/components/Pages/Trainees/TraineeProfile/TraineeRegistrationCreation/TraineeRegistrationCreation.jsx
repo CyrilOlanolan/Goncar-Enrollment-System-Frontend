@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useCourses } from '../../../../../assets/utilities/swr';
-import dayjs from 'dayjs';
 
 /* MUI */
 import TextField from '@mui/material/TextField';
@@ -31,6 +30,8 @@ import { postTraineeRegistration } from '../../../../../assets/utilities/axiosUt
 
 // TODO: VALIDATION
 const TraineeRegistrationCreation = () => {
+  const navigate = useNavigate();
+  
   const [ courseOptions, setCourseOptions ] = useState([]);
   const ENROLLMENT_STATUS_OPTIONS = [
     ENROLLMENT_STATUS.ACTIVE,
@@ -85,7 +86,6 @@ const TraineeRegistrationCreation = () => {
       setCourseOptions(courseFlattened);
     }
   , [courses, isCoursesLoading, isCoursesError])
-
 
   // FETCH EXISTING TRAINEE DATA
   const { trainee, isTraineeLoading, isTraineeError } = useTrainee(traineeID);
@@ -169,28 +169,31 @@ const TraineeRegistrationCreation = () => {
   function submitForm(event) {
     event.preventDefault();
 
-    postTraineeRegistration(traineeID, {
+    let data = {
       batchId: batchesIDMap[selectedBatch],
       SSSNum: sssNumber,
       TINNum: tinNumber,
-      SGLicense: sgLicense,
-      expiryDate: sgExpiry,
-      dateEnrolled: dayjs(dateEnrolled).format('MM/DD/YYYY'),
-      registrationStatus: selectedEnrollmentStatus
-    })
+      registrationStatus: selectedEnrollmentStatus,
+      dateEnrolled: dateEnrolled
+    }
 
-    // console.log("TRIAL: ", {
-    //   batchId: batchesIDMap[selectedBatch],
-    //   SSSNum: sssNumber,
-    //   TINNum: tinNumber,
-    //   SGLicense: sgLicense,
-    //   expiryDate: sgExpiry,
-    //   dateEnrolled: dayjs(dateEnrolled).format('MM/DD/YYYY'),
-    //   registrationStatus: selectedEnrollmentStatus
-    // })
+    // OPTIONAL FIELDS
+    if (sgLicense !== "") {
+      data.SGLicense = sgLicense;
+      data.expiryDate = sgExpiry;
+    }
 
-    // GO BACK
-    window.history.go(-1);
+    // console.log(data)
+
+    postTraineeRegistration(traineeID, data)
+    .then(
+      (status) => {
+        if (status === 201) {
+          navigate(`/trainees/${traineeID}`);
+        }
+        else alert(`BAD REQUEST: ${status}`);
+      }
+    )
   }
 
   return (
@@ -286,6 +289,7 @@ const TraineeRegistrationCreation = () => {
             <div className={styles["sg-license-expiry-wrapper"]}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
+                  disabled={sgLicense ? false : true}
                   minDate={today}
                   label="SG License Expiry" 
                   name="SG-License-Expiry" 
@@ -328,7 +332,7 @@ const TraineeRegistrationCreation = () => {
                     setDateEnrolled(newValue);
                   }}
                   inputFormat="MM/dd/yyyy"
-                  renderInput={(params) => <TextField {...params} fullWidth />}
+                  renderInput={(params) => <TextField {...params} required fullWidth />}
                 />
               </LocalizationProvider>
             </div>

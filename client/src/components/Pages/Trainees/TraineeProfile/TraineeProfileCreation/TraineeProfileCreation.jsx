@@ -76,7 +76,6 @@ const TraineeProfileCreation = () => {
     if (birthdate && yearGraduated) {
       let data = {
           firstName: firstName,
-          middleName: middleName,
           lastName: lastName,
           birthDay: birthdate,
           sex: sex,

@@ -86,7 +86,7 @@ const TraineeRegistrationTabContent = (traineeName) => {
   }
 
   function onClickEdit(regId) {
-    navigate('/trainee/edit', {
+    navigate('/trainee/registration/edit', {
       state: {
         traineeID: traineeID,
         regID: regId,
