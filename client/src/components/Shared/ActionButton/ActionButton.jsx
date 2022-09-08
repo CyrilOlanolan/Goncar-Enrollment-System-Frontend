@@ -56,6 +56,11 @@ const ActionButton = ({ label, variant, onClick, id }) => {
         </svg>
       );
     }
+    else if (variant === "close") {
+      return (
+        <p style={{width: 18, height: 18}}>X</p>
+      );
+    }
   }
 
   return (

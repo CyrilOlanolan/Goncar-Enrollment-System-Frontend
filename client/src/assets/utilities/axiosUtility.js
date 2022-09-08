@@ -51,3 +51,13 @@ export function putTrainee(id, data) {
         return error.response.status;
     })
 }
+
+export function deleteTrainee(id) {
+    return axios.delete(`https://goncar-system-backend.herokuapp.com/api/trainees/${id}`)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}
