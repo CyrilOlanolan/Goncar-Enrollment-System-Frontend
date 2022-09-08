@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import dayjs from 'dayjs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 /* MUI */
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
@@ -21,87 +22,18 @@ import {
   InputField,
   FormButton,
 } from '../../../../ComponentIndex';
-import styles from './TraineeProfileCreation.module.scss';
+import styles from './TraineeProfileEdit.module.scss';
 import { EDUCATIONAL_ATTAINMENT, SEX } from '../../../../../assets/utilities/constants';
-import { useLatestTraineeID } from '../../../../../assets/utilities/swr';
-import { postTrainee } from '../../../../../assets/utilities/axiosUtility';
+import { useTrainee } from '../../../../../assets/utilities/swr';
+import { putTrainee } from '../../../../../assets/utilities/axiosUtility';
 
 const TraineeProfileCreation = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const traineeID = location.state.traineeID;
 
   var todayMinusEighteenYears = dayjs().subtract(18, 'year').toDate();
   var todayMinus60Years = dayjs().subtract(60, 'year').toDate();
-
-  const EDUCATIONAL_ATTAINMENT_OPTIONS = [
-    EDUCATIONAL_ATTAINMENT.HIGHSCHOOL,
-    EDUCATIONAL_ATTAINMENT.UNDERGRADUATE,
-    EDUCATIONAL_ATTAINMENT.COLLEGE
-  ]
-
-  const SEX_OPTIONS  = [
-    SEX.MALE,
-    SEX.FEMALE
-  ]
-
-  // GET NUMBER OF REGISTRATIONS FOR UNIQUE ID
-  const [ availableTraineeID, setAvailableTraineeID ] = useState(-1);
-  const { latestTraineeID, isLatestTraineeIDLoading, isLatestTraineeIDError } = useLatestTraineeID();
-
-  useEffect(
-    () => {
-      if (isLatestTraineeIDError) alert("Error fetching total registrations! Please check internet connection!");
-      if (!isLatestTraineeIDLoading) {
-        setAvailableTraineeID(latestTraineeID._max.traineeId + 1);
-      }
-    }
-  , [latestTraineeID, isLatestTraineeIDLoading, isLatestTraineeIDError, availableTraineeID])
-
-  function submitForm(event) {
-    event.preventDefault();
-
-    if (birthdate === null) {
-      setBirthdayErrorProps({
-        error: true,
-        helperText: 'Birthdate is required'
-      })
-    }
-
-    if (yearGraduated === null) {
-      setYearGraduatedErrorProps({
-        error: true,
-        helperText: 'Year Graduated is required'
-      })
-    }
-
-    if (birthdate && yearGraduated) {
-      let data = {
-          firstName: firstName,
-          middleName: middleName,
-          lastName: lastName,
-          birthDay: birthdate,
-          sex: sex,
-          address: address,
-          emailAdd: email,
-          cpNum: contact,
-          educationalAttainment: educationalAttainment,
-          yearGrad: dayjs(yearGraduated).format('YYYY')
-      }
-
-      if (middleName !== "") {
-        data[middleName] = middleName;
-      }
-
-      postTrainee(data)
-      .then(
-        (status) => {
-          if (status === 201) {
-            navigate(`/trainees`);
-          }
-          else alert(`BAD REQUEST: ${status}`);
-        }
-      )
-    }
-  }
 
   /* STATES */
   const [ firstName, setFirstName ] = useState('');
@@ -123,12 +55,92 @@ const TraineeProfileCreation = () => {
     error: false
   })
 
+  // FETCH TRAINEE DETAILS
+  const { trainee, isTraineeLoading, isTraineeError } = useTrainee(traineeID);
+  useEffect(
+    () => {
+      if (isTraineeError) alert('ERROR fetching trainee data! Check internet connection.');
+      
+      if (!isTraineeLoading) {
+        setFirstName(trainee?.firstName);
+        setMiddleName(trainee?.middleName);
+        setLastName(trainee?.lastName);
+        setSex(trainee?.sex);
+        setBirthdate(trainee?.birthDay);
+        setAddress(trainee?.address);
+        setContact(trainee?.cpNum);
+        setEmail(trainee?.emailAdd);
+        setEducationalAttainment(trainee?.educationalAttainment);
+        setYearGraduated(trainee?.yearGrad);
+      }
+    }
+  , [trainee, isTraineeLoading, isTraineeError ])
+
+  const EDUCATIONAL_ATTAINMENT_OPTIONS = [
+    EDUCATIONAL_ATTAINMENT.HIGHSCHOOL,
+    EDUCATIONAL_ATTAINMENT.UNDERGRADUATE,
+    EDUCATIONAL_ATTAINMENT.COLLEGE
+  ]
+
+  const SEX_OPTIONS  = [
+    SEX.MALE,
+    SEX.FEMALE
+  ]
+
+  function submitForm(event) {
+    event.preventDefault();
+
+    if (birthdate === null) {
+      setBirthdayErrorProps({
+        error: true,
+        helperText: 'Birthdate is required'
+      })
+    }
+
+    if (yearGraduated === null) {
+      setYearGraduatedErrorProps({
+        error: true,
+        helperText: 'Year Graduated is required'
+      })
+    }
+
+    if (birthdate && yearGraduated) {
+      let data = {
+          firstName: firstName,
+          lastName: lastName,
+          birthDay: birthdate,
+          sex: sex,
+          address: address,
+          emailAdd: email,
+          cpNum: contact,
+          educationalAttainment: educationalAttainment,
+          yearGrad: dayjs(yearGraduated).format('YYYY')
+      }
+
+      // OPTIONAL DATA
+      if (middleName !== "") {
+        data[middleName] = middleName;
+      }
+
+      // GO BACK IF OK, ALERT IF NOT
+      putTrainee(traineeID, data)
+      .then(
+        (status) => {
+          if (status === 200) {
+            navigate(`/trainees/${traineeID}`);
+          }
+          else alert(`BAD REQUEST: ${status}`);
+        }
+      )
+    }
+  }
+
   return (
     <>
     <SideBar />
     <BubblePage>
       <div className={styles["TraineeProfileCreation"]}>
-        <h1>Trainee Profile Creation</h1>
+        <h1>Edit Trainee Profile</h1>
         
         <form
           className={styles["TraineeProfileCreation__form"]}
@@ -136,7 +148,7 @@ const TraineeProfileCreation = () => {
           {/* CHANGE TRAINEE ID HERE */}
           <InputField
             label="Trainee ID"
-            value={availableTraineeID ?? ""}
+            value={traineeID ?? "..."}
             disabled={true}
             variant={"traineeID"}
             style={{marginLeft: "auto"}} />
@@ -287,7 +299,7 @@ const TraineeProfileCreation = () => {
           </div>
 
           <div className={styles["form_buttons"]}>
-            <FormButton label="Submit" type="submit" />
+            <FormButton label="Update" type="submit" />
             {/* GO BACK TO PREVIOUS PAGE */}
             <FormButton label="Cancel" variant="cancel" type="button" onClick={() => window.history.go(-1)}/>
           </div>

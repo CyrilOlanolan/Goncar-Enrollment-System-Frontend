@@ -1,52 +1,53 @@
 import axios from 'axios';
 
 export function postTraineeRegistration(id, data) {
-    axios.post(
+    return axios.post(
         `https://goncar-system-backend.herokuapp.com/api/trainees/${id}/registrations`,
         data
     )
     .then(function (response) {
-        console.log("SUCCESS POST");
-        console.log(response);
-        return response;
+        return response.status;
     })
     .catch(function (error) {
-        console.log("ERROR POST");
-        console.log(error);
-        return error;
+        return error.response.status;
     })
 }
 
 export function putTraineeRegistration(id, regId, data) {
-    axios.put(
+    return axios.put(
         `https://goncar-system-backend.herokuapp.com/api/trainees/${id}/registrations/${regId}`,
         data
     )
     .then(function (response) {
-        console.log("SUCCESS PUT");
-        console.log(response);
-        return response;
+        return response.status;
     })
     .catch(function (error) {
-        console.log("ERROR PUT");
-        console.log(error);
-        return error;
+        return error.response.status;
     })
 }
 
 export function postTrainee(data) {
-    axios.post(
+    return axios.post(
         `https://goncar-system-backend.herokuapp.com/api/trainees`,
         data
     )
     .then(function (response) {
-        console.log("SUCCESS POST");
-        console.log(response);
-        return response;
+        return response.status;
     })
     .catch(function (error) {
-        console.log("ERROR POST");
-        console.log(error);
-        return error;
+        return error.response.status;
+    })
+}
+
+export function putTrainee(id, data) {
+    return axios.put(
+        `https://goncar-system-backend.herokuapp.com/api/trainees/${id}`,
+        data
+    )
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
     })
 }

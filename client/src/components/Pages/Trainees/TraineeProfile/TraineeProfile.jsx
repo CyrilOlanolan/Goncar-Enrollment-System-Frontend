@@ -71,8 +71,12 @@ const TraineeProfile = () => {
     })
   }
 
-  function handleEdit(id) {
-    console.log(`You clicked edit for Trainee ID: ${id}!`);
+  function handleEdit(traineeId) {
+    navigate(`/trainee/edit`, {
+      state: {
+        traineeID: traineeId
+      }
+    })
   }
   
   function handleDelete(id) {
@@ -105,6 +109,8 @@ const TraineeProfile = () => {
                   <p><span>Address:</span> {trainee.address}</p>
                   <p><span>E-mail:</span> {trainee.emailAdd}</p>
                   <p><span>Phone Number:</span> {trainee.cpNum}</p>
+                  <p><span>Educational Attainment:</span> {trainee.educationalAttainment}</p>
+                  <p><span>Year Graduated:</span> {trainee.yearGrad}</p>
                 </div>
 
                 <div className={styles["col-2"]}>

@@ -12,6 +12,7 @@ import {
   TraineeProfileCreation,
   TraineeRegistrationEdit,
   TraineeProfile,
+  TraineeProfileEdit,
   TraineeRegistrationCreation
 } from "./components/ComponentIndex";
 
@@ -28,6 +29,8 @@ function App() {
         <Route path="/trainees" element={<Trainees />} />
         <Route path="/trainees/:traineeID" element={<TraineeProfile />} />
         <Route path="/trainees/new" element={<TraineeProfileCreation />} />
+        
+        <Route path="/trainee/edit" element={<TraineeProfileEdit />} />
 
         {/* TRAINEE REGISTRATION ROUTES */}
         <Route path="/trainee/edit" element={<TraineeRegistrationEdit />} />
