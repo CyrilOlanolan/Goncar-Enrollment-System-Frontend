@@ -1,24 +1,32 @@
 import React, { useRef, useEffect, useState } from 'react'
+import dayjs from 'dayjs';
+
+/* MUI */
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import {
   SideBar,
   BubblePage,
   InputField,
-  InputTextField,
-  InputSelect,
-  InputDatePicker,
   FormButton
 } from '../../../ComponentIndex';
-import InputNumberField from '../../../Shared/InputNumberField/InputNumberField';
 import styles from './BatchesCreation.module.scss';
 
 // VALIDATION FOR START DATE AND END DATE
 const BatchesCreation = () => {
-  const laNumberRef = useRef();
-  const studentLimitRef = useRef();
-  const instructorRef = useRef();
-  const startDateRef = useRef();
-  const endDateRef = useRef();
+  const today = Date();
+  const todayPlus30Days = dayjs().add(30, 'day').toDate();
 
   const [instructorOptions, setInstructorOptions] = useState([]);
 
@@ -32,12 +40,19 @@ const BatchesCreation = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log("LA Number:", laNumberRef.current.value);
-    console.log("Student Limit:", studentLimitRef.current.value);
-    console.log("Instructor:", instructorRef.current.value);
-    console.log("Start Date:", startDateRef.current.value);
-    console.log("End Date:", endDateRef.current.value);
+    console.log("LA Number:", laNumber);
+    console.log("Student Limit:", studentLimit);
+    console.log("Instructor:", instructor);
+    console.log("Start Date:", startDate);
+    console.log("End Date:", endDate);
   }
+
+  /* STATE */
+  const [ laNumber, setLANumber ] = useState('');
+  const [ studentLimit, setStudentLimit ] = useState(30);
+  const [ instructor, setInstructor ] = useState('');
+  const [ startDate, setStartDate ] = useState(today);
+  const [ endDate, setEndDate ] = useState(todayPlus30Days);
 
   return (
     <>
@@ -63,47 +78,63 @@ const BatchesCreation = () => {
           </div>
 
           <div className={styles["row-2"]}>
-            <InputTextField
-              ref={laNumberRef}
+            <TextField
+              value={laNumber}
+              onChange={e => setLANumber(e.target.value)}
               label="LA Number"
               name="laNumber"
-              fullWidth={true}
-            />
+              id="laNumber-input"
+              required
+              fullWidth />
           </div>
 
           <div className={styles["row-3"]}>
-            <InputNumberField
-              ref={studentLimitRef}
+            <TextField
+              value={studentLimit}
+              onChange={e => setStudentLimit(e.target.value)}
               label="Student Limit"
               name="studentLimit"
-            />
+              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*'}}
+              fullWidth 
+              required />
 
-            <InputSelect
-              ref={instructorRef}
-              label="Instructor"
-              options={instructorOptions}
-              required={true}
-              name="instructor"
-              fullWidth={true}
-            />
+            <FormControl fullWidth required>
+              <InputLabel id="instructor-select-label">Instructor</InputLabel>
+              <Select
+                labelId="instructor-select-label"
+                id="instructor-select"
+                name="instructor"
+                value={instructor}
+                label="Instructor"
+                onChange={e => setInstructor(e.target.value)}
+              >
+                {instructorOptions.map((option, index) => {
+                  return <MenuItem key={index} value={option}>{option}</MenuItem>
+                })}
+              </Select>
+            </FormControl>
           </div>
 
           <div className={styles["row-4"]}>
-            <InputDatePicker
-              label="Start Date"
-              required={true}
-              name="startDate"
-              ref={startDateRef}
-              fullWidth={true}
-            />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                label="Start Date"
+                name="startDate" 
+                value={startDate}
+                onChange={value => setStartDate(value)}
+                renderInput={(params) => <TextField {...params} fullWidth required />}
+              />
+            </LocalizationProvider>
 
-            <InputDatePicker
-              label="End Date"
-              required={true}
-              name="endDate"
-              ref={endDateRef}
-              fullWidth={true}
-            />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                label="End Date"
+                name="endDate" 
+                value={endDate}
+                onChange={value => setEndDate(value)}
+                renderInput={(params) => <TextField {...params} fullWidth required />}
+              />
+            </LocalizationProvider>
           </div>
 
           <div className={styles["form_buttons"]}>

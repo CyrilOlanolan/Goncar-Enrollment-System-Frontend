@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+
 /* MUI */
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
@@ -255,7 +256,7 @@ const TraineeProfileCreation = () => {
                     id="educationalAttainment-select"
                     name="educationalAttainment"
                     value={educationalAttainment ?? ''}
-                    label="Course"
+                    label="Educational Attainment"
                     onChange={e => setEducationalAttainment(e.target.value)}
                   >
                     {EDUCATIONAL_ATTAINMENT_OPTIONS.map((option, index) => {

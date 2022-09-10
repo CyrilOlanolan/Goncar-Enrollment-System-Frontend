@@ -1,1 +1,25 @@
 @import '../../../styles/variables.scss';
+
+.Batches {
+    &__title {
+        margin-bottom: 1rem;
+    }
+
+    &__content {
+        & > button {
+            display: block;
+            margin-left: auto;
+            margin-bottom: 1rem;
+        }
+
+        .cards {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            column-gap: 1rem;
+            row-gap: 1rem;
+        }
+    }
+
+}

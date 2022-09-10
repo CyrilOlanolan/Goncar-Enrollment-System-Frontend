@@ -13,7 +13,8 @@ import {
   TraineeRegistrationEdit,
   TraineeProfile,
   TraineeProfileEdit,
-  TraineeRegistrationCreation
+  TraineeRegistrationCreation,
+  BatchesCreation
 } from "./components/ComponentIndex";
 
 function App() {
@@ -36,7 +37,10 @@ function App() {
         <Route path="/trainee/registrations/new" element={<TraineeRegistrationCreation />} />
         <Route path="/trainee/registration/edit" element={<TraineeRegistrationEdit />} />
 
+        {/* BATCHES ROUTES */}
         <Route path="/batches" element={<Batches />} />
+        <Route path="/batches/new" element={<BatchesCreation />} />
+
         <Route path="/employees" element={<Employees />} />
         <Route path="/finance" element={<Finance />} />
         <Route path="/administrative" element={<Administrative />} />
