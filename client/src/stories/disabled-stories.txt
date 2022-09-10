@@ -4,3 +4,4 @@ TRAINEES
 
 BATCHES
     > Batches
+    > Batch Modal

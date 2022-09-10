@@ -52,6 +52,7 @@ export { default as PaymentCreation } from './Pages/Finance/PaymentCreation/Paym
 /* BATCHES */
 export { default as BatchesCard } from './Pages/Batches/BatchesCard/BatchesCard.tsx';
 export { default as BatchesCreation } from './Pages/Batches/BatchesCreation/BatchesCreation.jsx';
+export { default as BatchModal } from './Pages/Batches/Batch/BatchModal.jsx';
 
 /* SIGN IN*/
 export { default as SignInCard } from "./Pages/SignIn/SignInCard/SignInCard.jsx"

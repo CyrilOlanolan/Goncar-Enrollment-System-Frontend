@@ -7,7 +7,8 @@ import {
   BreadcrumbsComponent,
   BatchesCard,
   NewButton,
-  Spinner
+  Spinner,
+  BatchModal
 } from '../../ComponentIndex';
 import styles from './Batches.module.scss';
 
@@ -16,6 +17,8 @@ import { useBatches } from '../../../assets/utilities/swr';
 const Batches = () => {
   const navigate = useNavigate();
   const [ cardsData, setCardsData ] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedBatch, setSelectedBatch] = useState({});
 
   /* FETCH HERE */
   const { batches, isBatchesLoading, isBatchesError } = useBatches();
@@ -47,6 +50,14 @@ const Batches = () => {
   return (
     <>
       <SideBar />
+      {openModal ?
+      <BatchModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        batch={selectedBatch}
+      /> : 
+        null
+      }
       <BubblePage>
         <BreadcrumbsComponent routes={breadcrumbsRoutes}/>
         <div className={styles["Batches"]}>
@@ -57,7 +68,10 @@ const Batches = () => {
               <div className={styles["cards"]}>
                 {cardsData.map((card, index) => {
                   return (
-                    <BatchesCard key={index} {...card}/>
+                    <BatchesCard key={index} {...card} onClick={() => {
+                      setSelectedBatch(card)
+                      setOpenModal(true)
+                    }}/>
                     )
                   })}
               </div>
