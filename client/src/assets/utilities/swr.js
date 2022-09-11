@@ -103,3 +103,13 @@ export function useLatestTraineeID() {
     }
 }
 
+export function useBatch(id) {
+    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/batches/${id}`, fetcher);
+
+    return {
+        batch: data,
+        isBatchLoading: !error && !data,
+        isBatchError: error
+    }
+}
+

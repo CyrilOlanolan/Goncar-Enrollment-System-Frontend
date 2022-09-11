@@ -54,7 +54,7 @@ const Batches = () => {
       <BatchModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        batch={selectedBatch}
+        batchID={selectedBatch}
       /> : 
         null
       }
@@ -69,7 +69,7 @@ const Batches = () => {
                 {cardsData.map((card, index) => {
                   return (
                     <BatchesCard key={index} {...card} onClick={() => {
-                      setSelectedBatch(card)
+                      setSelectedBatch(card.batchId)
                       setOpenModal(true)
                     }}/>
                     )
