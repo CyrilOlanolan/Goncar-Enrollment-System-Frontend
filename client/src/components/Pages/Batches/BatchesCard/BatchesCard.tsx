@@ -33,7 +33,10 @@ const BatchesCard : FC<props> = (props) => {
 
       <button
         className={styles["BatchesCard__edit-button"]}
-        onClick={() => handleEditClick(props.batchId)}
+        onClick={(event) => {
+          event.stopPropagation()
+          handleEditClick(props.batchId)
+        }}
       >EDIT</button>
     </div>
   )

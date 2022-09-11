@@ -56,14 +56,21 @@
     }
 
     &__edit-button {
+        z-index: 1;
         background-color: #71A3D2;
         border: none;
         border-radius: .25rem;
         min-height: 2rem;
         cursor: pointer;
+        display: block;
 
         font-size: $font-size--body-2;
         font-weight: 700;
         color: $color--secondary;
+
+        &:hover {
+            transform: translateY(-8px);
+            transition: transform 0.3s ease;
+        }
     }
 }
