@@ -1,7 +1,7 @@
 import { Administrative } from "../../../components/ComponentIndex";
 
 export default{
-    title: 'Administrative Page',
+    title: 'Pages/Administrative Page',
     component: Administrative
 };
 

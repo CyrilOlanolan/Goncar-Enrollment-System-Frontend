@@ -14,7 +14,8 @@ import {
   TraineeProfile,
   TraineeProfileEdit,
   TraineeRegistrationCreation,
-  BatchesCreation
+  BatchesCreation,
+  Courses
 } from "./components/ComponentIndex";
 
 function App() {
@@ -43,7 +44,10 @@ function App() {
 
         <Route path="/employees" element={<Employees />} />
         <Route path="/finance" element={<Finance />} />
+
         <Route path="/administrative" element={<Administrative />} />
+        <Route path="/administrative/courses" element={<Courses />} />
+
         <Route path="/settings" element={<Settings />} />
       </Routes>
     </div>

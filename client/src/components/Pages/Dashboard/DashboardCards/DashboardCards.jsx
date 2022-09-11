@@ -41,7 +41,7 @@ const DashboardCards = () => {
         "label": "Administrative",
         "shortLabel": "Admin",
         "icon": "roundAdminPanelSettings",
-        "route": "/employees"
+        "route": "/administrative"
     },
     {
         "label": "Settings",
@@ -53,12 +53,12 @@ const DashboardCards = () => {
 
   return (
     <div className={styles["DashboardCards"]}>
-      {navigation.map((nav) => {
+      {navigation.map((nav, index) => {
         if (nav.label === "Dashboard" || nav.label === "Settings")
           return null;
         
         return (
-          <Link to={nav.route} draggable="false" key={nav.label}>
+          <Link to={nav.route} draggable="false" key={index}>
             <DashboardCard icon={nav.icon} label={nav.label} />
           </Link>
         )

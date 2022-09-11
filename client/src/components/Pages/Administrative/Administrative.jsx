@@ -1,114 +1,64 @@
-import React, {useState, useEffect} from 'react';
-import { AgGridReact } from 'ag-grid-react'; //AG grid react component
-import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
+import React from "react";
+import { Link } from "react-router-dom";
 
-import {SideBar, BubblePage, WelcomeBubble, DashboardCards, 
-  BreadcrumbsComponent, ActionButton} from '../../ComponentIndex';
-import styles from "./Administrative.module.scss"
+import { SideBar } from "../../ComponentIndex";
+import styles from "./Administrative.module.scss";
 
-import { COURSES } from '../../../assets/utilities/constants';
+export const GearIcon = () => {
+  return (
+    <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M14.107 1.575c-.619-2.1-3.595-2.1-4.214 0l-.15.51a2.196 2.196 0 0 1-3.158 1.308l-.465-.255c-1.925-1.047-4.029 1.058-2.98 2.98l.253.467a2.196 2.196 0 0 1-1.308 3.157l-.51.15c-2.1.62-2.1 3.596 0 4.216l.51.15a2.196 2.196 0 0 1 1.308 3.157l-.255.465c-1.047 1.925 1.058 4.029 2.98 2.98l.467-.253a2.196 2.196 0 0 1 3.157 1.308l.15.51c.62 2.1 3.596 2.1 4.216 0l.15-.51a2.196 2.196 0 0 1 3.157-1.308l.465.255c1.925 1.047 4.029-1.057 2.98-2.98l-.253-.467a2.197 2.197 0 0 1 1.308-3.157l.51-.15c2.1-.62 2.1-3.596 0-4.216l-.51-.15a2.196 2.196 0 0 1-1.308-3.157l.255-.465c1.047-1.925-1.057-4.029-2.98-2.98l-.467.253a2.196 2.196 0 0 1-3.157-1.308l-.15-.51ZM12 16.395a4.395 4.395 0 1 1 3.107-1.29A4.394 4.394 0 0 1 12 16.392v.003Z"
+        fill="#272727"
+      />
+    </svg>
+  );
+};
+
+const items = [
+  {
+    title: "Courses",
+    description: "View all courses offered",
+    route: "/administrative/courses",
+  },
+  {
+    title: "Training Years",
+    description: "View all training year spans",
+    route: "/administrative/training-years",
+  },
+  {
+    title: "Payables",
+    description: "Display all payables per course and training year",
+    route: "/administrative/payables",
+  },
+];
 
 const Administrative = () => {
+  return (
+    <>
+      <SideBar />
+      <div className={styles["Administrative"]}>
+        <h1 className={styles["Administrative__heading"]}>ADMINISTRATIVE</h1>
+        <div className={styles["Administrative__items"]}>
+          {items.map((item, index) => {
+            return (
+              <Link to={item.route}>
+                <div className={styles["item"]} key={index}>
+                  <div className={styles["title"]}>
+                    <GearIcon />
+                    <h3>{item.title}</h3>
+                  </div>
+                  <div className={styles["description"]}>
+                    {item.description}
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </>
+  );
+};
 
-  // var breadcrumbsRoutes = [
-  //   {
-  //     label: "Dashboard",
-  //     href: '/dashboard',
-  //     onclick: () => console.log("Hi")
-  //   },
-  //   {
-  //     label: "Administrative",
-  //     href: "/Administrative",
-  //   }
-  // ];
-
-  // function RenderActionButtons(params) {
-  //   return (
-  //     <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-  //       <ActionButton label="View" variant={"view"} onClick={() => onClick(params.data.traineeId)} />
-  //     </div>
-  //   )
-  // }
-
-  //  //TABLE
-  //  const [rowData, setRowData] = useState([]);
-  //  const [columnDefs] = useState ([
-  //    {
-  //      field: "courseName",
-  //      headerName: "Course Name",
-  //      lockPosition: "left",
-  //      width: 230,
-  //      sortable: true
-  //    },
-  //    {
-  //      field: "yearSpan",
-  //      headerName: "Year Span",
-  //      lockPosition: "left",
-  //      width: "150",
-  //      sortable: true
-  //    },
-  //    {
-  //      field: "courseUnits",
-  //      headerName: "Units",
-  //      lockPosition: "left",
-  //      width:"75",
-  //      sortable: true,
-  //    },
-  //    {
-  //      field:"courseTuition",
-  //      headerName:"Tuition",
-  //      lockPosition:"left",
-  //      width:"150",
-  //      sortable: true
-  //    },
-  //    {
-  //     field: "",
-  //     headerName: "Action",
-  //     lockPosition: "left",
-  //     callRender: (params) => RenderActionButtons(params),
-  //     minWidth: 100,
-  //     flex: 2,
-  //    },
-  //  ])
- 
- 
- 
-  //  const gridOptions = {
-  //    defaultColDef: {
-  //      filter: true
-  //    },
-  //    columnDefs: columnDefs,
-  //    rowData: rowData,
-  //    pagination: true,
-  //    paginationAutoPageSize: true
-  //  }
-
- 
-
-  // return (
-  //   <>
-  //     <SideBar />
-  //     <div classname="container">
-  //       <BubblePage>
-  //         <div className={styles["Course"]}>
-  //           <div className={styles["Trainees__header-actions"]}>
-  //             <BreadcrumbsComponent routes={breadcrumbsRoutes} />
-  //           </div>
-  //             <h1 className={styles["Course_Title"]}>Course</h1>
-
-  //            <div className={[styles["Course_Table"], "ag-theme-alpine"].join(" ")}>
-  //               <AgGridReact
-  //                 {...gridOptions}
-  //               />
-
-  //            </div>
-  //         </div>
-  //       </BubblePage>
-
-
-  //     </div>
-  //   </>
-  // )
-}
-
-export default Administrative
+export default Administrative;

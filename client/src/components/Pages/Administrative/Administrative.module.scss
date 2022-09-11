@@ -1,2 +1,79 @@
-@import '../../../styles/variables.scss';
+@use '../../../styles/variables.scss' as *;
 
+.Administrative {
+    margin-left: $SideBarWidth;
+    min-height: 93%;
+    border-radius: 1.5625rem;
+    padding: 3.125rem 5rem;
+
+    a {
+        text-decoration: none;
+        color:$color--black;
+        width: fit-content;
+    }
+
+    @media (max-width: 768px) {
+        margin-left: 0;
+    }
+
+    &__heading {
+        margin: 0 auto;
+        position: relative;
+        width:fit-content;
+
+        &:after {
+            content: '';
+            position: absolute;
+            height: .1875rem;
+            left: 0;
+            right: 0;
+            top: 110%;
+            background-color: $color--black;
+        }
+        margin-bottom: 2rem;
+    }
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        
+        .item {
+            background-color: white;
+            border-radius: 18px;
+            width: fit-content;
+            padding: 1rem 2rem;
+    
+            .title {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin-bottom: 0.8rem;
+                
+                svg {
+                    margin-right: .625rem;
+                }
+    
+                h3 {
+                    position: relative;
+                    width: fit-content;
+    
+                    &:after {
+                        content: '';
+                        height: .1875rem;
+                        left: 0;
+                        right: 0;
+                        top: 100%;
+                        position: absolute;
+                        background-color: $color--black;
+                    }
+                }
+            }
+    
+            .description {
+                margin-left: 2.125rem;
+            }
+        }
+    }
+
+}

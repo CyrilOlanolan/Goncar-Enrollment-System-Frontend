@@ -43,6 +43,9 @@ export  { default as TraineeRegistrationModal } from "./Pages/Trainees/TraineePr
 export  { default as TraineeRegistrationEdit } from "./Pages/Trainees/TraineeProfile/TraineeRegistrationEdit/TraineeRegistrationEdit.jsx";
 export  { default as TraineeProfileEdit } from "./Pages/Trainees/TraineeProfile/TraineeProfileEdit/TraineeProfileEdit.jsx";
 
+/* ADMINISTRATIVE */
+export { default as Courses } from './Pages/Administrative/Courses/Courses.jsx';
+
 /* EMPLOYEE */
 export { default as EmployeeProfileCreation } from "./Pages/Employees/EmployeeProfile/EmployeeProfileCreation/EmployeeProfileCreation.jsx";
 
