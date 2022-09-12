@@ -42,8 +42,8 @@ const Administrative = () => {
         <div className={styles["Administrative__items"]}>
           {items.map((item, index) => {
             return (
-              <Link to={item.route}>
-                <div className={styles["item"]} key={index}>
+              <Link to={item.route} key={index}>
+                <div className={styles["item"]}>
                   <div className={styles["title"]}>
                     <GearIcon />
                     <h3>{item.title}</h3>

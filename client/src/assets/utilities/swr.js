@@ -113,3 +113,22 @@ export function useBatch(id) {
     }
 }
 
+export function useTrainingYears() {
+    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/trainingYears`, fetcher);
+
+    return {
+        trainingYears: data,
+        isTrainingYearsLoading: !error && !data,
+        isTrainingYearsError: error
+    }
+}
+
+export function useTrainingYear(id) {
+    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/trainingYears/${id}`, fetcher);
+
+    return {
+        trainingYear: data,
+        isTrainingYearLoading: !error && !data,
+        isTrainingYearError: error
+    }
+}

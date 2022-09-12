@@ -24,4 +24,10 @@
         background-color: $color--light-gray;
         color: $color--secondary
     }
+
+    &[disabled] {
+        background-color: $color--gray;
+        pointer-events: none;
+        cursor: default;
+    }
 }

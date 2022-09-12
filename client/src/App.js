@@ -15,7 +15,10 @@ import {
   TraineeProfileEdit,
   TraineeRegistrationCreation,
   BatchesCreation,
-  Courses
+  Courses,
+  TrainingYears,
+  TrainingYearsCreation,
+  TrainingYearsEdit
 } from "./components/ComponentIndex";
 
 function App() {
@@ -47,8 +50,14 @@ function App() {
 
         <Route path="/administrative" element={<Administrative />} />
         <Route path="/administrative/courses" element={<Courses />} />
+        <Route path="/administrative/training-years" element={<TrainingYears />} />
+        <Route path="/administrative/training-years/new" element={<TrainingYearsCreation />} />
+        <Route path="/administrative/training-years/edit" element={<TrainingYearsEdit />} />
 
         <Route path="/settings" element={<Settings />} />
+
+        {/* ERROR PAGE */}
+        <Route path="*" element={<Dashboard />} />
       </Routes>
     </div>
   );

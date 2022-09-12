@@ -1,0 +1,25 @@
+@use '../../../../styles/variables.scss' as *;
+
+.courses {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &__header-actions {
+        margin-bottom: 1rem;
+    }
+
+    &__title {
+        margin-bottom: 1rem;
+    }
+
+    &__table {
+        position: relative;
+        height: 100%;
+    }
+
+    .new-button {
+        margin-left: auto;
+        margin-bottom: 0.5rem;
+    }
+}

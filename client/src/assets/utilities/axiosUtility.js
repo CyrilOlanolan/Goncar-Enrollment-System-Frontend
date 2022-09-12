@@ -61,3 +61,35 @@ export function deleteTrainee(id) {
         return error.response.status;
     })
 }
+
+export function postTrainingYear(data) {
+    return axios.post(`https://goncar-system-backend.herokuapp.com/api/trainingYears`,
+    data)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}
+
+export function putTrainingYear(id, data) {
+    return axios.put(`https://goncar-system-backend.herokuapp.com/api/trainingYears/${id}`,
+    data)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}
+
+export function deleteTrainingYear(id) {
+    return axios.delete(`https://goncar-system-backend.herokuapp.com/api/trainingYears/${id}`)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}
