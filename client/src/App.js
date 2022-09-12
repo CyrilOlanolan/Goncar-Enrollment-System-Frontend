@@ -14,11 +14,12 @@ import {
   TraineeProfile,
   TraineeProfileEdit,
   TraineeRegistrationCreation,
-  BatchesCreation,
+  BatchCreation,
   Courses,
   TrainingYears,
   TrainingYearsCreation,
-  TrainingYearsEdit
+  TrainingYearsEdit,
+  BatchEdit
 } from "./components/ComponentIndex";
 
 function App() {
@@ -43,7 +44,8 @@ function App() {
 
         {/* BATCHES ROUTES */}
         <Route path="/batches" element={<Batches />} />
-        <Route path="/batches/new" element={<BatchesCreation />} />
+        <Route path="/batches/new" element={<BatchCreation />} />
+        <Route path="/batch/edit" element={<BatchEdit />} />
 
         <Route path="/employees" element={<Employees />} />
         <Route path="/finance" element={<Finance />} />

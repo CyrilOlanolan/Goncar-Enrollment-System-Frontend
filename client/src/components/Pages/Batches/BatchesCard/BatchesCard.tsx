@@ -1,8 +1,10 @@
 import React, { FC, MouseEventHandler } from 'react'
+import { useNavigate, NavigateFunction } from 'react-router-dom';
+
 import styles from './BatchesCard.module.scss';
 
 type props = {
-    batchId: number,
+    batchID: number,
     batchName: string,
     laNumber: string,
     batchTeacher: string,
@@ -12,9 +14,16 @@ type props = {
 }
 
 const BatchesCard : FC<props> = (props) => {
-  function handleEditClick(id: number) {
-    console.log(id);
+  const navigate : NavigateFunction = useNavigate();
+
+  function handleEditClick(batchID: number) {
+    navigate('/batch/edit', {
+      state: {
+        batchID: batchID
+      }
+    })
   }
+
   return (
     <div className={styles["BatchesCard"]} onClick={props.onClick}>
       <div className={styles["BatchesCard__header"]}>
@@ -35,7 +44,7 @@ const BatchesCard : FC<props> = (props) => {
         className={styles["BatchesCard__edit-button"]}
         onClick={(event) => {
           event.stopPropagation()
-          handleEditClick(props.batchId)
+          handleEditClick(props.batchID)
         }}
       >EDIT</button>
     </div>

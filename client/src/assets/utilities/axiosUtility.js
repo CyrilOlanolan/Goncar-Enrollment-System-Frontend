@@ -93,3 +93,25 @@ export function deleteTrainingYear(id) {
         return error.response.status;
     })
 }
+
+export function postBatch(data) {
+    return axios.post(`https://goncar-system-backend.herokuapp.com/api/batches`,
+    data)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}
+
+export function putBatch(id, data) {
+    return axios.put(`https://goncar-system-backend.herokuapp.com/api/batches/${id}`,
+    data)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}

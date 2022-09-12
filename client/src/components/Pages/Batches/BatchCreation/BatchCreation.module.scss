@@ -30,6 +30,21 @@
             }
         }
     }
+    
+    .row-2 {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        column-gap: 1rem;
+
+        /* SUPPORT FOR iOS 14 below */
+        @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+            /* FOR FLEXBOX GAP SUPPORT */
+            & > *:not(:last-child) {
+                margin-right: 1rem;
+            }
+        }
+    }
 
     .row-3 {
         display: flex;

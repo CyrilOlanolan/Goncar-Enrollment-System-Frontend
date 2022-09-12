@@ -57,7 +57,8 @@ export { default as PaymentCreation } from './Pages/Finance/PaymentCreation/Paym
 
 /* BATCHES */
 export { default as BatchesCard } from './Pages/Batches/BatchesCard/BatchesCard.tsx';
-export { default as BatchesCreation } from './Pages/Batches/BatchesCreation/BatchesCreation.jsx';
+export { default as BatchCreation } from './Pages/Batches/BatchCreation/BatchCreation.jsx';
+export { default as BatchEdit } from './Pages/Batches/BatchEdit/BatchEdit.jsx';
 export { default as BatchModal } from './Pages/Batches/Batch/BatchModal.jsx';
 
 /* SIGN IN*/

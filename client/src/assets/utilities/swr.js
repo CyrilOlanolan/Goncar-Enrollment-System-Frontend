@@ -132,3 +132,13 @@ export function useTrainingYear(id) {
         isTrainingYearError: error
     }
 }
+
+export function useBatchesLatestID() {
+    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/batches/all/max`, fetcher);
+
+    return {
+        batchesLatestID: data,
+        isBatchesLatestIDLoading: !error && !data,
+        isBatchesLatestIDError: error
+    }
+}

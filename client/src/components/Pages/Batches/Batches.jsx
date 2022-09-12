@@ -26,9 +26,23 @@ const Batches = () => {
   useEffect(
     () => {
       if (isBatchesError) alert("Error fetching batches data! Please check internet connection.");
+      
+      let batchesFlatten = [];
 
       if (!isBatchesLoading) {
-        setCardsData(batches);
+        for (let batch of batches) {
+          batchesFlatten.push({
+            batchID: batch.batchId,
+            laNumber: batch.laNumber,
+            batchName: batch.batchName,
+            course: batch.courses.courseName,
+            endDate: batch.endDate,
+            startDate: batch.startDate,
+            maxStudents: batch.maxStudents,
+            trainingYearSpan: batch?.trainingYears?.trainingYearSpan ?? "[NOT SET]"
+          })
+        }
+        setCardsData(batchesFlatten);
       }
     }
   , [batches, isBatchesLoading, isBatchesError])
@@ -44,7 +58,7 @@ const Batches = () => {
   ]
 
   function handleNewBatch() {
-    navigate('/batches/new')
+    navigate('/batches/edit')
   }
 
   return (
@@ -54,7 +68,7 @@ const Batches = () => {
       <BatchModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        batchID={selectedBatch}
+        batch={selectedBatch}
       /> : 
         null
       }
@@ -69,7 +83,7 @@ const Batches = () => {
                 {cardsData.map((card, index) => {
                   return (
                     <BatchesCard key={index} {...card} onClick={() => {
-                      setSelectedBatch(card.batchId)
+                      setSelectedBatch(card)
                       setOpenModal(true)
                     }}/>
                     )

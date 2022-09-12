@@ -7,34 +7,9 @@ import styles from './BatchModal.module.scss';
 import { useBatch } from "../../../../assets/utilities/swr";
 
 import { stringifyDate } from "../../../../assets/utilities/datetime";
-const Batch = ({ openModal, setOpenModal, batchID }) => {
-  const [ batchData, setBatchData ] = useState({});
+const Batch = ({ openModal, setOpenModal, batch }) => {
+  const [ batchData, setBatchData ] = useState(batch);
   const handleClose = () => setOpenModal(false);
-
-  // FETCH BATCH DATA
-  const { batch, isBatchLoading, isBatchError } = useBatch(batchID);
-
-  useEffect(
-    () => {
-      if (isBatchError) alert('Cannot fetch Batch. Check internet connection!');
-
-      let batchDataFlatten = {};
-
-      if (!isBatchLoading) {
-        batchDataFlatten = {
-          laNumber: batch.laNumber,
-          batchName: batch.batchName,
-          course: batch.courses.courseName,
-          endDate: batch.endDate,
-          startDate: batch.startDate,
-          maxStudents: batch.maxStudents,
-          trainingYearSpan: batch.trainingYears.trainingYearSpan
-        }
-
-        setBatchData(batchDataFlatten);
-      }
-    }
-  , [batch, isBatchLoading, isBatchError ])
 
   const style = {
     position: 'absolute',
@@ -48,6 +23,9 @@ const Batch = ({ openModal, setOpenModal, batchID }) => {
     p: 4,
   };
 
+  console.log(batchData)
+
+
   return (
     <>
       <Modal
@@ -59,7 +37,7 @@ const Batch = ({ openModal, setOpenModal, batchID }) => {
         <Box sx={style}>
           <div className={styles["Batch__details"]}>
             <h1 className={styles["name"]}>{batchData.batchName}</h1>
-            <p><span className={styles["field"]}>Batch ID</span>: {batchID}</p>
+            <p><span className={styles["field"]}>Batch ID</span>: {batchData.batchID}</p>
             <p><span className={styles["field"]}>LA Number</span>: {batchData.laNumber}</p>
             <p><span className={styles["field"]}>Start Date</span>: {stringifyDate(batchData.startDate)}</p>
             <p><span className={styles["field"]}>End Date</span>: {stringifyDate(batchData.endDate)}</p>
