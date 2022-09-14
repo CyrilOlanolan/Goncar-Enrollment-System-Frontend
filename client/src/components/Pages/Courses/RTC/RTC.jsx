@@ -31,17 +31,32 @@ const RTC = () => {
         <SideBar />
         <div className={styles["RTC_Course"]}> 
             <BubblePage>
+            <div className={styles["RTC_BUBBLE"]}> 
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br> 
+            <br></br>
+            <br></br>
+            <br></br>
+        
                 <BreadcrumbsComponent routes={breadcrumbsRoutes} />
-                    <h1>REFRESHER TRAINING COURSE</h1><br></br>
+                    <h1>REFRESHER TRAINING COURSE</h1>
                     <h3>OFFERED COURSE</h3>
                     <br></br>
                     <br></br>
-                    <h5>The Refresher Training Course is the second part of the overall re-training 
+                    <h4>COURSE DESCRIPTION</h4>
+                    <div className={styles["Description"]}>
+                        <p>The Refresher Training Course is the second part of the overall re-training 
                         course that provides basic awareness of security related issues that can potentially 
                         affect responsibilities within the purview of their employment. It will improve 
                         observation, detection and reporting capabilities while enhancing coordination 
                         capability with other emergency response professionals.
-                        </h5>
+                        </p>
+                    </div>
+            </div>
             </BubblePage>
         </div>
         </>
