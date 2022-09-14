@@ -1,10 +1,26 @@
-@import '../../../../styles/variables.scss';
+@use "../../../../styles/variables.scss" as *;
 
 .RTC_Course{
     display: flex;
     flex-direction: column;
     height: 100%;
 
-    background-color: yellow;
+    
+};
 
-}
+.RTC_BUBBLE{
+
+    background-image: url();
+   //box-shadow: inset 0px -188px 60px -29px #FFFFFF;
+   text-align: justify;
+   font-style: bold;
+
+
+};
+
+.p{
+
+    text-align: justify;
+    font-style: italic;
+
+};
