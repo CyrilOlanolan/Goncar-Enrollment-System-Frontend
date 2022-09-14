@@ -64,7 +64,8 @@ const BatchCreation = () => {
       if (isLatestBatchesIDError) alert("Error fetching batches ID! Please check internet connection");
 
       if (!isLatestBatchesIDLoading) {
-        setBatchID(batchesLatestID?._max?.batchId + 1);
+        console.log("HEY: ", batchesLatestID?._max?.batchId)
+        setBatchID(batchesLatestID?._max?.batchId ? (batchesLatestID?._max?.batchId + 1) : "");
       }
     }
   , [batchesLatestID, isLatestBatchesIDLoading, isLatestBatchesIDError])

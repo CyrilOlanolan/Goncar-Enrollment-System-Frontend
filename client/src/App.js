@@ -19,7 +19,9 @@ import {
   TrainingYears,
   TrainingYearsCreation,
   TrainingYearsEdit,
-  BatchEdit
+  BatchEdit,
+  Course,
+  CourseCreation
 } from "./components/ComponentIndex";
 
 function App() {
@@ -46,6 +48,11 @@ function App() {
         <Route path="/batches" element={<Batches />} />
         <Route path="/batches/new" element={<BatchCreation />} />
         <Route path="/batch/edit" element={<BatchEdit />} />
+
+        {/* COURSES ROUTES */}
+        <Route path="/courses/view/:courseID" element={<Course />} />
+        <Route path="/courses/new" element={<CourseCreation />} />
+        <Route path="/course/edit" element={<Course />} />
 
         <Route path="/employees" element={<Employees />} />
         <Route path="/finance" element={<Finance />} />

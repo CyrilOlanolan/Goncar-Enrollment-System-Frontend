@@ -33,7 +33,6 @@ export { default as PLTC } from "./Pages/Courses/PLTC/PLTC.jsx"
 export { default as ISESTC} from "./Pages/Courses/ISESTC/ISESTC.jsx"
 export { default as BSSC} from "./Pages/Courses/BSSC/BSSC.jsx"
 
-
 /* TRAINEES */
 export  { default as TraineeProfile } from "./Pages/Trainees/TraineeProfile/TraineeProfile.jsx"
 export  { default as TraineeProfileCreation } from "./Pages/Trainees/TraineeProfile/TraineeProfileCreation/TraineeProfileCreation.jsx"
@@ -45,6 +44,8 @@ export  { default as TraineeProfileEdit } from "./Pages/Trainees/TraineeProfile/
 
 /* ADMINISTRATIVE */
 export { default as Courses } from './Pages/Administrative/Courses/Courses.jsx';
+export { default as Course } from './Pages/Administrative/Courses/Course/Course.jsx';
+export { default as CourseCreation } from './Pages/Administrative/Courses/CourseCreation/CourseCreation.jsx';
 export { default as TrainingYears } from './Pages/Administrative/TrainingYears/TrainingYears.jsx';
 export { default as TrainingYearsCreation } from './Pages/Administrative/TrainingYears/TrainingYearsCreation/TrainingYearsCreation.jsx';
 export { default as TrainingYearsEdit } from './Pages/Administrative/TrainingYears/TrainingYearsEdit/TrainingYearsEdit.jsx';

@@ -19,6 +19,8 @@ import styles from "./Courses.module.scss";
 import { useCourses } from "../../../../assets/utilities/swr";
 
 const Courses = () => {
+  const navigate = useNavigate();
+
   const breadcrumbsRoutes = [
     {
       label: "Dashboard",
@@ -49,18 +51,31 @@ const Courses = () => {
       >
         <ActionButton
           variant="view"
-          onClick={() => onClickView(params.data.registrationNumber)}
+          onClick={() => onClickView(params.data.courseID)}
         />
         <ActionButton
           variant="edit"
-          onClick={() => onClickEdit(params.data.registrationNumber)}
+          onClick={() => onClickEdit(params.data.courseID)}
         />
       </div>
     );
   }
 
-  function onClickView() {}
-  function onClickEdit() {}
+  function onClickView(courseID) {
+    navigate(`/courses/view/${courseID}`);
+  }
+
+  function onClickEdit(courseID) {
+    // navigate(`/course/edit`, {
+    //   state: {
+    //     courseID: courseID
+    //   }
+    // });
+  }
+
+  function handleNewCourse() {
+    navigate('/courses/new');
+  }
 
   // FETCH HERE
   const { courses, isCoursesLoading, isCoursesError } = useCourses();
@@ -69,9 +84,19 @@ const Courses = () => {
     if (isCoursesError)
       alert("Error fetching courses! Check internet connection!");
 
+    let coursesFlatten = []; 
+
     if (!isCoursesLoading) {
-      setRowData(courses);
       console.log(courses)
+      for (let course of courses) {
+        coursesFlatten.push({
+          courseID: course?.courseId,
+          courseName: course?.courseName,
+          units: course?.units,
+          trainingYearSpan: course?.trainingYears?.trainingYearSpan
+        })
+      }
+      setRowData(coursesFlatten);
     }
   }, [courses, isCoursesLoading, isCoursesError]);
 
@@ -145,7 +170,7 @@ const Courses = () => {
           ) : (
             <>
               <div className={styles["new-button"]}>
-                <NewButton label="NEW COURSE" />
+                <NewButton label="NEW COURSE" onClick={handleNewCourse}/>
               </div>
               <div
                 className={[styles["courses__table"], "ag-theme-alpine"].join(

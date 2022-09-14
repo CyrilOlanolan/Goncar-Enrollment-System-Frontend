@@ -142,3 +142,13 @@ export function useBatchesLatestID() {
         isBatchesLatestIDError: error
     }
 }
+
+export function useCourse(courseID) {
+    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/courses/${courseID}`, fetcher);
+
+    return {
+        course: data,
+        isCourseLoading: !error && !data,
+        isCourseError: error
+    }
+}
