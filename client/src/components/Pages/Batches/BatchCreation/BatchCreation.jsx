@@ -19,7 +19,7 @@ import {
   FormButton
 } from '../../../ComponentIndex';
 import styles from './BatchCreation.module.scss';
-import { useBatchesLatestID, useCourses, useTrainingYears } from '../../../../assets/utilities/swr';
+import { useBatchesLatestID, useCourses } from '../../../../assets/utilities/swr';
 import { postBatch } from '../../../../assets/utilities/axiosUtility';
 
 // VALIDATION FOR START DATE AND END DATE
@@ -36,15 +36,15 @@ const BatchCreation = () => {
   const [ instructor, setInstructor ] = useState('');
   const [ startDate, setStartDate ] = useState(today);
   const [ endDate, setEndDate ] = useState(todayPlus30Days);
-  const [ trainingYear, setTrainingYear ] = useState('');
+  // const [ trainingYear, setTrainingYear ] = useState('');
   const [ course, setCourse ] = useState('');
   
-  const [ availableTrainingYears, setAvailableTrainingYears ] = useState([]);
+  // const [ availableTrainingYears, setAvailableTrainingYears ] = useState([]);
   const [ availableCourses, setAvailableCourses ] = useState([]);
 
   // MAPS
   const [ courseNameID, setCourseNameID ] = useState({}); //KEY: COURSE NAME, VALUE=COURSE ID
-  const [ trainingYearNameID, setTrainingYearNameID ] = useState({}); //KEY: TRAINING YEAR NAME, VALUE=TRAINING YEAR ID
+  // const [ trainingYearNameID, setTrainingYearNameID ] = useState({}); //KEY: TRAINING YEAR NAME, VALUE=TRAINING YEAR ID
 
   const [instructorOptions, setInstructorOptions] = useState([]);
 
@@ -64,31 +64,31 @@ const BatchCreation = () => {
       if (isLatestBatchesIDError) alert("Error fetching batches ID! Please check internet connection");
 
       if (!isLatestBatchesIDLoading) {
-        setBatchID(batchesLatestID._max.batchId + 1);
+        setBatchID(batchesLatestID?._max?.batchId + 1);
       }
     }
   , [batchesLatestID, isLatestBatchesIDLoading, isLatestBatchesIDError])
 
   // FETCH TRAINING YEAR HERE
-  const { trainingYears, isTrainingYearsLoading, isTrainingYearsError } = useTrainingYears();
+  // const { trainingYears, isTrainingYearsLoading, isTrainingYearsError } = useTrainingYears();
 
-  useEffect(
-    () => {
-      if (isTrainingYearsError) alert("Error fetching training years! Please check internet connection.");
+  // useEffect(
+  //   () => {
+  //     if (isTrainingYearsError) alert("Error fetching training years! Please check internet connection.");
 
-      let flatten = [];
-      let trainingYearMap = {};
+  //     let flatten = [];
+  //     let trainingYearMap = {};
 
-      if (!isTrainingYearsLoading) {
-        for (let trainingYear of trainingYears) {
-          flatten.push(trainingYear.trainingYearSpan);
-          trainingYearMap[trainingYear.trainingYearSpan] = trainingYear.trainingYearId;
-        }
-        setAvailableTrainingYears(flatten);
-        setTrainingYearNameID(trainingYearMap);
-      }
-    }
-  , [trainingYears, isTrainingYearsLoading, isTrainingYearsError])
+  //     if (!isTrainingYearsLoading) {
+  //       for (let trainingYear of trainingYears) {
+  //         flatten.push(trainingYear.trainingYearSpan);
+  //         trainingYearMap[trainingYear.trainingYearSpan] = trainingYear.trainingYearId;
+  //       }
+  //       setAvailableTrainingYears(flatten);
+  //       setTrainingYearNameID(trainingYearMap);
+  //     }
+  //   }
+  // , [trainingYears, isTrainingYearsLoading, isTrainingYearsError])
 
   // FETCH AVAILABLE COURSES HERE
   const { courses, isCoursesLoading, isCoursesError } = useCourses();
@@ -121,7 +121,7 @@ const BatchCreation = () => {
       endDate: endDate,
       maxStudents: studentLimit,
       courseId: courseNameID[course],
-      trainingYearId: trainingYearNameID[trainingYear]
+      // trainingYearId: trainingYearNameID[trainingYear]
     }
 
     postBatch(data)
@@ -143,17 +143,9 @@ const BatchCreation = () => {
         <h1 className={styles["title"]}>Create Course Batch</h1>
         <form className={styles["BatchesCreation"]} onSubmit={handleSubmit}>
           <div className={styles["IDs"]}>
-            {/* CHANGE TRAINEE ID HERE */}
-            <InputField
-              label="Course ID"
-              value={1}
-              disabled={true}
-              variant={"traineeID"}
-              style={{marginLeft: "auto"}} />
-
             <InputField
               label="Batch ID"
-              value={batchID}
+              value={batchID ?? ""}
               disabled={true}
               variant={"traineeID"}
               style={{marginLeft: "auto"}} />
@@ -161,7 +153,7 @@ const BatchCreation = () => {
 
           <div className={styles["row-2"]}>
             <TextField
-              value={laNumber}
+              value={laNumber ?? ""}
               onChange={e => setLANumber(e.target.value)}
               label="LA Number"
               name="laNumber"
@@ -170,7 +162,7 @@ const BatchCreation = () => {
               fullWidth />
 
             <TextField
-              value={batchName}
+              value={batchName ?? ""}
               onChange={e => setBatchName(e.target.value)}
               label="Batch Name"
               name="batchName"
@@ -196,13 +188,13 @@ const BatchCreation = () => {
               </Select>
             </FormControl>
             
-            <FormControl fullWidth required>
+            {/* <FormControl fullWidth required>
               <InputLabel id="training-year-select-label">Training Year</InputLabel>
               <Select
                 labelId="training-year-select-label"
                 id="training-year-select"
                 name="training-year"
-                value={trainingYear}
+                value={trainingYear ?? ""}
                 label="Training Year"
                 onChange={e => setTrainingYear(e.target.value)}
               >
@@ -210,12 +202,12 @@ const BatchCreation = () => {
                   return <MenuItem key={index} value={option}>{option}</MenuItem>
                 })}
               </Select>
-            </FormControl>
+            </FormControl> */}
           </div>
 
           <div className={styles["row-4"]}>
             <TextField
-              value={studentLimit}
+              value={studentLimit ?? ""}
               onChange={e => setStudentLimit(e.target.value)}
               label="Student Limit"
               name="studentLimit"
@@ -229,7 +221,7 @@ const BatchCreation = () => {
                 labelId="instructor-select-label"
                 id="instructor-select"
                 name="instructor"
-                value={instructor}
+                value={instructor ?? ""}
                 label="Instructor"
                 onChange={e => setInstructor(e.target.value)}
               >
@@ -245,7 +237,7 @@ const BatchCreation = () => {
               <DatePicker
                 label="Start Date"
                 name="startDate" 
-                value={startDate}
+                value={startDate ?? ""}
                 onChange={value => setStartDate(value)}
                 renderInput={(params) => <TextField {...params} fullWidth required />}
               />
@@ -255,7 +247,7 @@ const BatchCreation = () => {
               <DatePicker
                 label="End Date"
                 name="endDate" 
-                value={endDate}
+                value={endDate ?? ""}
                 onChange={value => setEndDate(value)}
                 renderInput={(params) => <TextField {...params} fullWidth required />}
               />

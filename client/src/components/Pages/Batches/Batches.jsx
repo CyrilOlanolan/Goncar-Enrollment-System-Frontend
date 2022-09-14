@@ -58,7 +58,7 @@ const Batches = () => {
   ]
 
   function handleNewBatch() {
-    navigate('/batches/edit')
+    navigate('/batches/new');
   }
 
   return (

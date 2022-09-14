@@ -19,7 +19,7 @@ import {
   FormButton
 } from '../../../ComponentIndex';
 import styles from './BatchEdit.module.scss';
-import { useCourses, useTrainingYears, useBatch } from '../../../../assets/utilities/swr';
+import { useCourses, useBatch } from '../../../../assets/utilities/swr';
 import { putBatch } from '../../../../assets/utilities/axiosUtility';
 
 // VALIDATION FOR START DATE AND END DATE
@@ -42,13 +42,10 @@ const BatchEdit = () => {
   const [ endDate, setEndDate ] = useState(todayPlus30Days);
   const [ trainingYear, setTrainingYear ] = useState('');
   const [ course, setCourse ] = useState('');
-  
-  const [ availableTrainingYears, setAvailableTrainingYears ] = useState([]);
   const [ availableCourses, setAvailableCourses ] = useState([]);
 
   // MAPS
   const [ courseNameID, setCourseNameID ] = useState({}); //KEY: COURSE NAME, VALUE=COURSE ID
-  const [ trainingYearNameID, setTrainingYearNameID ] = useState({}); //KEY: TRAINING YEAR NAME, VALUE=TRAINING YEAR ID
 
   const [instructorOptions, setInstructorOptions] = useState([]);
 
@@ -79,27 +76,6 @@ const BatchEdit = () => {
       }
     }
   , [batch, isBatchLoading, isBatchError])
-
-  // FETCH TRAINING YEAR HERE
-  const { trainingYears, isTrainingYearsLoading, isTrainingYearsError } = useTrainingYears();
-
-  useEffect(
-    () => {
-      if (isTrainingYearsError) alert("Error fetching training years! Please check internet connection.");
-
-      let flatten = [];
-      let trainingYearMap = {};
-
-      if (!isTrainingYearsLoading) {
-        for (let trainingYear of trainingYears) {
-          flatten.push(trainingYear.trainingYearSpan);
-          trainingYearMap[trainingYear.trainingYearSpan] = trainingYear.trainingYearId;
-        }
-        setAvailableTrainingYears(flatten);
-        setTrainingYearNameID(trainingYearMap);
-      }
-    }
-  , [trainingYears, isTrainingYearsLoading, isTrainingYearsError])
 
   // FETCH AVAILABLE COURSES HERE
   const { courses, isCoursesLoading, isCoursesError } = useCourses();
@@ -132,7 +108,6 @@ const BatchEdit = () => {
       endDate: endDate,
       maxStudents: studentLimit,
       courseId: courseNameID[course],
-      trainingYearId: trainingYearNameID[trainingYear]
     }
 
     putBatch(batchID, data)
@@ -154,14 +129,6 @@ const BatchEdit = () => {
         <h1 className={styles["title"]}>Create Course Batch</h1>
         <form className={styles["BatchesCreation"]} onSubmit={handleSubmit}>
           <div className={styles["IDs"]}>
-            {/* CHANGE TRAINEE ID HERE */}
-            <InputField
-              label="Course ID"
-              value={1}
-              disabled={true}
-              variant={"traineeID"}
-              style={{marginLeft: "auto"}} />
-
             <InputField
               label="Batch ID"
               value={batchID}
@@ -202,22 +169,6 @@ const BatchEdit = () => {
                 onChange={e => setCourse(e.target.value)}
               >
                 {availableCourses.map((option, index) => {
-                  return <MenuItem key={index} value={option}>{option}</MenuItem>
-                })}
-              </Select>
-            </FormControl>
-            
-            <FormControl fullWidth required>
-              <InputLabel id="training-year-select-label">Training Year</InputLabel>
-              <Select
-                labelId="training-year-select-label"
-                id="training-year-select"
-                name="training-year"
-                value={trainingYear}
-                label="Training Year"
-                onChange={e => setTrainingYear(e.target.value)}
-              >
-                {availableTrainingYears.map((option, index) => {
                   return <MenuItem key={index} value={option}>{option}</MenuItem>
                 })}
               </Select>
