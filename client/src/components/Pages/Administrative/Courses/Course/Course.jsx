@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { useCourse } from '../../../../../assets/utilities/swr';
+import { useNavigate } from 'react-router-dom';
 import {
   SideBar,
   BubblePage,
   BreadcrumbsComponent,
-  Spinner
+  Spinner,
+  ActionButton
 } from '../../../../ComponentIndex';
 import styles from './Course.module.scss';
 
 const Course = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const courseID = params.courseID;
 
@@ -46,6 +49,14 @@ const Course = () => {
     },
   ];
 
+  function handleEdit(courseID) {
+    navigate('/administrative/course/edit', {
+      state: {
+        courseID: courseID
+      }
+    })
+  }
+
   return (
     <>
     <SideBar />
@@ -53,6 +64,13 @@ const Course = () => {
       <div className={styles["course"]}>
         <div className={styles["course__header-actions"]}>
             <BreadcrumbsComponent routes={breadcrumbsRoutes} />
+            {
+              isCourseLoading ? null : 
+              <div className={styles["action-buttons"]}>
+                <ActionButton variant="edit" onClick={() => handleEdit(courseID)}/>
+                {/* <ActionButton variant="delete" onClick={handleOpen} /> */}
+            </div>
+            }
         </div>
         { isCourseLoading ? <Spinner /> :
         <>

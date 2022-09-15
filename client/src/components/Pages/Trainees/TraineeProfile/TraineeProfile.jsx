@@ -161,22 +161,22 @@ const TraineeProfile = () => {
               
               <div className={styles["TraineeProfile__details"]}>
                 <div className={styles["col-1"]}>
-                  <p><span>Trainee ID:</span> {trainee.traineeId}</p>
-                  <p><span>Date of Birth:</span> {stringifyDate(trainee.birthDay)}</p>
-                  <p><span>Sex:</span> {trainee.sex}</p>
-                  <p><span>Address:</span> {trainee.address}</p>
-                  <p><span>E-mail:</span> {trainee.emailAdd}</p>
-                  <p><span>Phone Number:</span> {trainee.cpNum}</p>
-                  <p><span>Educational Attainment:</span> {trainee.educationalAttainment}</p>
-                  <p><span>Year Graduated:</span> {trainee.yearGrad}</p>
+                  <p><span>Trainee ID:</span> {trainee?.traineeId}</p>
+                  <p><span>Date of Birth:</span> {stringifyDate(trainee?.birthDay)}</p>
+                  <p><span>Sex:</span> {trainee?.sex}</p>
+                  <p><span>Address:</span> {trainee?.address}</p>
+                  <p><span>E-mail:</span> {trainee?.emailAdd}</p>
+                  <p><span>Phone Number:</span> {trainee?.cpNum}</p>
+                  <p><span>Educational Attainment:</span> {trainee?.educationalAttainment}</p>
+                  <p><span>Year Graduated:</span> {trainee?.yearGrad}</p>
                 </div>
 
                 <div className={styles["col-2"]}>
                   {/* CHECK IF PROP IS FALSY, IF IT IS: DONT RENDER */}
-                  {trainee.SSSNum ? <p><span>SSS No.:</span> {trainee.SSSNum}</p> : null}
-                  {trainee.TINNum ? <p><span>TIN No.:</span> {trainee.TINNum}</p> : null}
-                  {trainee.SGLicense ? <p><span>SG License No.</span> {trainee.SGLicense}</p> : null}
-                  {trainee.expiryDate ? <p><span>SG License Expiry:</span> {stringifyDate(trainee.expiryDate)}</p> : null}
+                  {trainee.SSSNum ? <p><span>SSS No.:</span> {trainee?.SSSNum}</p> : null}
+                  {trainee.TINNum ? <p><span>TIN No.:</span> {trainee?.TINNum}</p> : null}
+                  {trainee.SGLicense ? <p><span>SG License No.</span> {trainee?.SGLicense}</p> : null}
+                  {trainee.expiryDate ? <p><span>SG License Expiry:</span> {stringifyDate(trainee?.expiryDate)}</p> : null}
                 </div>
               </div>
 

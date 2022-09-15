@@ -45,6 +45,7 @@ export  { default as TraineeProfileEdit } from "./Pages/Trainees/TraineeProfile/
 /* ADMINISTRATIVE */
 export { default as Courses } from './Pages/Administrative/Courses/Courses.jsx';
 export { default as Course } from './Pages/Administrative/Courses/Course/Course.jsx';
+export { default as CourseEdit } from './Pages/Administrative/Courses/CourseEdit/CourseEdit.jsx';
 export { default as CourseCreation } from './Pages/Administrative/Courses/CourseCreation/CourseCreation.jsx';
 export { default as TrainingYears } from './Pages/Administrative/TrainingYears/TrainingYears.jsx';
 export { default as TrainingYearsCreation } from './Pages/Administrative/TrainingYears/TrainingYearsCreation/TrainingYearsCreation.jsx';

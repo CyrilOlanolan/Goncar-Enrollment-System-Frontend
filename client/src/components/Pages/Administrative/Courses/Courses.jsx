@@ -53,28 +53,24 @@ const Courses = () => {
           variant="view"
           onClick={() => onClickView(params.data.courseID)}
         />
-        <ActionButton
-          variant="edit"
-          onClick={() => onClickEdit(params.data.courseID)}
-        />
       </div>
     );
   }
 
   function onClickView(courseID) {
-    navigate(`/courses/view/${courseID}`);
+    navigate(`/administrative/course/view/${courseID}`);
   }
 
-  function onClickEdit(courseID) {
-    // navigate(`/course/edit`, {
-    //   state: {
-    //     courseID: courseID
-    //   }
-    // });
-  }
+  // function onClickEdit(courseID) {
+  //   // navigate(`/course/edit`, {
+  //   //   state: {
+  //   //     courseID: courseID
+  //   //   }
+  //   // });
+  // }
 
   function handleNewCourse() {
-    navigate('/courses/new');
+    navigate('/administrative/courses/new');
   }
 
   // FETCH HERE

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 /* MUI */
 import TextField from "@mui/material/TextField";
@@ -14,20 +14,21 @@ import {
   InputField,
   FormButton,
 } from "../../../../ComponentIndex";
-import styles from "./CourseCreation.module.scss";
+import styles from "./CourseEdit.module.scss";
 import {
-  useLatestCourseID,
+  useCourse,
   useTrainingYears,
 } from "../../../../../assets/utilities/swr";
 
-import { postCourse } from "../../../../../assets/utilities/axiosUtility";
+import { putCourse } from "../../../../../assets/utilities/axiosUtility";
 
 // VALIDATION FOR START DATE AND END DATE
-const CourseCreation = () => {
+const CourseEdit = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   /* STATE */
-  const [courseID, setCourseID] = useState("");
+  const [courseID] = useState(location.state.courseID);
   const [courseName, setCourseName] = useState("");
   const [courseDescription, setCourseDescription] = useState("");
   const [units, setUnits] = useState("");
@@ -38,19 +39,6 @@ const CourseCreation = () => {
 
   // MAPS
   const [trainingYearNameID, setTrainingYearNameID] = useState({}); //KEY: TRAINING YEAR NAME, VALUE=TRAINING YEAR ID
-
-  // FETCH LATEST BATCHES ID HERE
-  const { latestCourseID, isLatestCourseIDLoading, isLatestCourseIDError } = useLatestCourseID();
-
-  useEffect (
-    () => {
-      if (isLatestCourseIDError) alert("Error fetching batches ID! Please check internet connection");
-
-      if (!isLatestCourseIDLoading) {
-        setCourseID(latestCourseID ? (latestCourseID._max.courseId + 1) : -1);
-      }
-    }
-  , [ latestCourseID, isLatestCourseIDLoading, isLatestCourseIDError ])
 
   // FETCH TRAINING YEAR HERE
   const { trainingYears, isTrainingYearsLoading, isTrainingYearsError } =
@@ -74,6 +62,23 @@ const CourseCreation = () => {
     }
   }, [trainingYears, isTrainingYearsLoading, isTrainingYearsError]);
 
+  // FETCH COURSE DETAILS HERE
+  const { course, isCourseLoading, isCourseError } = useCourse(courseID);
+
+  useEffect(
+    () => {
+      if (isCourseError) alert("ERROR fetching course details. Check internet connection!");
+
+      if (!isCourseLoading) {
+        setCourseName(course?.courseName);
+        setTrainingYear(course?.trainingYears?.trainingYearSpan);
+        setCourseDescription(course?.courseDescription);
+        setUnits(course?.units);
+        setHoursRequired(course?.requiredHours);
+      }
+    }
+  , [ course, isCourseLoading, isCourseError ])
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -87,10 +92,10 @@ const CourseCreation = () => {
 
     console.log(data);
 
-    postCourse(data)
+    putCourse(courseID, data)
     .then(
       (status) => {
-        if (status === 201) {
+        if (status === 200) {
           navigate('/administrative/courses');
         }
         else alert(`BAD REQUEST: ${status}`);
@@ -102,8 +107,8 @@ const CourseCreation = () => {
     <>
       <SideBar />
       <BubblePage>
-        <h1 className={styles["title"]}>Create Course</h1>
-        <form className={styles["CourseCreation"]} onSubmit={handleSubmit}>
+        <h1 className={styles["title"]}>Edit Course</h1>
+        <form className={styles["CourseEdit"]} onSubmit={handleSubmit}>
           <div className={styles["IDs"]}>
             <InputField
               label="Course ID"
@@ -184,7 +189,7 @@ const CourseCreation = () => {
           </div>
 
           <div className={styles["form_buttons"]}>
-            <FormButton label="Submit" type="submit" />
+            <FormButton label="Update" type="submit" />
             {/* GO BACK TO PREVIOUS PAGE */}
             <FormButton
               label="Cancel"
@@ -199,4 +204,4 @@ const CourseCreation = () => {
   );
 };
 
-export default CourseCreation;
+export default CourseEdit;

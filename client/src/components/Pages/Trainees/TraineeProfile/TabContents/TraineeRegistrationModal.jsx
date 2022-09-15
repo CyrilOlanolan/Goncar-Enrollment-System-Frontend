@@ -37,9 +37,9 @@ const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID, t
         setRegistrationData({
           courseTaken: traineeRegistration[0]?.batch?.courses?.courseName,
           registrationNumber: traineeRegistration[0]?.registrationNumber,
-          batchID: traineeRegistration[0]?.batch.batchId,
-          batchName: traineeRegistration[0]?.batch.batchName,
-          trainingYear: traineeRegistration[0]?.batch.trainingYears.trainingYearSpan,
+          batchID: traineeRegistration[0]?.batch?.batchId,
+          batchName: traineeRegistration[0]?.batch?.batchName,
+          trainingYear: traineeRegistration[0]?.batch?.trainingYears?.trainingYearSpan,
           dateEnrolled: traineeRegistration[0]?.dateEnrolled,
           enrollmentStatus: traineeRegistration[0]?.registrationStatus
         })
