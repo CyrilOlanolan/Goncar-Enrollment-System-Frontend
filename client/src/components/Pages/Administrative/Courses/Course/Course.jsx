@@ -142,6 +142,8 @@ const Course = () => {
           <h1 className={styles["course-name"]}>{courseData.courseName}</h1>
           <p className={styles["offered-course"]}>OFFERED COURSE</p>
         </div>
+        <br></br>
+        <br></br>
           <div className={styles["course__content"]}>
             <div className={styles["description-block"]}>
               <h5 className={styles["course-description-title"]}>COURSE DESCRIPTION</h5>
@@ -149,6 +151,8 @@ const Course = () => {
                 {courseData.courseDescription}
               </p>
             </div>
+            <br></br>
+
 
             <div className={styles["course-details-block"]}>
               <h5 className={styles["course-description-title"]}>COURSE DETAILS</h5>

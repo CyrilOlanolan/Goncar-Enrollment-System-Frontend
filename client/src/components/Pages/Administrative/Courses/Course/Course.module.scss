@@ -71,3 +71,23 @@
         }
     }
 }
+
+.course__content{
+    display: flex;
+    flex-direction: row;
+}
+
+.course-description-title{
+    font-weight: 700;
+}
+
+.description-block{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+}
+
+.course-details-block{
+    flex-direction: row-reverse;
+}
