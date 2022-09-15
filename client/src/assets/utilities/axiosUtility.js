@@ -137,3 +137,13 @@ export function putCourse(id, data) {
         return error.response.status;
     })
 }
+
+export function deleteCourse(id) {
+    return axios.delete(`https://goncar-system-backend.herokuapp.com/api/courses/${id}`)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}
