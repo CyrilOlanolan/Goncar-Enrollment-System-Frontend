@@ -17,18 +17,18 @@ import {
 } from "../../../../ComponentIndex";
 import styles from "./CourseCreation.module.scss";
 import {
-  useBatchesLatestID,
-  useCourses,
+  useLatestCourseID,
   useTrainingYears,
 } from "../../../../../assets/utilities/swr";
+
+import { postCourse } from "../../../../../assets/utilities/axiosUtility";
 
 // VALIDATION FOR START DATE AND END DATE
 const CourseCreation = () => {
   const navigate = useNavigate();
-  const today = new Date();
-  const todayPlus30Days = dayjs().add(30, "day").toDate();
 
   /* STATE */
+  const [courseID, setCourseID] = useState("");
   const [courseName, setCourseName] = useState("");
   const [courseDescription, setCourseDescription] = useState("");
   const [units, setUnits] = useState("");
@@ -40,18 +40,18 @@ const CourseCreation = () => {
   // MAPS
   const [trainingYearNameID, setTrainingYearNameID] = useState({}); //KEY: TRAINING YEAR NAME, VALUE=TRAINING YEAR ID
 
-  // // FETCH LATEST BATCHES ID HERE
-  // const { batchesLatestID, isLatestBatchesIDLoading, isLatestBatchesIDError } = useBatchesLatestID();
+  // FETCH LATEST BATCHES ID HERE
+  const { latestCourseID, isLatestCourseIDLoading, isLatestCourseIDError } = useLatestCourseID();
 
-  // useEffect (
-  //   () => {
-  //     if (isLatestBatchesIDError) alert("Error fetching batches ID! Please check internet connection");
+  useEffect (
+    () => {
+      if (isLatestCourseIDError) alert("Error fetching batches ID! Please check internet connection");
 
-  //     if (!isLatestBatchesIDLoading) {
-  //       setBatchID(batchesLatestID?._max?.batchId + 1);
-  //     }
-  //   }
-  // , [batchesLatestID, isLatestBatchesIDLoading, isLatestBatchesIDError])
+      if (!isLatestCourseIDLoading) {
+        setCourseID(latestCourseID ? (latestCourseID._max.courseId + 1) : -1);
+      }
+    }
+  , [ latestCourseID, isLatestCourseIDLoading, isLatestCourseIDError ])
 
   // FETCH TRAINING YEAR HERE
   const { trainingYears, isTrainingYearsLoading, isTrainingYearsError } =
@@ -75,31 +75,28 @@ const CourseCreation = () => {
     }
   }, [trainingYears, isTrainingYearsLoading, isTrainingYearsError]);
 
-  // FETCH AVAILABLE COURSES HERE
-  const { courses, isCoursesLoading, isCoursesError } = useCourses();
-
   function handleSubmit(event) {
     event.preventDefault();
 
     let data = {
       courseName: courseName,
-      trainingYearID: trainingYearNameID[trainingYear],
       courseDescription: courseDescription,
-      units: units,
-      hoursRequired: hoursRequired
+      requiredHours: Number(hoursRequired),
+      units: Number(units),
+      trainingYearId: trainingYearNameID[trainingYear]
     };
 
     console.log(data);
 
-    // postBatch(data)
-    // .then(
-    //   (status) => {
-    //     if (status === 201) {
-    //       navigate('/batches');
-    //     }
-    //     else alert(`BAD REQUEST: ${status}`);
-    //   }
-    // )
+    postCourse(data)
+    .then(
+      (status) => {
+        if (status === 201) {
+          navigate('/administrative/courses');
+        }
+        else alert(`BAD REQUEST: ${status}`);
+      }
+    )
   }
 
   return (
@@ -111,7 +108,7 @@ const CourseCreation = () => {
           <div className={styles["IDs"]}>
             <InputField
               label="Course ID"
-              value={1}
+              value={courseID}
               disabled={true}
               variant={"traineeID"}
               style={{ marginLeft: "auto" }}

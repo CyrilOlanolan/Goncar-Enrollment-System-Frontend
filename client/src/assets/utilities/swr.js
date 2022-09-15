@@ -152,3 +152,13 @@ export function useCourse(courseID) {
         isCourseError: error
     }
 }
+
+export function useLatestCourseID() {
+    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/courses/all/max`, fetcher);
+
+    return {
+        latestCourseID: data,
+        isLatestCourseIDLoading: !error && !data,
+        isLatestCourseIDError: error
+    }
+}

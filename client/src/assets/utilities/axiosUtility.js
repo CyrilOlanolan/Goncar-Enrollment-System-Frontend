@@ -115,3 +115,14 @@ export function putBatch(id, data) {
         return error.response.status;
     })
 }
+
+export function postCourse(data) {
+    return axios.post(`https://goncar-system-backend.herokuapp.com/api/courses`,
+    data)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}
