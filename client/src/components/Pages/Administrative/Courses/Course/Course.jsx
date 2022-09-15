@@ -12,7 +12,7 @@ import Fade from '@mui/material/Fade';
 
 import {
   SideBar,
-  BubblePage,
+  BubblePageCourse,
   BreadcrumbsComponent,
   Spinner,
   ActionButton
@@ -97,6 +97,7 @@ const Course = () => {
   return (
     <>
     <SideBar />
+    
     <Modal
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
@@ -124,7 +125,8 @@ const Course = () => {
         </Box>
       </Fade>
     </Modal>
-    <BubblePage>
+    <BubblePageCourse>
+      <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
       <div className={styles["course"]}>
         <div className={styles["course__header-actions"]}>
             <BreadcrumbsComponent routes={breadcrumbsRoutes} />
@@ -154,7 +156,7 @@ const Course = () => {
             <br></br>
 
 
-            <div className={styles["course-details-block"]}>
+            <div className={styles["course-details-block2"]}>
               <h5 className={styles["course-description-title"]}>COURSE DETAILS</h5>
               <p><span className={styles["details-field"]}>Course ID:</span> {courseID}</p>
               <p><span className={styles["details-field"]}>Units:</span> {courseData.units}</p>
@@ -165,7 +167,7 @@ const Course = () => {
         }
       </div>
 
-    </BubblePage>
+    </BubblePageCourse>
     </>
   )
 }
