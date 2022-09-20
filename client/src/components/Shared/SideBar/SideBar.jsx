@@ -52,7 +52,7 @@ const SideBar = () => {
         "label": "Administrative",
         "shortLabel": "Admin",
         "icon": "roundAdminPanelSettings",
-        "route": "/employees"
+        "route": "/administrative"
     },
     {
         "label": "Settings",

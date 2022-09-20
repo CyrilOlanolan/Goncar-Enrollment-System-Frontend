@@ -25,7 +25,6 @@ const Trainees = () => {
     {
       label: "Dashboard",
       href: "/dashboard",
-      onClick: () => console.log("Hi")
     },
     {
       label: "Trainees",
@@ -165,17 +164,19 @@ const Trainees = () => {
             <BreadcrumbsComponent routes={breadcrumbsRoutes}/>
           </div>
           <h1 className={styles["Trainees__title"]}>Trainee Masterlist</h1>
-          <div className={styles["new-button"]}>
-            <NewButton label="NEW TRAINEE PROFILE" onClick={handleNewTraineeProfile}/>
-          </div>
           {
             isTraineesLoading ?
             <Spinner /> :
-            <div className={[styles["Trainees__table"], "ag-theme-alpine"].join(" ")}>
-              <AgGridReact
-                {...gridOptions}
-              />
-            </div>
+            <>
+              <div className={styles["new-button"]}>
+                <NewButton label="NEW TRAINEE PROFILE" onClick={handleNewTraineeProfile}/>
+              </div>
+              <div className={[styles["Trainees__table"], "ag-theme-alpine"].join(" ")}>
+                <AgGridReact
+                  {...gridOptions}
+                />
+              </div>
+            </>
           }
         </div>
       </BubblePage>
