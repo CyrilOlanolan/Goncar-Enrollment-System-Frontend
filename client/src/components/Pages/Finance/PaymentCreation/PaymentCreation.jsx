@@ -42,12 +42,12 @@ const PaymentCreation = () => {
         </div>
 
         <div className={styles["row-4"]}>
-          <InputTextField
+          {/* <InputTextField
             ref={totalBalanceRef}
             label="First Name"
             required={true}
             name="firstName"
-            fullWidth={true} />
+            fullWidth={true} /> */}
         </div>
       </form>
     </BubblePage>

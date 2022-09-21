@@ -4,13 +4,7 @@ import {
   SideBar,
   BubblePage,
   InputField,
-  InputTextField,
-  InputRadio,
-  InputDatePicker,
   FormButton,
-  InputTextArea,
-  InputNumberField,
-  InputSelect
 } from '../../../../ComponentIndex';
 import styles from './EmployeeProfileCreation.module.scss';
 import { SEX, MARITAL_STATUS, EMPLOYEE_ROLE, EMPLOYMENT_STATUS } from "../../../../../assets/utilities/constants";
@@ -94,7 +88,7 @@ const EmployeeProfileCreation = () => {
         </div>
 
         <div className={styles["row-1"]}>
-          <InputTextField
+          {/* <InputTextField
             ref={firstNameRef}
             label="First Name"
             required={true}
@@ -111,48 +105,48 @@ const EmployeeProfileCreation = () => {
             ref={lastNameRef}
             required={true}
             name="lastName"
-            fullWidth={true} />
+            fullWidth={true} /> */}
         </div>
 
         <div className={styles["row-2"]}>
             <div className={styles["sex"]}>
-              <InputRadio
+              {/* <InputRadio
                 label="Sex"
                 options={SEX_OPTIONS}
                 required={true}
                 name="sex"
-                onChange={getSex} />
+                onChange={getSex} /> */}
             </div>
 
             <div className={styles["bday"]}>
-              <InputDatePicker
+              {/* <InputDatePicker
               label="Date of Birth" 
               required={true}
               maxDate={today}
               ref={birthdayRef}
-              fullWidth={true} />
+              fullWidth={true} /> */}
             </div>
         </div>
 
         <div className={styles["row-3"]}>
-          <InputTextArea 
+          {/* <InputTextArea 
             label="Address" 
             rows={4}
             ref={addressRef}
-            name="address"
-          />
+            name="address" */}
+          {/* /> */}
 
           <div className={styles["marital-status-wrapper"]}>
-            <InputSelect 
+            {/* <InputSelect 
               label="Marital Status"
               options={MARITAL_STATUS_OPTIONS}
               ref={maritalStatusRef}
-            />
+            /> */}
           </div>
         </div>
 
         <div className={styles["row-4"]}>
-          <InputTextField
+          {/* <InputTextField
             label="Email"
             name="email"
             placeholder="johndoe@mail.com"
@@ -160,37 +154,37 @@ const EmployeeProfileCreation = () => {
             fullWidth={true}
             ref={emailRef}
             required={true}
-          />
+          /> */}
 
           <div className={styles["contact_wrapper"]}>
-            <InputNumberField
+            {/* <InputNumberField
               label="Contact"
               placeholder={"09561234567"}
               name="contact"
               ref={contactRef}
               fullWidth={true}
-              />
+              /> */}
           </div>
         </div>
 
         <div className={styles["row-5"]}>
           <div className={styles["employee-role-wrapper"]}>
-            <InputSelect 
+            {/* <InputSelect 
               label="Employee Role"
               options={EMPLOYEE_ROLE_OPTIONS}
               required={true}
               name="employeeRole"
               ref={employeeRoleRef}
-            />
+            /> */}
           </div>
 
           <div className={styles["employee-status-wrapper"]}>
-            <InputRadio
+            {/* <InputRadio
               label="Employment Status"
               options={EMPLOYMENT_STATUS_OPTIONS}
               required={true}
               name="employmentStatus"
-              onChange={getEmploymentStatus} />
+              onChange={getEmploymentStatus} /> */}
           </div>
         </div>
 
