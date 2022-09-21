@@ -1,4 +1,18 @@
-import React, { useRef } from 'react'
+import React, { useState } from 'react'
+import dayjs from 'dayjs';
+/* MUI */
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import {
   SideBar,
@@ -10,18 +24,26 @@ import styles from './EmployeeProfileCreation.module.scss';
 import { SEX, MARITAL_STATUS, EMPLOYEE_ROLE, EMPLOYMENT_STATUS } from "../../../../../assets/utilities/constants";
 
 const EmployeeProfileCreation = () => {
-  const today = new Date();
-  const firstNameRef = useRef();
-  const middleNameRef = useRef();
-  const lastNameRef = useRef();
-  const birthdayRef = useRef();
-  const addressRef = useRef();
-  const contactRef = useRef();
-  const emailRef = useRef();
-  const maritalStatusRef = useRef();
-  const employeeRoleRef = useRef();
-  var sex = "";
-  var employmentStatus = "";
+
+  var todayMinusEighteenYears = dayjs().subtract(18, 'year').toDate();
+  var todayMinus60Years = dayjs().subtract(60, 'year').toDate();
+
+  /* STATES */
+  const [ firstName, setFirstName ] = useState('');
+  const [ middleName, setMiddleName ] = useState('');
+  const [ lastName, setLastName ] = useState('');
+  const [ sex, setSex ] = useState('Male');
+  const [ birthdate, setBirthdate ] = useState(null);
+  const [ address, setAddress ] = useState("");
+  const [ contact, setContact ] = useState("");
+  const [ email, setEmail ] = useState("");
+  const [ maritalStatus, setMaritalStatus ] = useState("");
+  const [ employeeRole, setEmployeeRole ] = useState("");
+  const [ employmentStatus, setEmploymentStatus ] = useState("Active");
+
+  const [ birthdateErrorProps, setBirthdayErrorProps ] = useState({
+    error: false
+  })
 
   const SEX_OPTIONS  = [
     SEX.MALE,
@@ -46,28 +68,46 @@ const EmployeeProfileCreation = () => {
     EMPLOYMENT_STATUS.INACTIVE
   ]
 
-  function getSex(sexValue) {
-    sex = sexValue;
-  }
-
-  function getEmploymentStatus(employmentStatusValue) {
-    employmentStatus = employmentStatusValue;
-  }
-
   function submitForm(event) {
     event.preventDefault();
-    console.log("First Name: ", firstNameRef.current.value);
-    console.log("Middle Name: ", middleNameRef.current.value);
-    console.log("Last Name: ", lastNameRef.current.value);
-    console.log("Sex: ", sex);
-    console.log("Birthday: ", birthdayRef.current.value);
-    console.log("Address: ", addressRef.current.value);
-    console.log("Marital Status: ", maritalStatusRef.current.value);
-    console.log("Contact number: ", contactRef.current.value);
-    console.log("Email: ", emailRef.current.value);
-    console.log("Employee Role: ", employeeRoleRef.current.value);
-    console.log("Employment Status: ", employmentStatus);
-    // event.target.reset();
+
+    if (birthdate === null) {
+      setBirthdayErrorProps({
+        error: true,
+        helperText: 'Birthdate is required'
+      })
+    }
+
+    if (birthdate) {
+      let data = {
+          firstName: firstName,
+          lastName: lastName,
+          birthDay: birthdate,
+          sex: sex,
+          address: address,
+          maritalStatus: maritalStatus,
+          emailAdd: email,
+          cpNum: contact,
+          employeeRole: employeeRole,
+          employmentStatus: employmentStatus
+      }
+
+      if (middleName !== "") {
+        data[middleName] = middleName;
+      }
+
+      console.log(data);
+      
+      // postTrainee(data)
+      // .then(
+      //   (status) => {
+      //     if (status === 201) {
+      //       navigate(`/trainees`);
+      //     }
+      //     else alert(`BAD REQUEST: ${status}`);
+      //   }
+      // )
+    }
   }
 
   return (
@@ -88,103 +128,166 @@ const EmployeeProfileCreation = () => {
         </div>
 
         <div className={styles["row-1"]}>
-          {/* <InputTextField
-            ref={firstNameRef}
+          <TextField
+            value={firstName}
+            onChange={e => setFirstName(e.target.value)}
             label="First Name"
             required={true}
             name="firstName"
+            id="firstName-input"
             fullWidth={true} />
 
-          <InputTextField
-            ref={middleNameRef}
+          <TextField
+            value={middleName}
+            onChange={e => setMiddleName(e.target.value)}
             label="Middle Name"
             name="middleName"
+            id="middleName-input"
             fullWidth={true} />
 
-          <InputTextField label="Last Name"
-            ref={lastNameRef}
+          <TextField
+            value={lastName}
+            onChange={e => setLastName(e.target.value)}
+            label="Last Name"
             required={true}
             name="lastName"
-            fullWidth={true} /> */}
+            id="lastName-input"
+            fullWidth={true} />
         </div>
 
         <div className={styles["row-2"]}>
             <div className={styles["sex"]}>
-              {/* <InputRadio
-                label="Sex"
-                options={SEX_OPTIONS}
-                required={true}
-                name="sex"
-                onChange={getSex} /> */}
+              <FormControl required>
+                <FormLabel id="sex-radio-buttons-group">Sex</FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="sex-radio-buttons-group"
+                  name="sex-radio-buttons-group"
+                  value={sex}
+                  onChange={e => setSex(e.target.value)}
+                >
+                  {SEX_OPTIONS.map((option, index) => {
+                    return (
+                      <FormControlLabel key={index} value={option} control={<Radio />} label={option} />
+                    )
+                  })}
+                </RadioGroup>
+              </FormControl>
             </div>
 
             <div className={styles["bday"]}>
-              {/* <InputDatePicker
-              label="Date of Birth" 
-              required={true}
-              maxDate={today}
-              ref={birthdayRef}
-              fullWidth={true} /> */}
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  minDate={todayMinus60Years}
+                  maxDate={todayMinusEighteenYears}
+                  label="Birthdate" 
+                  name="birthdate" 
+                  value={birthdate}
+                  onChange={(newValue) => {
+                    setBirthdate(newValue);
+                  }}
+                  inputFormat="MM/dd/yyyy"
+                  openTo="year"
+                  renderInput={(params) => <TextField {...params} fullWidth required 
+                  {...birthdateErrorProps}/>}
+                />
+              </LocalizationProvider>
             </div>
         </div>
 
         <div className={styles["row-3"]}>
-          {/* <InputTextArea 
+          <TextField
+            id="address-multiline-static"
             label="Address" 
+            name="address"
+            multiline
             rows={4}
-            ref={addressRef}
-            name="address" */}
-          {/* /> */}
+            value={address}
+            onChange={e => setAddress(e.target.value)}
+            fullWidth
+            required />
 
           <div className={styles["marital-status-wrapper"]}>
-            {/* <InputSelect 
-              label="Marital Status"
-              options={MARITAL_STATUS_OPTIONS}
-              ref={maritalStatusRef}
-            /> */}
+            <FormControl fullWidth required>
+              <InputLabel id="maritalStatus-select-label">Marital Status</InputLabel>
+              <Select
+                labelId="maritalStatus-select-label"
+                id="maritalStatus-select"
+                name="maritalStatus"
+                value={maritalStatus ?? ''}
+                label="Marital Status"
+                onChange={e => setMaritalStatus(e.target.value)}
+              >
+                {MARITAL_STATUS_OPTIONS.map((option, index) => {
+                  return <MenuItem key={index} value={option}>{option}</MenuItem>
+                })}
+              </Select>
+            </FormControl>
           </div>
         </div>
 
         <div className={styles["row-4"]}>
-          {/* <InputTextField
+          <TextField
+            value={email}
+            onChange={e => setEmail(e.target.value)}
             label="Email"
             name="email"
             placeholder="johndoe@mail.com"
+            inputProps={{ inputMode: 'numeric', pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'}}
             type="email"
-            fullWidth={true}
-            ref={emailRef}
-            required={true}
-          /> */}
+            fullWidth
+            required
+          />
 
           <div className={styles["contact_wrapper"]}>
-            {/* <InputNumberField
+            <TextField
+              value={contact}
+              onChange={e => setContact(e.target.value)}
               label="Contact"
               placeholder={"09561234567"}
               name="contact"
-              ref={contactRef}
-              fullWidth={true}
-              /> */}
+              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*'}}
+              fullWidth 
+              required />
           </div>
         </div>
 
         <div className={styles["row-5"]}>
           <div className={styles["employee-role-wrapper"]}>
-            {/* <InputSelect 
-              label="Employee Role"
-              options={EMPLOYEE_ROLE_OPTIONS}
-              required={true}
-              name="employeeRole"
-              ref={employeeRoleRef}
-            /> */}
+            <FormControl fullWidth required>
+              <InputLabel id="employeeRole-select-label">Employee Role</InputLabel>
+              <Select
+                labelId="employeeRole-select-label"
+                id="employeeRole-select"
+                name="employeeRole"
+                value={employeeRole ?? ''}
+                label="Employee Role"
+                onChange={e => setEmployeeRole(e.target.value)}
+              >
+                {EMPLOYEE_ROLE_OPTIONS.map((option, index) => {
+                  return <MenuItem key={index} value={option}>{option}</MenuItem>
+                })}
+              </Select>
+            </FormControl>
           </div>
 
           <div className={styles["employee-status-wrapper"]}>
-            {/* <InputRadio
-              label="Employment Status"
-              options={EMPLOYMENT_STATUS_OPTIONS}
-              required={true}
-              name="employmentStatus"
-              onChange={getEmploymentStatus} /> */}
+            <FormControl required>
+              <FormLabel id="employmentStatus-radio-buttons-group">Employment Status</FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="employmentStatus-radio-buttons-group"
+                name="employmentStatus-radio-buttons-group"
+                value={employmentStatus}
+                onChange={e => setEmploymentStatus(e.target.value)}
+              >
+                {EMPLOYMENT_STATUS_OPTIONS.map((option, index) => {
+                  return (
+                    <FormControlLabel key={index} value={option} control={<Radio />} label={option} />
+                  )
+                })}
+              </RadioGroup>
+            </FormControl>
           </div>
         </div>
 

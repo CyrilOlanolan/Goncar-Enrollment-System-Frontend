@@ -5,7 +5,6 @@ import {
   BubblePage,
   SideBar,
   InputField,
-  InputTextField
 } from '../../../ComponentIndex';
 
 const PaymentCreation = () => {
@@ -42,12 +41,6 @@ const PaymentCreation = () => {
         </div>
 
         <div className={styles["row-4"]}>
-          {/* <InputTextField
-            ref={totalBalanceRef}
-            label="First Name"
-            required={true}
-            name="firstName"
-            fullWidth={true} /> */}
         </div>
       </form>
     </BubblePage>
