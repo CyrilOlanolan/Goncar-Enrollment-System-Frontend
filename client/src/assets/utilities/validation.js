@@ -1,54 +1,30 @@
-export function validatePhoneNum() {
-  var numberString = document.getElementById("setCOntact").ariaValueMax;
-  var phonePattern = / \d{11} /;
-
-  if (!phonePattern.test(numberString)) {
-    alert("Please input your number using the proper format.");
-  } else {
-    alert("");
-  }
-}
-
-export function validateBirthdate() {
-  var bdayString = document.getElementById("setBirthdate").ariaValueMax;
-  var bdayPattern =
-    / (?<MM>[0-3][0-9])\/(?<DD>[0-3]?[0-9])\/(?<YYYY>[0-2][0-9][0-9][0-9]) /;
-
-  if (!bdayPattern.test(bdayString)) {
-    alert("Please input your birthday using the proper format.");
-  } else {
-    alert("");
-  }
-}
-
-export function validateEmail() {
-  var emailString = document.getElementById("setEmail").ariaValueMax;
-  var emailPattern =
-    / ^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$ /;
-
-  if (!emailPattern.test(emailString)) {
-    alert("Please use a correct email address.");
-  } else {
-    alert("");
-  }
-}
-
-export function validateSex() {
-  var sexString = document.getElementById("setSex").ariaValueMax;
-  var sexPattern =
-    / ^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$ /;
-
-  if (!sexPattern.test(sexString)) {
-    alert("Female");
-  } else {
-    alert("Male");
-  }
-}
-
-// CORRECT SAMPLE FUNCTION
 export function validateContact(inputString) {
   let pattern = /(?:0|63)\d{10}/; /* ADD PATTERN HERE */
   let matcher = new RegExp(pattern, 'gm');
 
   return matcher.test(inputString);
+}
+
+export function validateBirthdate(inputString) {
+  
+  let pattern = / (?<MM>[0-3][0-9])\/(?<DD>[0-3]?[0-9])\/(?<YYYY>[0-2][0-9][0-9][0-9]) /;
+  let matcher = new RegExp(pattern, 'gm');
+
+  return matcher.test(inputString);
+}
+
+export function validateEmail(inputString) {
+  
+  let pattern = / ^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$ /;
+  let matcher = new RegExp(pattern, 'gm');
+
+  return matcher.test(inputString);
+}
+
+export function validateSex(inputString) {
+  
+  let pattern = /^male$|^female$ /;
+  let matcher = new RegExp(pattern, 'gm');
+
+  return matcher.test(inputString)
 }
