@@ -27,6 +27,8 @@ import { EDUCATIONAL_ATTAINMENT, SEX } from '../../../../../assets/utilities/con
 import { useLatestTraineeID } from '../../../../../assets/utilities/swr';
 import { postTrainee } from '../../../../../assets/utilities/axiosUtility';
 
+import { validateContact } from '../../../../../assets/utilities/validation';
+
 const TraineeProfileCreation = () => {
   const navigate = useNavigate();
 
@@ -60,6 +62,10 @@ const TraineeProfileCreation = () => {
   function submitForm(event) {
     event.preventDefault();
 
+    // VALIDATION
+    let isContactValid = validateContact(contact);
+    console.log("CONTACT VALID? ", isContactValid)
+
     if (birthdate === null) {
       setBirthdayErrorProps({
         error: true,
@@ -91,15 +97,15 @@ const TraineeProfileCreation = () => {
         data["middleName"] = middleName;
       }
 
-      postTrainee(data)
-      .then(
-        (status) => {
-          if (status === 201) {
-            navigate(`/trainees`);
-          }
-          else alert(`BAD REQUEST: ${status}`);
-        }
-      )
+      // postTrainee(data)
+      // .then(
+      //   (status) => {
+      //     if (status === 201) {
+      //       navigate(`/trainees`);
+      //     }
+      //     else alert(`BAD REQUEST: ${status}`);
+      //   }
+      // )
     }
   }
 

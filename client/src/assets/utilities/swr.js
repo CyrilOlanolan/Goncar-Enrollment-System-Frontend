@@ -162,3 +162,13 @@ export function useLatestCourseID() {
         isLatestCourseIDError: error
     }
 }
+
+export function useEmployees() {
+    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/employees`, fetcher);
+
+    return {
+        employees: data,
+        isEmployeesLoading: !error && !data,
+        isEmployeesError: error
+    }
+}

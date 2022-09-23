@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
 
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
@@ -17,6 +17,7 @@ import styles from './Employees.module.scss';
 import { useNavigate } from 'react-router-dom';
 
 import { postEmployee } from '../../../assets/utilities/axiosUtility';
+import { useEmployees } from '../../../assets/utilities/swr';
 
 const Employees = () => {
   const breadcrumbsRoutes = [
@@ -108,6 +109,19 @@ const Employees = () => {
     pagination: true,
     paginationAutoPageSize: true
   }
+
+  // FETCH HERE
+  // const { employees, isEmployeesLoading, isEmployeesError } = useEmployees();
+
+  // useEffect(
+  //   () => {
+  //     if (isEmployeesError) alert("Error fetching employees data. Check internet conenction!")
+
+  //     if (!isEmployeesLoading) {
+  //       console.log(employees)
+  //     }
+  //   }
+  // , [employees, isEmployeesLoading, isEmployeesError])
 
   function postEmployees() {
     console.log("hello")
