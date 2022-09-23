@@ -23,7 +23,7 @@ export function validateEmail(inputString) {
 
 export function validateSex(inputString) {
   
-  let pattern = /^male$|^female$ /;
+  let pattern = /^MALE$|^FEMALE$ /;
   let matcher = new RegExp(pattern, 'gm');
 
   return matcher.test(inputString)
