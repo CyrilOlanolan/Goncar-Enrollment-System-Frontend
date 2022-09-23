@@ -119,7 +119,7 @@ const TraineeProfileCreation = () => {
 
       // OPTIONAL DATA
       if (middleName !== "") {
-        data[middleName] = middleName;
+        data["middleName"] = middleName;
       }
 
       // GO BACK IF OK, ALERT IF NOT

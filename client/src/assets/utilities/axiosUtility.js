@@ -147,3 +147,13 @@ export function deleteCourse(id) {
         return error.response.status;
     })
 }
+
+export function postEmployee(data) {
+    return axios.post(`https://goncar-system-backend.herokuapp.com/api/employees`, data)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}

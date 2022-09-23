@@ -88,7 +88,7 @@ const TraineeProfileCreation = () => {
       }
 
       if (middleName !== "") {
-        data[middleName] = middleName;
+        data["middleName"] = middleName;
       }
 
       postTrainee(data)

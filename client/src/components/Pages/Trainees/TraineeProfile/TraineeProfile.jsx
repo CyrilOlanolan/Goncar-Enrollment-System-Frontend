@@ -64,7 +64,7 @@ const TraineeProfile = () => {
   if (!isTraineeLoading)  {
     breadcrumbsRoutes.push(
       {
-        label: `${trainee.lastName}, ${trainee.firstName} ${trainee?.middleName}`,
+        label: `${trainee.lastName}, ${trainee.firstName} ${trainee.middleName ? trainee.middleName : ""}`,
       }
     )
   }
@@ -157,7 +157,7 @@ const TraineeProfile = () => {
           {
             isTraineeLoading ? <Spinner /> :
             <>
-              <h1 className={styles["TraineeProfile__name"]}>{`${trainee.lastName}, ${trainee.firstName} ${trainee.middleName}`.toUpperCase()}</h1>
+              <h1 className={styles["TraineeProfile__name"]}>{`${trainee.lastName}, ${trainee.firstName} ${trainee.middleName ? trainee.middleName : ""}`.toUpperCase()}</h1>
               
               <div className={styles["TraineeProfile__details"]}>
                 <div className={styles["col-1"]}>

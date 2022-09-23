@@ -93,7 +93,7 @@ const EmployeeProfileCreation = () => {
       }
 
       if (middleName !== "") {
-        data[middleName] = middleName;
+        data["middleName"] = middleName;
       }
 
       console.log(data);

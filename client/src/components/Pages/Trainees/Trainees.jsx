@@ -117,7 +117,7 @@ const Trainees = () => {
             "traineeId": trainee.traineeId,
             "lastName": trainee.lastName, 
             "firstName": trainee.firstName,
-            "middleName": trainee.middleName,
+            "middleName": trainee?.middleName,
             "currentCourse": (() => {
               if (trainee.registrations[0] === undefined) {
                 return "N/A";
@@ -145,7 +145,7 @@ const Trainees = () => {
   }
 
   function getMiddleInitial(params) {
-    if (params.data.middleName[0]) {
+    if (params.data.middleName) {
       return " " + params.data?.middleName[0] + ".";
     }
     return "";
