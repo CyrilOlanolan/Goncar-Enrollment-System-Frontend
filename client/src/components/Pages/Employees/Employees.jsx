@@ -20,6 +20,7 @@ import { postEmployee } from '../../../assets/utilities/axiosUtility';
 import { useEmployees } from '../../../assets/utilities/swr';
 
 const Employees = () => {
+  const navigate = useNavigate()
   const breadcrumbsRoutes = [
     {
       label: "Dashboard",
@@ -35,7 +36,7 @@ const Employees = () => {
   }
 
   function getMiddleInitial(params) {
-    if (params.data.middleName[0]) {
+    if (params.data.middleName) {
       return " " + params.data?.middleName[0] + ".";
     }
     return "";
@@ -45,13 +46,13 @@ const Employees = () => {
   function RenderActionButtons(params) {
     return (
       <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-        <ActionButton label="View" variant={"view"} onClick={() => onClick(params.data.traineeId)} />
+        <ActionButton label="View" variant={"view"} onClick={() => onClick(params.data.employeeID)} />
       </div>
     )
   }
 
   function onClick(id) {
-    // navigate(`/trainees/${id}`);
+    navigate(`/employees/${id}`);
   }
 
   /* INITIALIZE rowData VARIABLE */
@@ -60,30 +61,30 @@ const Employees = () => {
   /* SET COLUMN DEFINITIONS */
   const [columnDefs] = useState([
     {
-      field: "traineeId",
+      field: "employeeID",
       headerName: "ID",
       lockPosition: "left",
       width: 75,
       sortable: true
     },
     {
-      field: "id",
+      field: "fullName",
       headerName: "Full Name",
       lockPosition: "left",
-      // cellRenderer: getFullName,
+      cellRenderer: (params) => getFullName(params),
       minWidth: 230,
       flex: 1,
       sortable: true
     },
     {
-      field: "currentCourse",
-      headerName: "Current Course",
+      field: "role",
+      headerName: "Role",
       lockPosition: "left",
       width: 150,
       sortable: true
     },
     {
-      field: "currentStatus",
+      field: "employeeStatus",
       headerName: "Status",
       lockPosition: "left",
       width: 100,
@@ -111,42 +112,33 @@ const Employees = () => {
   }
 
   // FETCH HERE
-  // const { employees, isEmployeesLoading, isEmployeesError } = useEmployees();
+  const { employees, isEmployeesLoading, isEmployeesError } = useEmployees();
 
-  // useEffect(
-  //   () => {
-  //     if (isEmployeesError) alert("Error fetching employees data. Check internet conenction!")
+  useEffect(
+    () => {
+      if (isEmployeesError) alert("Error fetching employees data. Check internet conenction!")
 
-  //     if (!isEmployeesLoading) {
-  //       console.log(employees)
-  //     }
-  //   }
-  // , [employees, isEmployeesLoading, isEmployeesError])
+      let flattenEmployee = [];
 
-  function postEmployees() {
-    console.log("hello")
-    let data = {
-      firstName: "Cyril",
-      middleName: "Malinao",
-      lastName: "Olanolan",
-      birthday: new Date(),
-      sex: "Male",
-      emailAdd: "olanolancyrilm@gmail.com",
-      cpNum: "09566925939",
-      employeeStatus: "Active",
-      dateHired: new Date(),
-      roleId: 1
-    }
-
-    postEmployee(data)
-    .then(
-      (status) => {
-        if (status === 201) {
-          console.log("hooray")
+      if (!isEmployeesLoading) {
+        for (let employee of employees) {
+          flattenEmployee.push({
+            employeeID: employee?.employeeId,
+            lastName: employee?.lastName,
+            middleName: employee?.middleName,
+            firstName: employee?.firstName,
+            employeeStatus: employee?.employeeStatus,
+            role: employee?.role?.roleName
+          })
         }
-        else alert(`BAD REQUEST: ${status}`);
+
+        setRowData(flattenEmployee);
       }
-    )
+    }
+  , [employees, isEmployeesLoading, isEmployeesError])
+
+  function handleNewEmployee() {
+    navigate('/employees/new');
   }
 
   return (
@@ -163,7 +155,7 @@ const Employees = () => {
             <Spinner /> :
             <>
               <div className={styles["new-button"]}>
-                <NewButton label="NEW EMPLOYEE" onClick={() => postEmployees()}/>
+                <NewButton label="NEW EMPLOYEE" onClick={() => handleNewEmployee()}/>
               </div>
               <div className={[styles["Employees__table"], "ag-theme-alpine"].join(" ")}>
                 <AgGridReact

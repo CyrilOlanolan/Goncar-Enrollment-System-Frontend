@@ -22,7 +22,9 @@ import {
   BatchEdit,
   Course,
   CourseCreation,
-  CourseEdit
+  CourseEdit,
+  EmployeeProfile,
+  EmployeeProfileCreation
 } from "./components/ComponentIndex";
 
 function App() {
@@ -50,7 +52,11 @@ function App() {
         <Route path="/batches/new" element={<BatchCreation />} />
         <Route path="/batch/edit" element={<BatchEdit />} />
 
-        <Route path="/employees" element={<Employees />} />
+        {/* EMPLOYEES ROUTES */}
+        <Route path="/employees" element={<Employees />} /> 
+        <Route path="/employees/:employeeID" element={<EmployeeProfile />} /> 
+        <Route path="/employees/new" element={<EmployeeProfileCreation />} /> 
+
         <Route path="/finance" element={<Finance />} />
 
         <Route path="/administrative" element={<Administrative />} />

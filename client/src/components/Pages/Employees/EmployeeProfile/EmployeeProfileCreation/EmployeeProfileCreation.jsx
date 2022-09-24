@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
+
 /* MUI */
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
@@ -23,12 +25,18 @@ import {
 import styles from './EmployeeProfileCreation.module.scss';
 import { SEX, MARITAL_STATUS, EMPLOYEE_ROLE, EMPLOYMENT_STATUS } from "../../../../../assets/utilities/constants";
 
+import { useLatestEmployeeID } from '../../../../../assets/utilities/swr';
+import { postEmployee } from '../../../../../assets/utilities/axiosUtility';
+import { useRoles } from '../../../../../assets/utilities/swr';
+
 const EmployeeProfileCreation = () => {
+  const navigate = useNavigate();
 
   var todayMinusEighteenYears = dayjs().subtract(18, 'year').toDate();
   var todayMinus60Years = dayjs().subtract(60, 'year').toDate();
 
   /* STATES */
+  const [ employeeID, setEmployeeID ] = useState('...')
   const [ firstName, setFirstName ] = useState('');
   const [ middleName, setMiddleName ] = useState('');
   const [ lastName, setLastName ] = useState('');
@@ -40,8 +48,14 @@ const EmployeeProfileCreation = () => {
   const [ maritalStatus, setMaritalStatus ] = useState("");
   const [ employeeRole, setEmployeeRole ] = useState("");
   const [ employmentStatus, setEmploymentStatus ] = useState("Active");
+  const [ dateHired, setDateHired ] = useState(new Date());
+  const [ roleOptions, setRoleOptions ] = useState([]);
+  const [ roleMapID, setRoleMapID ] = useState({});
 
   const [ birthdateErrorProps, setBirthdayErrorProps ] = useState({
+    error: false
+  })
+  const [ dateHiredErrorProps, setDateHiredErrorProps ] = useState({
     error: false
   })
 
@@ -57,16 +71,45 @@ const EmployeeProfileCreation = () => {
     MARITAL_STATUS.ANULLED
   ]
 
-  const EMPLOYEE_ROLE_OPTIONS = [
-    EMPLOYEE_ROLE.TEACHER,
-    EMPLOYEE_ROLE.CASHIER,
-    EMPLOYEE_ROLE.REGISTRAR
-  ]
-
   const EMPLOYMENT_STATUS_OPTIONS = [
     EMPLOYMENT_STATUS.ACTIVE,
     EMPLOYMENT_STATUS.INACTIVE
   ]
+
+  // FETCH MAX ID
+  const { latestEmployeeID, isLatestEmployeeIDLoading, isLatestEmployeeIDError } = useLatestEmployeeID();
+
+  useEffect(
+    () => {
+      if (isLatestEmployeeIDError) alert("Error fetching latest employee id! Please refresh or check your internet connection.");
+      
+      if (!isLatestEmployeeIDLoading) {
+        setEmployeeID(latestEmployeeID._max.employeeId + 1)
+      }
+    }
+  , [ latestEmployeeID, isLatestEmployeeIDLoading, isLatestEmployeeIDError ])
+
+  // FETCH ROLES
+  const { roles, isRolesLoading, isRolesError } = useRoles();
+
+  useEffect(
+    () => {
+      if (isRolesError) alert("Error fetching roles! Please refresh or check your internet connection.");
+      
+      let roleMapID = {} //key: roleName, value: roleId
+      let roleNames = [];
+
+      if (!isRolesLoading) {
+        for (let role of roles) {
+          roleMapID[role.roleName] = role.roleId;
+          roleNames.push(role.roleName);
+        }
+      }
+      
+      setRoleMapID(roleMapID);
+      setRoleOptions(roleNames);
+    }
+  , [ roles, isRolesLoading, isRolesError ])
 
   function submitForm(event) {
     event.preventDefault();
@@ -78,7 +121,14 @@ const EmployeeProfileCreation = () => {
       })
     }
 
-    if (birthdate) {
+    if (dateHired === null) {
+      setDateHiredErrorProps({
+        error: true,
+        helperText: 'Birthdate is required'
+      })
+    }
+
+    if (birthdate && dateHired) {
       let data = {
           firstName: firstName,
           lastName: lastName,
@@ -88,25 +138,26 @@ const EmployeeProfileCreation = () => {
           maritalStatus: maritalStatus,
           emailAdd: email,
           cpNum: contact,
-          employeeRole: employeeRole,
-          employmentStatus: employmentStatus
+          employeeStatus: employmentStatus,
+          dateHired: dateHired,
+          roleId: roleMapID[employeeRole]
       }
 
       if (middleName !== "") {
         data["middleName"] = middleName;
       }
 
-      console.log(data);
+      // console.log(data);
       
-      // postTrainee(data)
-      // .then(
-      //   (status) => {
-      //     if (status === 201) {
-      //       navigate(`/trainees`);
-      //     }
-      //     else alert(`BAD REQUEST: ${status}`);
-      //   }
-      // )
+      postEmployee(data)
+      .then(
+        (status) => {
+          if (status === 201) {
+            navigate(`/employees`);
+          }
+          else alert(`BAD REQUEST: ${status}`);
+        }
+      )
     }
   }
 
@@ -121,7 +172,7 @@ const EmployeeProfileCreation = () => {
           {/* EDIT EMPLOYEE ID HERE */}
           <InputField
             label="Employee ID"
-            value={1}
+            value={employeeID}
             disabled={true}
             variant={"traineeID"}
             style={{marginLeft: "auto"}} />
@@ -264,11 +315,28 @@ const EmployeeProfileCreation = () => {
                 label="Employee Role"
                 onChange={e => setEmployeeRole(e.target.value)}
               >
-                {EMPLOYEE_ROLE_OPTIONS.map((option, index) => {
+                {roleOptions.map((option, index) => {
                   return <MenuItem key={index} value={option}>{option}</MenuItem>
                 })}
               </Select>
             </FormControl>
+          </div>
+
+          <div className={styles["date-hired-wrapper"]}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                label="Date Hired" 
+                name="dateHired" 
+                value={dateHired}
+                onChange={(newValue) => {
+                  setDateHired(newValue);
+                }}
+                inputFormat="MM/dd/yyyy"
+                openTo="year"
+                renderInput={(params) => <TextField {...params} fullWidth required 
+                {...dateHiredErrorProps}/>}
+              />
+            </LocalizationProvider>
           </div>
 
           <div className={styles["employee-status-wrapper"]}>

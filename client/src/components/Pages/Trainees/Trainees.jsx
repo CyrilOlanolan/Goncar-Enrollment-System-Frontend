@@ -141,7 +141,7 @@ const Trainees = () => {
   , [trainees, isTraineesError, isTraineesLoading])
 
   function getFullName(params) {
-    return `${params.data.lastName}, ${params.data.firstName}${getMiddleInitial(params)}`
+    return `${params.data.lastName}, ${params.data.firstName} ${getMiddleInitial(params)}`
   }
 
   function getMiddleInitial(params) {

@@ -1,0 +1,73 @@
+@use '../../../../styles/variables.scss' as *;
+
+.EmployeeProfile {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &__header-controls {
+        margin-bottom: 1.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        column-gap: 1rem;
+
+        /* SUPPORT FOR iOS 14 below */
+        @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+            /* FOR FLEXBOX GAP SUPPORT */
+            & > *:not(:last-child) {
+                margin-right: 1rem;
+            }
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: row;
+            column-gap: 1rem;
+
+            /* SUPPORT FOR iOS 14 below */
+            @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+                /* FOR FLEXBOX GAP SUPPORT */
+                & > *:not(:last-child) {
+                    margin-right: 1rem;
+                }
+            }
+        }
+    }
+
+    &__content {
+        .information {
+            display: flex;
+            width: 100%;
+            max-width: 48.75rem;
+            column-gap: 3rem;
+            margin-top: 3rem;
+
+            /* SUPPORT FOR iOS 14 below */
+            @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+                /* FOR FLEXBOX GAP SUPPORT */
+                & > *:not(:last-child) {
+                    margin-right: 3rem;
+                }
+            }
+
+            .personal-info, .employee-info {
+                h3 {
+                    font-size: 1.25rem;
+                    margin-bottom: 1rem;
+                    font-weight: 700;
+                }
+    
+                p {
+                    span {
+                        font-weight: 700;
+                        color: $color--secondary;
+                    }
+
+                    margin-bottom: 0.5rem;
+                }
+            }
+        }
+    }
+}

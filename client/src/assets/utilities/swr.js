@@ -1,10 +1,13 @@
 import useSWR from "swr";
 
+// let deployedURI = 'localhost:5000'
+let deployedURI = 'https://goncar-system-backend.herokuapp.com';
+
 /* WRAPPER FUNCTION FOR FETCH API */
 const fetcher = (...args) => fetch(...args).then(res => res.json());
 
 export function useTrainees() {
-    const { data, error } = useSWR("https://goncar-system-backend.herokuapp.com/api/trainees", fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/trainees`, fetcher);
 
     return {
         trainees: data,
@@ -14,7 +17,7 @@ export function useTrainees() {
 }
 
 export function useBatches() {
-    const { data, error } = useSWR("https://goncar-system-backend.herokuapp.com/api/batches", fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/batches`, fetcher);
 
     return {
         batches: data,
@@ -24,7 +27,7 @@ export function useBatches() {
 }
 
 export function useTrainee(id) {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/trainees/${id}`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/trainees/${id}`, fetcher);
 
     return {
         trainee: data,
@@ -34,7 +37,7 @@ export function useTrainee(id) {
 }
 
 export function useTraineeRegistrations(id) {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/trainees/${id}/registrations`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/trainees/${id}/registrations`, fetcher);
 
     return {
         traineeRegistrations: data,
@@ -44,7 +47,7 @@ export function useTraineeRegistrations(id) {
 }
 
 export function useTraineeRegistration(id, regid) {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/trainees/${id}/registrations/${regid}`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/trainees/${id}/registrations/${regid}`, fetcher);
 
     return {
         traineeRegistration: data,
@@ -54,7 +57,7 @@ export function useTraineeRegistration(id, regid) {
 }
 
 export function useCourses() {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/courses`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/courses`, fetcher);
 
     return {
         courses: data,
@@ -64,7 +67,7 @@ export function useCourses() {
 }
 
 export function useGroupedBatches() {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/courses/batches/grouped`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/courses/batches/grouped`, fetcher);
 
     return {
         groupedBatches: data,
@@ -74,7 +77,7 @@ export function useGroupedBatches() {
 }
 
 export function useTotalRegistrations() {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/trainees/registrations/total`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/trainees/registrations/total`, fetcher);
 
     return {
         totalRegistrations: data,
@@ -84,7 +87,7 @@ export function useTotalRegistrations() {
 }
 
 export function useLatestRegistrationID() {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/trainees/registrations/max`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/trainees/registrations/max`, fetcher);
 
     return {
         latestRegistrationID: data,
@@ -94,7 +97,7 @@ export function useLatestRegistrationID() {
 }
 
 export function useLatestTraineeID() {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/trainees/all/max`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/trainees/all/max`, fetcher);
 
     return {
         latestTraineeID: data,
@@ -104,7 +107,7 @@ export function useLatestTraineeID() {
 }
 
 export function useBatch(id) {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/batches/${id}`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/batches/${id}`, fetcher);
 
     return {
         batch: data,
@@ -114,7 +117,7 @@ export function useBatch(id) {
 }
 
 export function useTrainingYears() {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/trainingYears`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/trainingYears`, fetcher);
 
     return {
         trainingYears: data,
@@ -124,7 +127,7 @@ export function useTrainingYears() {
 }
 
 export function useTrainingYear(id) {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/trainingYears/${id}`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/trainingYears/${id}`, fetcher);
 
     return {
         trainingYear: data,
@@ -134,7 +137,7 @@ export function useTrainingYear(id) {
 }
 
 export function useBatchesLatestID() {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/batches/all/max`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/batches/all/max`, fetcher);
 
     return {
         batchesLatestID: data,
@@ -144,7 +147,7 @@ export function useBatchesLatestID() {
 }
 
 export function useCourse(courseID) {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/courses/${courseID}`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/courses/${courseID}`, fetcher);
 
     return {
         course: data,
@@ -154,7 +157,7 @@ export function useCourse(courseID) {
 }
 
 export function useLatestCourseID() {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/courses/all/max`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/courses/all/max`, fetcher);
 
     return {
         latestCourseID: data,
@@ -164,11 +167,41 @@ export function useLatestCourseID() {
 }
 
 export function useEmployees() {
-    const { data, error } = useSWR(`https://goncar-system-backend.herokuapp.com/api/employees`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/employees`, fetcher);
 
     return {
         employees: data,
         isEmployeesLoading: !error && !data,
         isEmployeesError: error
+    }
+}
+
+export function useEmployee(id) {
+    const { data, error } = useSWR(`${deployedURI}/api/employees/${id}`, fetcher);
+
+    return {
+        employee: data,
+        isEmployeeLoading: !error && !data,
+        isEmployeeError: error
+    }
+}
+
+export function useLatestEmployeeID() {
+    const { data, error } = useSWR(`${deployedURI}/api/employees/all/max`, fetcher);
+
+    return {
+        latestEmployeeID: data,
+        isLatestEmployeeIDLoading: !error && !data,
+        isLatestEmployeeIDError: error
+    }
+}
+
+export function useRoles() {
+    const { data, error } = useSWR(`${deployedURI}/api/roles`, fetcher);
+
+    return {
+        roles: data,
+        isRolesLoading: !error && !data,
+        isRolesError: error
     }
 }
