@@ -205,3 +205,13 @@ export function useRoles() {
         isRolesError: error
     }
 }
+
+export function useTeachers() {
+    const { data, error } = useSWR(`${deployedURI}/api/employees/all/teacher`, fetcher);
+
+    return {
+        teachers: data,
+        isTeachersLoading: !error && !data,
+        isTeachersError: error
+    }
+}

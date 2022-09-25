@@ -41,9 +41,10 @@ const Batch = ({ openModal, setOpenModal, batch }) => {
             <p><span className={styles["field"]}>LA Number</span>: {batchData.laNumber}</p>
             <p><span className={styles["field"]}>Start Date</span>: {stringifyDate(batchData.startDate)}</p>
             <p><span className={styles["field"]}>End Date</span>: {stringifyDate(batchData.endDate)}</p>
-            <p><span className={styles["field"]}>Teacher</span>: {batchData.employeeId}</p>
+            <p><span className={styles["field"]}>Teacher</span>: {batchData.batchTeacher}</p>
+            <p><span className={styles["field"]}>Current Population</span>: {batchData.batchPopulation}</p>
             <p><span className={styles["field"]}>Max Population</span>: {batchData.maxStudents}</p>
-            <p><span className={styles["field"]}>Training Year</span>: {batchData.trainingYearSpan}</p>
+            {/* <p><span className={styles["field"]}>Training Year</span>: {batchData.trainingYearSpan}</p> */}
           </div>
         </Box>
       </Modal>

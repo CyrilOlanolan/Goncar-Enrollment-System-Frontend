@@ -31,6 +31,7 @@ const Batches = () => {
 
       if (!isBatchesLoading) {
         for (let batch of batches) {
+          let teacher =  `${batch?.employee?.lastName}, ${batch?.employee?.firstName}${batch?.employee.middleName ? ' ' + batch?.employee?.middleName : ""}`
           batchesFlatten.push({
             batchID: batch.batchId,
             laNumber: batch.laNumber,
@@ -39,7 +40,9 @@ const Batches = () => {
             endDate: batch.endDate,
             startDate: batch.startDate,
             maxStudents: batch.maxStudents,
-            trainingYearSpan: batch?.trainingYears?.trainingYearSpan ?? "[NOT SET]"
+            trainingYearSpan: batch?.trainingYears?.trainingYearSpan ?? "[NOT SET]",
+            batchPopulation: batch?._count?.registrations,
+            batchTeacher: teacher
           })
         }
         setCardsData(batchesFlatten);

@@ -136,7 +136,7 @@ const EmployeeProfile = () => {
           {
             !isEmployeeLoading ? 
             <div className={styles["EmployeeProfile__content"]}>
-              <h1 className={styles["name"]}>{`${employeeData.lastName}, ${employeeData.firstName} ${employeeData.middleName ? employeeData.middleName : ""}`.toUpperCase()}</h1>
+              <h1 className={styles["name"]}>{`${employeeData.lastName}, ${employeeData.firstName}${employeeData.middleName ? ' ' + employeeData.middleName : ""}`.toUpperCase()}</h1>
               <h2 className={styles["position"]}>{employeeData?.role?.roleName}</h2>
 
               <div className={styles["information"]}>
@@ -147,7 +147,7 @@ const EmployeeProfile = () => {
                   {employeeData.address ? <p><span>Address:</span> {employeeData?.address}</p> : null}
                   {employeeData.sex ? <p><span>Sex:</span> {employeeData?.sex}</p> : null}
                   {employeeData.birthDay ? <p><span>Date of Birth:</span> {stringifyDate(employeeData?.birthDay)}</p> : null}
-                  <p><span>Marital Status:</span></p>
+                  {employeeData.maritalStatus ? <p><span>Marital Status:</span> {employeeData?.maritalStatus}</p> : null}
                 </div>
 
                 <div className={styles["employee-info"]}>

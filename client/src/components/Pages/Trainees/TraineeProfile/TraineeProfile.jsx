@@ -64,7 +64,7 @@ const TraineeProfile = () => {
   if (!isTraineeLoading)  {
     breadcrumbsRoutes.push(
       {
-        label: `${trainee.lastName}, ${trainee.firstName} ${trainee.middleName ? trainee.middleName : ""}`,
+        label: `${trainee.lastName}, ${trainee.firstName}${trainee.middleName ? ' ' + trainee.middleName : ""}`,
       }
     )
   }

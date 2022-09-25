@@ -19,7 +19,7 @@ import {
   FormButton
 } from '../../../ComponentIndex';
 import styles from './BatchCreation.module.scss';
-import { useBatchesLatestID, useCourses } from '../../../../assets/utilities/swr';
+import { useBatchesLatestID, useCourses, useTeachers } from '../../../../assets/utilities/swr';
 import { postBatch } from '../../../../assets/utilities/axiosUtility';
 
 // VALIDATION FOR START DATE AND END DATE
@@ -46,7 +46,8 @@ const BatchCreation = () => {
   const [ courseNameID, setCourseNameID ] = useState({}); //KEY: COURSE NAME, VALUE=COURSE ID
   // const [ trainingYearNameID, setTrainingYearNameID ] = useState({}); //KEY: TRAINING YEAR NAME, VALUE=TRAINING YEAR ID
 
-  const [instructorOptions, setInstructorOptions] = useState([]);
+  const [ instructorOptions, setInstructorOptions ] = useState([]);
+  const [ instructorMapID, setInstructorMapID ] = useState({});
 
   useEffect(
     // FETCH HERE, DELETE THIS AFTER
@@ -112,6 +113,26 @@ const BatchCreation = () => {
     }
   , [courses, isCoursesLoading, isCoursesError])
 
+  // FETCH AVAILABLE INSTRUCTORS HERE
+  const { teachers, isTeachersLoading, isTeachersError } = useTeachers();
+
+  useEffect(
+    () => {
+      if (isTeachersError) alert("Error fetching teachers! Please check your internet.")
+      let teachersOptions = [];
+      let teachersMapID = {}; // value: employeeId, key: fullname
+      if (!isTeachersLoading) {
+        for (let teacher of teachers) {
+          teachersMapID[`${teacher?.lastName}, ${teacher?.firstName}${teacher.middleName ? ' ' + teacher?.middleName[0] + ".": ""}`] = teacher.employeeId 
+          teachersOptions.push(`${teacher?.lastName}, ${teacher?.firstName}${teacher.middleName ? ' ' + teacher?.middleName[0] + ".": ""}`)
+        }
+      }
+      console.log(teachersMapID)
+      setInstructorOptions(teachersOptions);
+      setInstructorMapID(teachersMapID);
+    }
+  , [teachers, isTeachersLoading, isTeachersError])
+
   function handleSubmit(event) {
     event.preventDefault();
     
@@ -122,8 +143,11 @@ const BatchCreation = () => {
       endDate: endDate,
       maxStudents: studentLimit,
       courseId: courseNameID[course],
+      employeeId: instructorMapID[instructor]
       // trainingYearId: trainingYearNameID[trainingYear]
     }
+
+    // console.log(data)
 
     postBatch(data)
     .then(
@@ -217,13 +241,13 @@ const BatchCreation = () => {
               required />
 
             <FormControl fullWidth required>
-              <InputLabel id="instructor-select-label">Instructor</InputLabel>
+              <InputLabel id="teacher-select-label">Teacher</InputLabel>
               <Select
-                labelId="instructor-select-label"
-                id="instructor-select"
-                name="instructor"
+                labelId="teacher-select-label"
+                id="teacher-select"
+                name="teacher"
                 value={instructor ?? ""}
-                label="Instructor"
+                label="teacher"
                 onChange={e => setInstructor(e.target.value)}
               >
                 {instructorOptions.map((option, index) => {

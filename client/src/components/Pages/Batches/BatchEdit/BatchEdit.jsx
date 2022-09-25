@@ -72,7 +72,7 @@ const BatchEdit = () => {
         setStartDate(batch.startDate);
         setStudentLimit(batch.maxStudents);
         setTrainingYear(batch?.trainingYears?.trainingYearSpan ?? "");
-        // TODO SET TEACHER
+        // TODO SET TEACHER        
       }
     }
   , [batch, isBatchLoading, isBatchError])
