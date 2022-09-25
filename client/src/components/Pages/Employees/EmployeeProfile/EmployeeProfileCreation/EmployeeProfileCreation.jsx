@@ -23,7 +23,7 @@ import {
   FormButton,
 } from '../../../../ComponentIndex';
 import styles from './EmployeeProfileCreation.module.scss';
-import { SEX, MARITAL_STATUS, EMPLOYEE_ROLE, EMPLOYMENT_STATUS } from "../../../../../assets/utilities/constants";
+import { SEX, MARITAL_STATUS, EMPLOYMENT_STATUS } from "../../../../../assets/utilities/constants";
 
 import { useLatestEmployeeID } from '../../../../../assets/utilities/swr';
 import { postEmployee } from '../../../../../assets/utilities/axiosUtility';

@@ -100,15 +100,15 @@ const TraineeProfileCreation = () => {
         data["middleName"] = null;
       }
 
-      // postTrainee(data)
-      // .then(
-      //   (status) => {
-      //     if (status === 201) {
-      //       navigate(`/trainees`);
-      //     }
-      //     else alert(`BAD REQUEST: ${status}`);
-      //   }
-      // )
+      postTrainee(data)
+      .then(
+        (status) => {
+          if (status === 201) {
+            navigate(`/trainees`);
+          }
+          else alert(`BAD REQUEST: ${status}`);
+        }
+      )
     }
   }
 
