@@ -158,7 +158,7 @@ const EmployeeProfileEdit = () => {
         data["middleName"] = null;
       }
 
-      console.log(data);
+      // console.log(data);
       
       putEmployee(employeeID, data)
       .then(

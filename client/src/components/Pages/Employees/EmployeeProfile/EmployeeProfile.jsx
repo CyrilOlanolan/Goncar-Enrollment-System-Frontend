@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
+
+/* MUI */
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+
 import {
   SideBar,
   BubblePage,
@@ -11,6 +18,7 @@ import styles from './EmployeeProfile.module.scss';
 
 import { stringifyDate } from '../../../../assets/utilities/datetime';
 import { useEmployee } from '../../../../assets/utilities/swr';
+import { deleteEmployee } from '../../../../assets/utilities/axiosUtility';
 
 const EmployeeProfile = () => {
   const params = useParams();
@@ -55,12 +63,65 @@ const EmployeeProfile = () => {
   }
   
   function handleDelete(employeeID) {
-    console.log("DELETE ",  employeeID)
+    deleteEmployee(employeeID)
+    .then(
+      (status) => {
+        if (status === 200) {
+          navigate(`/employees`);
+        }
+        else alert(`BAD REQUEST: ${status}`);
+      }
+    )
   }
+
+    /* MUI MODAL*/
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+  
+    const style = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: "45%",
+      bgcolor: 'background.paper',
+      border: '2px solid #000',
+      boxShadow: 24,
+      p: 4,
+    };
 
   return (
     <>
       <SideBar />
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+        className={styles["modal"]}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <p className={styles["modal__title"]}>DELETE EMPLOYEE</p>
+            <p className={styles["modal__description"]}>Are you sure you want to delete <em>EMPLOYEE #{params.employeeID}</em>?</p>
+            <p className={styles["modal__iterate"]}>Deleting: <em>{`${employeeData.lastName}, ${employeeData.firstName} ${employeeData.middleName ? employeeData.middleName : ""}`.toUpperCase()}</em></p>
+
+            <div className={styles["modal-buttons"]}>
+              <ActionButton variant="close" label="CLOSE" onClick={handleClose} />
+              <ActionButton variant="delete" label="DELETE" onClick={() => {
+                  handleDelete(params.employeeID)
+                  handleClose()
+              }}/>
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
       <BubblePage>
         <div className={styles["EmployeeProfile"]}>
           <div className={styles["EmployeeProfile__header-controls"]}>
@@ -68,7 +129,7 @@ const EmployeeProfile = () => {
 
             <div className={styles["action-buttons"]}>
               <ActionButton variant="edit" onClick={() => handleEdit(params.employeeID)}/>
-              <ActionButton variant="delete" onClick={() => handleDelete(params.employeeID)} />
+              {/* <ActionButton variant="delete" onClick={() => handleOpen()} /> */}
             </div>
           </div>
 

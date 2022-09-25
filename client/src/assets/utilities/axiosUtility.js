@@ -169,3 +169,13 @@ export function putEmployee(id, data) {
         return error.response.status;
     })
 }
+
+export function deleteEmployee(id) {
+    return axios.delete(`${deployedURI}/api/employees/${id}`)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}
