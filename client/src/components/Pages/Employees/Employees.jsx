@@ -16,7 +16,6 @@ import {
 import styles from './Employees.module.scss';
 import { useNavigate } from 'react-router-dom';
 
-import { postEmployee } from '../../../assets/utilities/axiosUtility';
 import { useEmployees } from '../../../assets/utilities/swr';
 
 const Employees = () => {
@@ -151,7 +150,7 @@ const Employees = () => {
           </div>
           <h1 className={styles["Employees__title"]}>Employee Masterlist</h1>
           {
-            false ?
+            isEmployeesLoading ?
             <Spinner /> :
             <>
               <div className={styles["new-button"]}>

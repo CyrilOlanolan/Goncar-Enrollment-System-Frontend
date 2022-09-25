@@ -159,3 +159,13 @@ export function postEmployee(data) {
         return error.response.status;
     })
 }
+
+export function putEmployee(id, data) {
+    return axios.put(`${deployedURI}/api/employees/${id}`, data)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}

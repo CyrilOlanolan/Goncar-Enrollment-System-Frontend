@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   SideBar,
   BubblePage,
@@ -14,6 +14,7 @@ import { useEmployee } from '../../../../assets/utilities/swr';
 
 const EmployeeProfile = () => {
   const params = useParams();
+  const navigate = useNavigate();
 
   var breadcrumbsRoutes = [
     {
@@ -45,6 +46,18 @@ const EmployeeProfile = () => {
     }
   , [ employee, isEmployeeLoading, isEmployeeError ])
 
+  function handleEdit(employeeID) {
+    navigate('/employees/edit', {
+      state: {
+        employeeID: employeeID
+      }
+    })
+  }
+  
+  function handleDelete(employeeID) {
+    console.log("DELETE ",  employeeID)
+  }
+
   return (
     <>
       <SideBar />
@@ -54,8 +67,8 @@ const EmployeeProfile = () => {
             <BreadcrumbsComponent routes={breadcrumbsRoutes} />
 
             <div className={styles["action-buttons"]}>
-              <ActionButton variant="edit" onClick={() => console.log("Hello Edit")}/>
-              <ActionButton variant="delete" onClick={() => console.log("Hello Delete")} />
+              <ActionButton variant="edit" onClick={() => handleEdit(params.employeeID)}/>
+              <ActionButton variant="delete" onClick={() => handleDelete(params.employeeID)} />
             </div>
           </div>
 

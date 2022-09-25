@@ -96,6 +96,9 @@ const TraineeProfileCreation = () => {
       if (middleName !== "") {
         data["middleName"] = middleName;
       }
+      else {
+        data["middleName"] = null;
+      }
 
       // postTrainee(data)
       // .then(
@@ -158,7 +161,7 @@ const TraineeProfileCreation = () => {
               fullWidth={true} />
 
             <TextField
-              value={middleName}
+              value={middleName ?? ""}
               onChange={e => setMiddleName(e.target.value)}
               label="Middle Name"
               name="middleName"

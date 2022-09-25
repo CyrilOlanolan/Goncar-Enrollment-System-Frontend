@@ -1,0 +1,157 @@
+@use "../../../../../styles/variables.scss" as *;
+
+.title {
+    margin-bottom: 1rem;
+}
+
+.EmployeeProfileCreation {
+    margin: 1rem auto 0 auto;
+    max-width: 48.5625rem;
+    
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    
+    .row-1 {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        column-gap: 1rem;
+
+        /* SUPPORT FOR iOS 14 below */
+        @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+            /* FOR FLEXBOX GAP SUPPORT */
+            & > *:not(:last-child) {
+                margin-right: 1rem;
+            }
+        }
+    }
+
+    .row-2 {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        .sex, .bday {
+            width: 100%;
+        }
+    }
+
+    .row-3 {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        column-gap: 1rem;
+
+        .marital-status-wrapper {
+            width: 100%;
+            max-width: 15rem;
+        }
+        
+        /* SUPPORT FOR iOS 14 below */
+        @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+            /* FOR FLEXBOX GAP SUPPORT */
+            & > *:not(:last-child) {
+                margin-right: 2rem;
+            }
+        }
+    }
+
+    .row-4, .row-5 {
+        display: flex;
+        flex-direction: row;
+        column-gap: 1rem;
+        justify-content: space-between;
+    
+        .contact_wrapper {
+            width: 100%;
+            max-width: 15rem;
+        }
+
+        .employee-role-wrapper {
+            width: 100%;
+        }
+
+        .employee-status-wrapper {
+            width: 100%;
+            max-width: 15rem;
+        }
+    }
+
+    .form_buttons {
+        display: flex;
+        flex-direction: row;
+        column-gap: 2rem;
+        margin: 1rem auto 0 auto;
+        width: 100%;
+        justify-content: center;
+}
+
+    @media (max-width: 992px) {
+        row-gap: 1rem;
+
+        /* SUPPORT FOR iOS 14 below */
+        @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+            /* FOR FLEXBOX GAP SUPPORT */
+            & > *:not(:last-child) {
+                margin-bottom: 1rem;
+            }
+        }
+
+        .row-1{
+            flex-direction: column;
+            row-gap: 1rem;
+
+            /* SUPPORT FOR iOS 14 below */
+            @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+                /* FOR FLEXBOX GAP SUPPORT */
+                & > *:not(:last-child) {
+                    margin-bottom: 1rem;
+                }
+            }
+        }
+
+        .row-3 {
+            flex-direction: column;
+            row-gap: 1rem;
+
+            /* SUPPORT FOR iOS 14 below */
+            @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+                /* FOR FLEXBOX GAP SUPPORT */
+                & > *:not(:last-child) {
+                    margin-bottom: 1rem;
+                }
+            }
+
+            .marital-status-wrapper {
+                max-width: none;
+            }
+        }
+
+        .form_buttons {
+            column-gap: 1rem;
+        }
+    }
+
+    @media (max-width: 586px) {
+        .row-2 {
+            flex-direction: column;
+
+            .sex {
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        .row-4, .row-5 {
+            flex-direction: column;
+            row-gap: 1rem;
+
+            .contact_wrapper {
+                max-width: none;
+            }
+        }
+    }
+}

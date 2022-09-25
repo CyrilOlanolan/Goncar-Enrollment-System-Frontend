@@ -24,7 +24,8 @@ import {
   CourseCreation,
   CourseEdit,
   EmployeeProfile,
-  EmployeeProfileCreation
+  EmployeeProfileCreation,
+  EmployeeProfileEdit
 } from "./components/ComponentIndex";
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
         <Route path="/employees" element={<Employees />} /> 
         <Route path="/employees/:employeeID" element={<EmployeeProfile />} /> 
         <Route path="/employees/new" element={<EmployeeProfileCreation />} /> 
+        <Route path="/employees/edit" element={<EmployeeProfileEdit />} /> 
 
         <Route path="/finance" element={<Finance />} />
 

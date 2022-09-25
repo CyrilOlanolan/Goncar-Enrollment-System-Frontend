@@ -48,6 +48,7 @@ export { default as TrainingYearsEdit } from './Pages/Administrative/TrainingYea
 /* EMPLOYEE */
 export { default as EmployeeProfileCreation } from "./Pages/Employees/EmployeeProfile/EmployeeProfileCreation/EmployeeProfileCreation.jsx";
 export { default as EmployeeProfile } from "./Pages/Employees/EmployeeProfile/EmployeeProfile.jsx";
+export { default as EmployeeProfileEdit } from "./Pages/Employees/EmployeeProfile/EmployeeProfileEdit/EmployeeProfileEdit.jsx";
 
 /* FINANCE */
 export { default as PaymentCreation } from './Pages/Finance/PaymentCreation/PaymentCreation.jsx';

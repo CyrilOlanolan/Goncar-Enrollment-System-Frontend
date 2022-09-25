@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import dayjs from 'dayjs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 /* MUI */
 import TextField from '@mui/material/TextField';
@@ -22,21 +22,21 @@ import {
   InputField,
   FormButton,
 } from '../../../../ComponentIndex';
-import styles from './EmployeeProfileCreation.module.scss';
-import { SEX, MARITAL_STATUS, EMPLOYEE_ROLE, EMPLOYMENT_STATUS } from "../../../../../assets/utilities/constants";
+import styles from './EmployeeProfileEdit.module.scss';
+import { SEX, MARITAL_STATUS, EMPLOYMENT_STATUS } from "../../../../../assets/utilities/constants";
 
-import { useLatestEmployeeID } from '../../../../../assets/utilities/swr';
-import { postEmployee } from '../../../../../assets/utilities/axiosUtility';
-import { useRoles } from '../../../../../assets/utilities/swr';
+import { putEmployee } from '../../../../../assets/utilities/axiosUtility';
+import { useRoles, useEmployee } from '../../../../../assets/utilities/swr';
 
-const EmployeeProfileCreation = () => {
+const EmployeeProfileEdit = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   var todayMinusEighteenYears = dayjs().subtract(18, 'year').toDate();
   var todayMinus60Years = dayjs().subtract(60, 'year').toDate();
 
   /* STATES */
-  const [ employeeID, setEmployeeID ] = useState('...')
+  const [ employeeID ] = useState(location.state.employeeID)
   const [ firstName, setFirstName ] = useState('');
   const [ middleName, setMiddleName ] = useState('');
   const [ lastName, setLastName ] = useState('');
@@ -76,19 +76,6 @@ const EmployeeProfileCreation = () => {
     EMPLOYMENT_STATUS.INACTIVE
   ]
 
-  // FETCH MAX ID
-  const { latestEmployeeID, isLatestEmployeeIDLoading, isLatestEmployeeIDError } = useLatestEmployeeID();
-
-  useEffect(
-    () => {
-      if (isLatestEmployeeIDError) alert("Error fetching latest employee id! Please refresh or check your internet connection.");
-      
-      if (!isLatestEmployeeIDLoading) {
-        setEmployeeID(latestEmployeeID._max.employeeId + 1)
-      }
-    }
-  , [ latestEmployeeID, isLatestEmployeeIDLoading, isLatestEmployeeIDError ])
-
   // FETCH ROLES
   const { roles, isRolesLoading, isRolesError } = useRoles();
 
@@ -111,6 +98,27 @@ const EmployeeProfileCreation = () => {
     }
   , [ roles, isRolesLoading, isRolesError ])
 
+  // FETCH EMPLOYEE DATA
+  const { employee, isEmployeeLoading, isEmployeeError } = useEmployee(employeeID);
+  useEffect(
+    () => {
+      if (isEmployeeError) alert("Error fetching employee data! Please refresh or check your internet connection.");
+
+      if (!isEmployeeLoading) {
+        setFirstName(employee.firstName);
+        setMiddleName(employee?.middleName);
+        setLastName(employee.lastName);
+        setSex(employee.sex);
+        setBirthdate(employee.birthDay);
+        setAddress(employee.address);
+        setMaritalStatus(employee.maritalStatus);
+        setEmail(employee.emailAdd);
+        setContact(employee.cpNum);
+        setEmployeeRole(employee.role.roleName);
+      }
+    }
+  , [ employee, isEmployeeLoading, isEmployeeError ])
+
   function submitForm(event) {
     event.preventDefault();
 
@@ -124,7 +132,7 @@ const EmployeeProfileCreation = () => {
     if (dateHired === null) {
       setDateHiredErrorProps({
         error: true,
-        helperText: 'Birthdate is required'
+        helperText: 'Date Hired is required'
       })
     }
 
@@ -132,14 +140,14 @@ const EmployeeProfileCreation = () => {
       let data = {
           firstName: firstName,
           lastName: lastName,
-          birthDay: birthdate,
+          birthDay: new Date(birthdate),
           sex: sex,
           address: address,
           maritalStatus: maritalStatus,
           emailAdd: email,
           cpNum: contact,
           employeeStatus: employmentStatus,
-          dateHired: dateHired,
+          dateHired: new Date(dateHired),
           roleId: roleMapID[employeeRole]
       }
 
@@ -150,12 +158,12 @@ const EmployeeProfileCreation = () => {
         data["middleName"] = null;
       }
 
-      // console.log(data);
+      console.log(data);
       
-      postEmployee(data)
+      putEmployee(employeeID, data)
       .then(
         (status) => {
-          if (status === 201) {
+          if (status === 200) {
             navigate(`/employees`);
           }
           else alert(`BAD REQUEST: ${status}`);
@@ -168,7 +176,7 @@ const EmployeeProfileCreation = () => {
     <>
     <SideBar />
     <BubblePage>
-      <h1 className={styles["title"]}>Employee Profile Creation</h1>
+      <h1 className={styles["title"]}>Update Employee Profile</h1>
 
       <form className={styles["EmployeeProfileCreation"]} onSubmit={submitForm}>
         <div className="disabled-fields">
@@ -363,7 +371,7 @@ const EmployeeProfileCreation = () => {
         </div>
 
         <div className={styles["form_buttons"]}>
-          <FormButton label="Submit" type="submit" />
+          <FormButton label="Update" type="submit" />
           {/* GO BACK TO PREVIOUS PAGE */}
           <FormButton label="Cancel" variant="cancel" type="button" onClick={() => window.history.go(-1)}/>
         </div>
@@ -374,4 +382,4 @@ const EmployeeProfileCreation = () => {
   )
 }
 
-export default EmployeeProfileCreation
+export default EmployeeProfileEdit
