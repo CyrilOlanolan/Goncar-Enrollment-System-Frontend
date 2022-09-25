@@ -14,7 +14,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: "50%",
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -34,14 +34,19 @@ const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID, t
 
       // FLATTEN
       if (!isTraineeRegistrationLoading) {
+        console.log(traineeRegistration)
         setRegistrationData({
           courseTaken: traineeRegistration[0]?.batch?.courses?.courseName,
           registrationNumber: traineeRegistration[0]?.registrationNumber,
           batchID: traineeRegistration[0]?.batch?.batchId,
           batchName: traineeRegistration[0]?.batch?.batchName,
-          trainingYear: traineeRegistration[0]?.batch?.trainingYears?.trainingYearSpan,
+          trainingYear: traineeRegistration[0]?.batch?.courses?.trainingYears?.trainingYearSpan,
           dateEnrolled: traineeRegistration[0]?.dateEnrolled,
-          enrollmentStatus: traineeRegistration[0]?.registrationStatus
+          enrollmentStatus: traineeRegistration[0]?.registrationStatus,
+          SSSNumber: traineeRegistration[0]?.SSSNumCopy,
+          TINNumber: traineeRegistration[0]?.TINNumCopy,
+          SGLicense: traineeRegistration[0]?.SGLicenseCopy,
+          SGLicenseExpiry: traineeRegistration[0]?.expiryDateCopy
         })
       }
     }
@@ -62,15 +67,26 @@ const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID, t
       >
         <Fade in={openModal}>
           <Box sx={style}>
+            <h1 className={styles["TraineeRegistrationModal__name"]}>{traineeName}</h1>
             <div className={styles["TraineeRegistrationModal__details"]}>
-              <h1 className={styles["name"]}>{traineeName}</h1>
-              <p><span className={styles["field"]}>Course Taken</span>: {registrationData.courseTaken}</p>
-              <p><span className={styles["field"]}>Registration Number</span>: {registrationData.registrationNumber}</p>
-              <p><span className={styles["field"]}>Batch ID</span>: {registrationData.batchID}</p>
-              <p><span className={styles["field"]}>Batch Name</span>: {registrationData.batchName}</p>
-              <p><span className={styles["field"]}>Training Year</span>: {registrationData.trainingYear}</p>
-              <p><span className={styles["field"]}>Date Enrolled</span>: {stringifyDate(registrationData.dateEnrolled)}</p>
-              <p><span className={styles["field"]}>Enrollment Status</span>: {registrationData.enrollmentStatus}</p>
+              <div className={styles["registration-details"]}>
+                <p className={styles['title']}>REGISTRATION DETAILS</p>
+                <p><span className={styles["field"]}>Registration Number</span>: {registrationData.registrationNumber}</p>
+                <p><span className={styles["field"]}>Course Taken</span>: {registrationData.courseTaken}</p>
+                <p><span className={styles["field"]}>Batch ID</span>: {registrationData.batchID}</p>
+                <p><span className={styles["field"]}>Batch Name</span>: {registrationData.batchName}</p>
+                <p><span className={styles["field"]}>Training Year</span>: {registrationData.trainingYear}</p>
+                <p><span className={styles["field"]}>Date Enrolled</span>: {stringifyDate(registrationData.dateEnrolled)}</p>
+                <p><span className={styles["field"]}>Enrollment Status</span>: {registrationData.enrollmentStatus}</p>
+              </div>
+
+              <div className={styles["licenses-details"]}>
+                <p className={styles['title']}>LICENSES</p>
+                <p><span className={styles["field"]}>SSS Number</span>: {registrationData?.SSSNumber}</p>
+                <p><span className={styles["field"]}>TIN Number</span>: {registrationData?.TINNumber}</p>
+                <p><span className={styles["field"]}>SG License</span>: {registrationData?.SGLicense}</p>
+                <p><span className={styles["field"]}>SG License Expiry</span>: {stringifyDate(registrationData?.SGLicenseExpiry)}</p>
+              </div>
             </div>
           </Box>
         </Fade>

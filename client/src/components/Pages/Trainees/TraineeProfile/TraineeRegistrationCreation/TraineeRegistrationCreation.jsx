@@ -179,8 +179,8 @@ const TraineeRegistrationCreation = () => {
 
     // OPTIONAL FIELDS
     if (sgLicense !== "") {
-      data.SGLicense = sgLicense;
-      data.expiryDate = sgExpiry;
+      data["SGLicense"] = sgLicense;
+      data["expiryDate"] = sgExpiry;
     }
 
     // console.log(data)
