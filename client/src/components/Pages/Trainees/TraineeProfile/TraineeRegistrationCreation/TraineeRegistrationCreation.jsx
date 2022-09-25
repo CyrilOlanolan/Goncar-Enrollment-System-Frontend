@@ -27,6 +27,7 @@ import styles from './TraineeRegistrationCreation.module.scss';
 
 import { useTrainee, useGroupedBatches, useTraineeRegistration, useLatestRegistrationID } from '../../../../../assets/utilities/swr';
 import { postTraineeRegistration } from '../../../../../assets/utilities/axiosUtility';
+import dayjs from 'dayjs';
 
 // TODO: VALIDATION
 const TraineeRegistrationCreation = () => {
@@ -183,7 +184,7 @@ const TraineeRegistrationCreation = () => {
       data["expiryDate"] = sgExpiry;
     }
 
-    // console.log(data)
+    console.log("HERE", data)
 
     postTraineeRegistration(traineeID, data)
     .then(
@@ -289,15 +290,16 @@ const TraineeRegistrationCreation = () => {
             <div className={styles["sg-license-expiry-wrapper"]}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
-                  disabled={sgLicense ? false : true}
                   minDate={today}
+                  disabled={sgLicense ? false : true}
                   label="SG License Expiry" 
                   name="SG-License-Expiry" 
-                  value={sgExpiry}
+                  value={sgExpiry ?? ""}
                   onChange={(newValue) => {
-                    setSGExpiry(newValue);
+                    setSGExpiry(dayjs(newValue).hour(12).toDate());
                   }}
-                  renderInput={(params) => <TextField {...params} fullWidth />}
+                  inputFormat="MM/dd/yyyy"
+                  renderInput={(params) => <TextField {...params} required={sgLicense ? true : false} fullWidth />}
                 />
               </LocalizationProvider>
             </div>
