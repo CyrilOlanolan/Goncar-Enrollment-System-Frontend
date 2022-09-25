@@ -30,7 +30,10 @@ const BatchesCard : FC<props> = (props) => {
         <div className={styles["name-population-div"]}>
           <p className={styles["batchName"]}>{props.batchName}</p>
           <p className={styles["batchPopulation"]}>
-            {`${props.batchPopulation} / ${props.maxStudents}`}
+            <span
+              className={styles[`${props.batchPopulation > 24 ? "warning" : ""}`]}
+            >{`${props.batchPopulation}`}</span>
+            {` / ${props.maxStudents}`}
           </p>
         </div>
         <p className={styles["batchIdentifier"]}>#{props.laNumber}</p>

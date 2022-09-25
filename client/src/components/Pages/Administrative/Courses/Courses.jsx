@@ -61,14 +61,6 @@ const Courses = () => {
     navigate(`/administrative/course/view/${courseID}`);
   }
 
-  // function onClickEdit(courseID) {
-  //   // navigate(`/course/edit`, {
-  //   //   state: {
-  //   //     courseID: courseID
-  //   //   }
-  //   // });
-  // }
-
   function handleNewCourse() {
     navigate('/administrative/courses/new');
   }
@@ -138,6 +130,7 @@ const Courses = () => {
       cellRenderer: (params) => RenderActionButtons(params),
       minWidth: 100,
       flex: 2,
+      filter: false
     },
   ]);
 

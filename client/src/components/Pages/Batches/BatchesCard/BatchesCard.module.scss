@@ -35,6 +35,10 @@
             .batchPopulation {
                 color: $color--white;
                 font-weight: 700;
+                
+                span.warning {
+                    color: $color--error;
+                }
             }
         }
 

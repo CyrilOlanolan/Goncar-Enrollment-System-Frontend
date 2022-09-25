@@ -86,6 +86,7 @@ const Trainees = () => {
       cellRenderer: (params) => RenderActionButtons(params),
       minWidth: 100,
       flex: 2,
+      filter: false
     },
   ])
   
