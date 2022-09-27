@@ -100,6 +100,8 @@ const TraineeProfileCreation = () => {
         data["middleName"] = null;
       }
 
+      console.log(data)
+
       postTrainee(data)
       .then(
         (status) => {
