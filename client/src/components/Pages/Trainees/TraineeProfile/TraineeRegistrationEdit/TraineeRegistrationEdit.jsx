@@ -53,6 +53,7 @@ const TraineeRegistrationEdit = () => {
       axios.get(`https://goncar-system-backend.herokuapp.com/api/trainees/${traineeID}/registrations/${regID}`)
       .then (function (response) {
         setSelectedCourse(response.data[0]?.batch?.courses?.courseName ?? "");
+        setSelectedEnrollmentStatus(response.data[0]?.registrationStatus);
         setTimeout(
           () => {
             setSelectedBatch(response.data[0]?.batch?.batchName ?? "");
