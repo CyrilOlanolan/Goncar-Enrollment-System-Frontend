@@ -209,11 +209,11 @@ const TraineeRegistrationCreation = () => {
             />
           </div>
 
-          { courseOptions.length === 0 || availableBatches.length === 0 ?
+          { courseOptions.length === 0 || (availableBatches.length === 0 && selectedCourse) ?
             <Alert severity="warning">
               <AlertTitle>Warning: Missing Data Field/s</AlertTitle>
               {courseOptions.length === 0 ? <p><strong>No courses available</strong> &mdash; add under <Link to={'/administrative/courses/new'} style={{color: "#0c4982", textDecoration: "none"}}>Administrative</Link>.</p> : null}
-              {availableBatches.length === 0 ? <p><strong>No batches available</strong> &mdash; add under <Link to={'/batches/new'} style={{color: "#0c4982", textDecoration: "none"}}>Batches</Link>.</p> : null}
+              {(availableBatches.length === 0 && selectedCourse) ? <p><strong>No batches available</strong> &mdash; add under <Link to={'/batches/new'} style={{color: "#0c4982", textDecoration: "none"}}>Batches</Link>.</p> : null}
             </Alert>
             : null
           }
