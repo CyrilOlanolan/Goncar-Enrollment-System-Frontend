@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useCourses } from '../../../../../assets/utilities/swr';
 
 /* MUI */
@@ -15,6 +15,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 import {
   SideBar,
@@ -25,7 +27,7 @@ import {
 import { ENROLLMENT_STATUS } from '../../../../../assets/utilities/constants';
 import styles from './TraineeRegistrationCreation.module.scss';
 
-import { useTrainee, useGroupedBatches, useTraineeRegistration, useLatestRegistrationID } from '../../../../../assets/utilities/swr';
+import { useTrainee, useGroupedBatches, useLatestRegistrationID } from '../../../../../assets/utilities/swr';
 import { postTraineeRegistration } from '../../../../../assets/utilities/axiosUtility';
 import dayjs from 'dayjs';
 
@@ -153,20 +155,6 @@ const TraineeRegistrationCreation = () => {
     }
   , [selectedCourse, batchesMap, coursesMap])
 
-  // FETCH REG DETAILS IF FROM EDIT BUTTON
-  const { traineeRegistration, isTraineeRegistrationLoading, isTraineeRegistrationError } = useTraineeRegistration(traineeID, regID);
-
-  useEffect(
-    () => {
-      if (isTraineeRegistrationError) console.log("ERROR");
-    
-      if (!isTraineeRegistrationLoading && traineeRegistration[0] !== undefined) {
-        setSelectedCourse(traineeRegistration[0]?.batch?.courses?.courseName ?? "");
-        setSelectedBatch(selectedCourse ? (traineeRegistration[0]?.batch.batchName ?? "") : "");
-      }
-    }
-  , [traineeRegistration, isTraineeRegistrationLoading, isTraineeRegistrationError, selectedCourse, selectedBatch])
-
   function submitForm(event) {
     event.preventDefault();
 
@@ -184,7 +172,7 @@ const TraineeRegistrationCreation = () => {
       data["expiryDate"] = sgExpiry;
     }
 
-    console.log("HERE", data)
+    // console.log(data)
 
     postTraineeRegistration(traineeID, data)
     .then(
@@ -220,6 +208,15 @@ const TraineeRegistrationCreation = () => {
               variant={"traineeID"}
             />
           </div>
+
+          { courseOptions.length === 0 || availableBatches.length === 0 ?
+            <Alert severity="warning">
+              <AlertTitle>Warning: Missing Data Field/s</AlertTitle>
+              {courseOptions.length === 0 ? <p><strong>No courses available</strong> &mdash; add under <Link to={'/administrative/courses/new'} style={{color: "#0c4982", textDecoration: "none"}}>Administrative</Link>.</p> : null}
+              {availableBatches.length === 0 ? <p><strong>No batches available</strong> &mdash; add under <Link to={'/batches/new'} style={{color: "#0c4982", textDecoration: "none"}}>Batches</Link>.</p> : null}
+            </Alert>
+            : null
+          }
 
           <div className={styles["row-2"]}>
             <FormControl fullWidth required>

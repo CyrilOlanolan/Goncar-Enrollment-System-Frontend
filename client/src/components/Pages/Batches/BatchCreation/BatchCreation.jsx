@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 /* MUI */
 import TextField from '@mui/material/TextField';
@@ -11,6 +11,8 @@ import Select from '@mui/material/Select';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 import {
   SideBar,
@@ -175,6 +177,15 @@ const BatchCreation = () => {
               variant={"traineeID"}
               style={{marginLeft: "auto"}} />
           </div>
+
+          { availableCourses.length === 0 || instructorOptions.length === 0 ?
+            <Alert severity="warning">
+              <AlertTitle>Warning: Missing Data Field/s</AlertTitle>
+              {availableCourses.length === 0 ? <p><strong>No courses available</strong> &mdash; add under <Link to={'/administrative/courses/new'} style={{color: "#0c4982", textDecoration: "none"}}>Administrative</Link>.</p> : null}
+              {instructorOptions.length === 0 ? <p><strong>No instructor available</strong> &mdash; add under <Link to={'/employees/new'} style={{color: "#0c4982", textDecoration: "none"}}>Employees</Link>.</p> : null}
+            </Alert>
+            : null
+          }
 
           <div className={styles["row-2"]}>
             <TextField

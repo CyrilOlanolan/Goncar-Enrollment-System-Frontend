@@ -7,6 +7,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 import {
   SideBar,
@@ -113,6 +115,14 @@ const CourseCreation = () => {
               style={{ marginLeft: "auto" }}
             />
           </div>
+
+          { availableTrainingYears.length === 0?
+            <Alert severity="warning">
+              <AlertTitle>Warning: Missing Data Field</AlertTitle>
+              <p><strong>No training year available</strong> &mdash; add under Administrative.</p>
+            </Alert>
+            : null
+          }
 
           <div className={styles["row-2"]}>
             <TextField

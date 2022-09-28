@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useCourses } from '../../../../../assets/utilities/swr';
 import axios from "axios";
 /* MUI */
@@ -11,6 +11,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 import {
   SideBar,
@@ -177,6 +179,15 @@ const TraineeRegistrationEdit = () => {
               variant={"traineeID"}
             />
           </div>
+
+          { courseOptions.length === 0 || availableBatches.length === 0 ?
+            <Alert severity="warning">
+              <AlertTitle>Warning: Missing Data Field/s</AlertTitle>
+              {courseOptions.length === 0 ? <p><strong>No courses available</strong> &mdash; add under <Link to={'/administrative/courses/new'} style={{color: "#0c4982", textDecoration: "none"}}>Administrative</Link>.</p> : null}
+              {availableBatches.length === 0 ? <p><strong>No batches available</strong> &mdash; add under <Link to={'/batches/new'} style={{color: "#0c4982", textDecoration: "none"}}>Batches</Link>.</p> : null}
+            </Alert>
+            : null
+          }
 
           <div className={styles["row-2"]}>
             <FormControl fullWidth required>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import {
   SideBar,
@@ -76,12 +76,17 @@ const Batches = () => {
         null
       }
       <BubblePage>
-        <BreadcrumbsComponent routes={breadcrumbsRoutes}/>
         <div className={styles["Batches"]}>
+          <BreadcrumbsComponent routes={breadcrumbsRoutes}/>
           <h1 className={styles["Batches__title"]}>Class Batches</h1>
           {isBatchesLoading ? <Spinner /> : 
             <div className={styles["Batches__content"]}>
               <NewButton label="New Batch" onClick={handleNewBatch}/>
+              {
+                cardsData.length === 0 ? 
+                <div className={styles["no-batches"]}><h3>No batches found. <Link to={'/batches/new'} style={{color: "#0c4982", textDecoration: "none"}}>Add one!</Link></h3></div>
+                : null
+              }
               <div className={styles["cards"]}>
                 {cardsData.map((card, index) => {
                   return (
