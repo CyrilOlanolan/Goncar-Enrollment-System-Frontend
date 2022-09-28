@@ -41,7 +41,7 @@ const Batches = () => {
             startDate: batch.startDate,
             maxStudents: batch.maxStudents,
             trainingYearSpan: batch?.trainingYears?.trainingYearSpan ?? "[NOT SET]",
-            batchPopulation: batch?._count?.registrations,
+            batchPopulation: batch.registrations.length,
             batchTeacher: teacher
           })
         }

@@ -143,7 +143,7 @@ const BatchCreation = () => {
       batchName: batchName,
       startDate: startDate,
       endDate: endDate,
-      maxStudents: studentLimit,
+      maxStudents: Number(studentLimit),
       courseId: courseNameID[course],
       employeeId: instructorMapID[instructor]
       // trainingYearId: trainingYearNameID[trainingYear]

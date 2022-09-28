@@ -180,6 +180,9 @@ const TraineeRegistrationCreation = () => {
         if (status === 201) {
           navigate(`/trainees/${traineeID}`);
         }
+        else if (status === 409) {
+          alert("This trainee has an active registration! Mark it as 'dropped' or 'finished' first before setting another registration as 'active'.")
+        }
         else alert(`BAD REQUEST: ${status}`);
       }
     )

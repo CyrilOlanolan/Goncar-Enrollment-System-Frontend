@@ -21,7 +21,7 @@ import {
   FormButton
 } from '../../../ComponentIndex';
 import styles from './BatchEdit.module.scss';
-import { useCourses, useBatch } from '../../../../assets/utilities/swr';
+import { useCourses, useBatch, useTeachers } from '../../../../assets/utilities/swr';
 import { putBatch } from '../../../../assets/utilities/axiosUtility';
 
 // VALIDATION FOR START DATE AND END DATE
@@ -42,22 +42,35 @@ const BatchEdit = () => {
   const [ instructor, setInstructor ] = useState('');
   const [ startDate, setStartDate ] = useState(today);
   const [ endDate, setEndDate ] = useState(todayPlus30Days);
-  const [ trainingYear, setTrainingYear ] = useState('');
+  // const [ trainingYear, setTrainingYear ] = useState('');
   const [ course, setCourse ] = useState('');
   const [ availableCourses, setAvailableCourses ] = useState([]);
 
   // MAPS
   const [ courseNameID, setCourseNameID ] = useState({}); //KEY: COURSE NAME, VALUE=COURSE ID
 
-  const [instructorOptions, setInstructorOptions] = useState([]);
+  const [ instructorOptions, setInstructorOptions ] = useState([]);
+  const [ instructorMapID, setInstructorMapID ] = useState({});
+
+  // FETCH AVAILABLE INSTRUCTORS HERE
+  const { teachers, isTeachersLoading, isTeachersError } = useTeachers();
 
   useEffect(
-    // FETCH HERE, DELETE THIS AFTER
     () => {
-      setInstructorOptions(["Louis Miguel Pawaon", "Cyril Olanolan", "Julienne Andrea Panes"]);
+      if (isTeachersError) alert("Error fetching teachers! Please check your internet.")
+      let teachersOptions = [];
+      let teachersMapID = {}; // value: employeeId, key: fullname
+      if (!isTeachersLoading) {
+        for (let teacher of teachers) {
+          teachersMapID[`${teacher?.lastName}, ${teacher?.firstName}${teacher.middleName ? ' ' + teacher?.middleName[0] + ".": ""}`] = teacher.employeeId 
+          teachersOptions.push(`${teacher?.lastName}, ${teacher?.firstName}${teacher.middleName ? ' ' + teacher?.middleName[0] + ".": ""}`)
+        }
+      }
+      console.log(teachersMapID)
+      setInstructorOptions(teachersOptions);
+      setInstructorMapID(teachersMapID);
     }
-    // DELETE UNTIL HERE
-  , [])
+  , [teachers, isTeachersLoading, isTeachersError])
 
   // FETCH BATCH DETAILS HERE
   const { batch, isBatchLoading, isBatchError } = useBatch(batchID);
@@ -67,13 +80,15 @@ const BatchEdit = () => {
       if (isBatchError) alert("Error fetching batches data! Please check internet connection.");
 
       if (!isBatchLoading) {
+        let teacher =  `${batch?.employee?.lastName}, ${batch?.employee?.firstName}${batch?.employee.middleName ? ' ' + batch?.employee?.middleName[0] + "." : ""}`
         setLANumber(batch.laNumber);
         setBatchName(batch.batchName);
         setCourse(batch.courses.courseName);
         setEndDate(batch.endDate);
         setStartDate(batch.startDate);
         setStudentLimit(batch.maxStudents);
-        setTrainingYear(batch?.trainingYears?.trainingYearSpan ?? "");
+        // setTrainingYear(batch?.trainingYears?.trainingYearSpan ?? "");
+        setInstructor(teacher)
         // TODO SET TEACHER        
       }
     }
@@ -108,9 +123,12 @@ const BatchEdit = () => {
       batchName: batchName,
       startDate: startDate,
       endDate: endDate,
-      maxStudents: studentLimit,
+      maxStudents: Number(studentLimit),
       courseId: courseNameID[course],
+      employeeId: instructorMapID[instructor]
     }
+
+    console.log(data)
 
     putBatch(batchID, data)
     .then(

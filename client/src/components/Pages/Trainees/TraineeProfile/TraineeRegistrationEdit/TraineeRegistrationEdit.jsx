@@ -23,7 +23,7 @@ import {
 import { ENROLLMENT_STATUS } from '../../../../../assets/utilities/constants';
 import styles from './TraineeRegistrationEdit.module.scss';
 
-import { useGroupedBatches } from '../../../../../assets/utilities/swr';
+import { useGroupedBatches, useTraineeRegistration } from '../../../../../assets/utilities/swr';
 import { putTraineeRegistration } from '../../../../../assets/utilities/axiosUtility';
 
 // TODO: VALIDATION
@@ -41,6 +41,13 @@ const TraineeRegistrationEdit = () => {
   const [selectedCourse, setSelectedCourse] = useState('');
   const [selectedBatch, setSelectedBatch] = useState('');
   const [selectedEnrollmentStatus, setSelectedEnrollmentStatus] = useState(ENROLLMENT_STATUS_OPTIONS[0]);
+  const [ initialCourse, setInitialCourse ] = useState("");
+  const [ initialBatch, setInitialBatch ] = useState("");
+
+  const [coursesMap, setCoursesMap] = useState({}); // KEY: courseName, VALUE: courseId
+  const [batchesMap, setBatchesMap] = useState({}); // KEY: courseId, VALUE: Array of batches
+  const [batchesIDMap, setBatchesIDMap] = useState({}); // KEY: batchName, VALUE: batchID
+  const [availableBatches, setAvailableBatches] = useState([]);
 
   const location = useLocation();
 
@@ -55,10 +62,12 @@ const TraineeRegistrationEdit = () => {
       axios.get(`https://goncar-system-backend.herokuapp.com/api/trainees/${traineeID}/registrations/${regID}`)
       .then (function (response) {
         setSelectedCourse(response.data[0]?.batch?.courses?.courseName ?? "");
+        setInitialCourse(response.data[0]?.batch?.courses?.courseName ?? "");
         setSelectedEnrollmentStatus(response.data[0]?.registrationStatus);
         setTimeout(
           () => {
-            setSelectedBatch(response.data[0]?.batch?.batchName ?? "");
+            // setSelectedBatch(response.data[0]?.batch?.batchName ?? "");
+            setInitialBatch(response.data[0]?.batch?.batchName ?? "");
           }
         , [100])
       })
@@ -89,11 +98,6 @@ const TraineeRegistrationEdit = () => {
 
   // FETCH EXISTING BATCHES
   const { groupedBatches, isGroupedBatchesLoading, isGroupedBatchesError } = useGroupedBatches();
-  
-  const [coursesMap, setCoursesMap] = useState({}); // KEY: courseName, VALUE: courseId
-  const [batchesMap, setBatchesMap] = useState({}); // KEY: courseId, VALUE: Array of batches
-  const [batchesIDMap, setBatchesIDMap] = useState({}); // KEY: batchName, VALUE: batchID
-  const [availableBatches, setAvailableBatches] = useState([]);
 
   useEffect (
     () => {
@@ -119,7 +123,6 @@ const TraineeRegistrationEdit = () => {
     () => {
       // CLEAR BATCH FIELD EVERYTIME SELECTED COURSE CHANGES
       setSelectedBatch("");
-      console.log('asdasd')
 
       let courseIdentification = coursesMap[selectedCourse];
       
@@ -134,8 +137,13 @@ const TraineeRegistrationEdit = () => {
 
       setBatchesIDMap(batchIDNameMap);
       setAvailableBatches(batchNamesFlattened);
+
+      if (initialCourse === selectedCourse) {
+        setAvailableBatches([...batchNamesFlattened, initialBatch])
+        setSelectedBatch(initialBatch)
+      }
     }
-  , [selectedCourse, batchesMap, coursesMap])
+  , [selectedCourse, batchesMap, coursesMap, initialBatch, initialCourse])
 
   function submitForm(event) {
     event.preventDefault();
@@ -150,6 +158,9 @@ const TraineeRegistrationEdit = () => {
       (status) => {
         if (status === 200) {
           navigate(`/trainees/${traineeID}`);
+        }
+        else if (status === 409) {
+          alert("This trainee has an active registration! Mark it as 'dropped' or 'finished' first before setting another registration as 'active'.")
         }
         else alert(`BAD REQUEST: ${status}`);
       }
