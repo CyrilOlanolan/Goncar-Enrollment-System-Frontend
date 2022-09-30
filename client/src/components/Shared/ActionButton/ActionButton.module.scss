@@ -24,7 +24,7 @@
         background-color: $color--light-accent;
     }
 
-    &.edit {
+    &.edit, &.print {
         background-color: $color--light-gray;
     }
 

@@ -97,6 +97,10 @@ const TraineeProfile = () => {
     )
   }
 
+  function handlePrint() {
+    console.log("Print Code Here")
+  }
+
   /* MUI MODAL*/
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -150,6 +154,7 @@ const TraineeProfile = () => {
             <BreadcrumbsComponent routes={breadcrumbsRoutes} />
 
             <div className={styles["action-buttons"]}>
+              <ActionButton variant="print" onClick={() => handlePrint()}/>
               <ActionButton variant="edit" onClick={() => handleEdit(traineeID)}/>
               <ActionButton variant="delete" onClick={handleOpen} />
             </div>

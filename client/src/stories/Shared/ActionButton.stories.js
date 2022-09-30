@@ -49,3 +49,9 @@ export const DeleteIcon = {
     variant: "delete",
   }
 };
+
+export const PrintIcon = {
+  args: {
+    variant: "print",
+  }
+};
