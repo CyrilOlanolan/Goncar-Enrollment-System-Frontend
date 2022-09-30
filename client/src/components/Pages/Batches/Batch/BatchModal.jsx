@@ -38,6 +38,7 @@ const Batch = ({ openModal, setOpenModal, batch }) => {
           <div className={styles["Batch__details"]}>
             <h1 className={styles["name"]}>{batchData.batchName}</h1>
             <p><span className={styles["field"]}>Batch ID</span>: {batchData.batchID}</p>
+            <p><span className={styles["field"]}>Batch Status</span>: {batchData.batchStatus.toUpperCase()}</p>
             <p><span className={styles["field"]}>LA Number</span>: {batchData.laNumber}</p>
             <p><span className={styles["field"]}>Start Date</span>: {stringifyDate(batchData.startDate)}</p>
             <p><span className={styles["field"]}>End Date</span>: {stringifyDate(batchData.endDate)}</p>

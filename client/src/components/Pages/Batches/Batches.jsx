@@ -42,7 +42,8 @@ const Batches = () => {
             maxStudents: batch.maxStudents,
             trainingYearSpan: batch?.trainingYears?.trainingYearSpan ?? "[NOT SET]",
             batchPopulation: batch.registrations.length,
-            batchTeacher: teacher
+            batchTeacher: teacher,
+            batchStatus: batch.batchStatus
           })
         }
         setCardsData(batchesFlatten);

@@ -13,6 +13,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 
 import {
   SideBar,
@@ -23,7 +27,7 @@ import {
 import styles from './BatchEdit.module.scss';
 import { useCourses, useBatch, useTeachers } from '../../../../assets/utilities/swr';
 import { putBatch } from '../../../../assets/utilities/axiosUtility';
-
+import { BATCH_STATUS } from '../../../../assets/utilities/constants';
 // VALIDATION FOR START DATE AND END DATE
 const BatchEdit = () => {
   const navigate = useNavigate();
@@ -45,12 +49,21 @@ const BatchEdit = () => {
   // const [ trainingYear, setTrainingYear ] = useState('');
   const [ course, setCourse ] = useState('');
   const [ availableCourses, setAvailableCourses ] = useState([]);
+  const [ isActive, setIsActive ] = useState("Active");
 
   // MAPS
   const [ courseNameID, setCourseNameID ] = useState({}); //KEY: COURSE NAME, VALUE=COURSE ID
 
   const [ instructorOptions, setInstructorOptions ] = useState([]);
   const [ instructorMapID, setInstructorMapID ] = useState({});
+
+  const [ initialInstructor, setInitialInstructor ] = useState("");
+  const [ initialInstructorID, setInitialInstructorID ] = useState("");
+
+  const BATCH_STATUS_OPTIONS = [
+    BATCH_STATUS.ACTIVE,
+    BATCH_STATUS.INACTIVE
+  ]
 
   // FETCH AVAILABLE INSTRUCTORS HERE
   const { teachers, isTeachersLoading, isTeachersError } = useTeachers();
@@ -67,10 +80,16 @@ const BatchEdit = () => {
         }
       }
       console.log(teachersMapID)
-      setInstructorOptions(teachersOptions);
+      setInstructorOptions([...teachersOptions, initialInstructor]);
+      teachersMapID[initialInstructor] = initialInstructorID;
       setInstructorMapID(teachersMapID);
+
+      setTimeout(
+        setInstructor(initialInstructor)
+      , [100])
+
     }
-  , [teachers, isTeachersLoading, isTeachersError])
+  , [teachers, isTeachersLoading, isTeachersError, initialInstructor, initialInstructorID])
 
   // FETCH BATCH DETAILS HERE
   const { batch, isBatchLoading, isBatchError } = useBatch(batchID);
@@ -87,9 +106,10 @@ const BatchEdit = () => {
         setEndDate(batch.endDate);
         setStartDate(batch.startDate);
         setStudentLimit(batch.maxStudents);
+        setIsActive(batch.batchStatus)
         // setTrainingYear(batch?.trainingYears?.trainingYearSpan ?? "");
-        setInstructor(teacher)
-        // TODO SET TEACHER        
+        setInitialInstructor(teacher)
+        setInitialInstructorID(batch.employee?.employeeId)
       }
     }
   , [batch, isBatchLoading, isBatchError])
@@ -125,7 +145,8 @@ const BatchEdit = () => {
       endDate: endDate,
       maxStudents: Number(studentLimit),
       courseId: courseNameID[course],
-      employeeId: instructorMapID[instructor]
+      employeeId: instructorMapID[instructor],
+      batchStatus: isActive
     }
 
     console.log(data)
@@ -251,6 +272,25 @@ const BatchEdit = () => {
                 renderInput={(params) => <TextField {...params} fullWidth required />}
               />
             </LocalizationProvider>
+          </div>
+
+          <div className={styles["row-5"]}>
+            <FormControl required>
+              <FormLabel id="sex-radio-buttons-group">Batch Status</FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="sex-radio-buttons-group"
+                name="sex-radio-buttons-group"
+                value={isActive}
+                onChange={e => setIsActive(e.target.value)}
+              >
+                {BATCH_STATUS_OPTIONS.map((option, index) => {
+                  return (
+                    <FormControlLabel key={index} value={option} control={<Radio />} label={option} />
+                  )
+                })}
+              </RadioGroup>
+            </FormControl>
           </div>
 
           <div className={styles["form_buttons"]}>

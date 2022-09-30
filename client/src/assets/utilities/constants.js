@@ -39,3 +39,8 @@ export const EMPLOYEE_ROLE = {
     CASHIER: "Cashier",
     REGISTRAR: "Registrar"
 }
+
+export const BATCH_STATUS = {
+    ACTIVE: "Active",
+    INACTIVE: "Inactive"
+}

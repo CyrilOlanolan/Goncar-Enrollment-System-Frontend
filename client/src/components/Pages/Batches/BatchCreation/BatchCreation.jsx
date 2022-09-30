@@ -13,6 +13,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 
 import {
   SideBar,
@@ -23,6 +27,7 @@ import {
 import styles from './BatchCreation.module.scss';
 import { useBatchesLatestID, useCourses, useTeachers } from '../../../../assets/utilities/swr';
 import { postBatch } from '../../../../assets/utilities/axiosUtility';
+import { BATCH_STATUS } from '../../../../assets/utilities/constants';
 
 // VALIDATION FOR START DATE AND END DATE
 const BatchCreation = () => {
@@ -40,6 +45,7 @@ const BatchCreation = () => {
   const [ endDate, setEndDate ] = useState(todayPlus30Days);
   // const [ trainingYear, setTrainingYear ] = useState('');
   const [ course, setCourse ] = useState('');
+  const [ isActive, setIsActive ] = useState("Active");
   
   // const [ availableTrainingYears, setAvailableTrainingYears ] = useState([]);
   const [ availableCourses, setAvailableCourses ] = useState([]);
@@ -50,6 +56,11 @@ const BatchCreation = () => {
 
   const [ instructorOptions, setInstructorOptions ] = useState([]);
   const [ instructorMapID, setInstructorMapID ] = useState({});
+
+  const BATCH_STATUS_OPTIONS = [
+    BATCH_STATUS.ACTIVE,
+    BATCH_STATUS.INACTIVE
+  ]
 
   useEffect(
     // FETCH HERE, DELETE THIS AFTER
@@ -145,11 +156,12 @@ const BatchCreation = () => {
       endDate: endDate,
       maxStudents: Number(studentLimit),
       courseId: courseNameID[course],
-      employeeId: instructorMapID[instructor]
+      employeeId: instructorMapID[instructor],
+      batchStatus: isActive
       // trainingYearId: trainingYearNameID[trainingYear]
     }
 
-    // console.log(data)
+    console.log(data)
 
     postBatch(data)
     .then(
@@ -288,6 +300,25 @@ const BatchCreation = () => {
                 renderInput={(params) => <TextField {...params} fullWidth required />}
               />
             </LocalizationProvider>
+          </div>
+
+          <div className={styles["row-5"]}>
+            <FormControl required>
+              <FormLabel id="sex-radio-buttons-group">Batch Status</FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="sex-radio-buttons-group"
+                name="sex-radio-buttons-group"
+                value={isActive}
+                onChange={e => setIsActive(e.target.value)}
+              >
+                {BATCH_STATUS_OPTIONS.map((option, index) => {
+                  return (
+                    <FormControlLabel key={index} value={option} control={<Radio />} label={option} />
+                  )
+                })}
+              </RadioGroup>
+            </FormControl>
           </div>
 
           <div className={styles["form_buttons"]}>
