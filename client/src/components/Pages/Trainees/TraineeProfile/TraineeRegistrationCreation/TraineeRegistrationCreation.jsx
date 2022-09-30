@@ -169,7 +169,7 @@ const TraineeRegistrationCreation = () => {
     // OPTIONAL FIELDS
     if (sgLicense !== "") {
       data["SGLicense"] = sgLicense;
-      data["expiryDate"] = sgExpiry;
+      data["expiryDate"] = dayjs(sgExpiry).hour(12).toDate();
     }
 
     // console.log(data)
@@ -296,7 +296,7 @@ const TraineeRegistrationCreation = () => {
                   name="SG-License-Expiry" 
                   value={sgExpiry ?? ""}
                   onChange={(newValue) => {
-                    setSGExpiry(dayjs(newValue).hour(12).toDate());
+                    setSGExpiry(newValue);
                   }}
                   inputFormat="MM/dd/yyyy"
                   renderInput={(params) => <TextField {...params} required={sgLicense ? true : false} fullWidth />}
