@@ -215,3 +215,23 @@ export function useTeachers() {
         isTeachersError: error
     }
 }
+
+export function usePayables() {
+    const { data, error } = useSWR(`${deployedURI}/api/payables`, fetcher);
+
+    return {
+        payables: data,
+        isPayablesLoading: !error && !data,
+        isPayablesError: error
+    }
+}
+
+export function useCoursePayables(courseID) {
+    const { data, error } = useSWR(`${deployedURI}/api/courses/${courseID}/payables`, fetcher);
+
+    return {
+        coursePayables: data,
+        isCoursePayablesLoading: !error && !data,
+        isCoursePayablesError: error
+    }
+}

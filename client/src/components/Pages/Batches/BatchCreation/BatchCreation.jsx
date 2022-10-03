@@ -95,7 +95,7 @@ const BatchCreation = () => {
   //     let trainingYearMap = {};
 
   //     if (!isTrainingYearsLoading) {
-  //       for (let trainingYear of trainingYears) {
+//       for (let trainingYear of trainingYears) {
   //         flatten.push(trainingYear.trainingYearSpan);
   //         trainingYearMap[trainingYear.trainingYearSpan] = trainingYear.trainingYearId;
   //       }

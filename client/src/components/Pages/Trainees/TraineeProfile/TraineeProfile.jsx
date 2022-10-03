@@ -101,6 +101,14 @@ const TraineeProfile = () => {
     console.log("Print Code Here")
   }
 
+  function handleNewPayment() {
+    navigate('/finance/new-payment', {
+      state: {
+        traineeID: traineeID
+      }
+    })
+  }
+
   /* MUI MODAL*/
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -197,7 +205,7 @@ const TraineeProfile = () => {
 
                 <div className={styles["tab-content"]}>
                   <div className={styles["new-button"]}>
-                    {activeTab === 0 ? <NewButton label="CREATE NEW REGISTRATION" onClick={() => handleNewRegistration(traineeID)} /> : <NewButton label="CREATE NEW PAYMENT" />}
+                    {activeTab === 0 ? <NewButton label="CREATE NEW REGISTRATION" onClick={() => handleNewRegistration(traineeID)} /> : <NewButton label="CREATE NEW PAYMENT" onClick={() => handleNewPayment()} />}
                   </div>
                   {
                     activeTab === 0 ? <TraineeRegistrationTabContent traineeName={`${trainee.lastName}, ${trainee.firstName}${trainee.middleName ? ' ' + trainee.middleName : ""}`} /> : null

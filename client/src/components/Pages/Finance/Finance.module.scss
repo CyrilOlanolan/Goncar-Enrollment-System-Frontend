@@ -1,1 +1,20 @@
-@import '../../../styles/variables.scss';
+@use '../../../styles/variables.scss' as *;
+
+.Finance {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &__header-actions {
+        margin-bottom: 1rem;
+    }
+
+    &__title {
+        margin-bottom: 1rem;
+    }
+
+    &__table {
+        position: relative;
+        height: 100%;
+    }
+}

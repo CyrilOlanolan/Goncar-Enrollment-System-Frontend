@@ -1,0 +1,32 @@
+@use "../../../../styles/variables.scss" as *;
+
+.PayableBreakdownView {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .new-button {
+        margin-left: auto;
+        margin-bottom: 1rem;
+    }
+    &__header-actions {
+        margin-bottom: 1rem;
+    }
+
+    &__title {
+        margin-bottom: 1rem;
+    }
+
+    &__table {
+        position: relative;
+        height: 100%;
+    }
+
+    &__tuition-view {
+        padding: 1rem 2rem;
+        background-color: $color--light-accent;
+        margin-top: 1rem;
+        border-radius: .75rem;
+        width: fit-content;
+        color: $color--primary;
+    }
+}

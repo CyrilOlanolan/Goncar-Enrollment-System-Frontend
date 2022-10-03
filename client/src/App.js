@@ -25,7 +25,10 @@ import {
   CourseEdit,
   EmployeeProfile,
   EmployeeProfileCreation,
-  EmployeeProfileEdit
+  EmployeeProfileEdit,
+  PaymentCreation,
+  PayablesBreakdownView,
+  PayableCreation
 } from "./components/ComponentIndex";
 
 function App() {
@@ -59,7 +62,11 @@ function App() {
         <Route path="/employees/new" element={<EmployeeProfileCreation />} /> 
         <Route path="/employees/edit" element={<EmployeeProfileEdit />} /> 
 
+        {/* FINANCE ROUTE */}
         <Route path="/finance" element={<Finance />} />
+        <Route path="/finance/new-payment" element={<PaymentCreation />} />
+        <Route path="/finance/course/:courseID" element={<PayablesBreakdownView />} />
+        <Route path="/finance/new-payable" element={<PayableCreation />} />
 
         <Route path="/administrative" element={<Administrative />} />
 
