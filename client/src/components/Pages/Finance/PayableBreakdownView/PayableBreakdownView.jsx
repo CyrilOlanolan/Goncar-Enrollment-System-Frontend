@@ -126,13 +126,17 @@ const PayableBreakdownView = () => {
       flattenData["trainingYearSpan"] = coursePayables?.trainingYears?.trainingYearSpan;
       flattenData["tuition"] = coursePayables?.tuition;
     }
-    console.log(flattenData);
+    // console.log(flattenData);
     setCoursePayablesData(flattenData)
     setRowData(flattenData.payables)
   }, [coursePayables, isCoursePayablesLoading, isCoursePayablesError]);
 
   function handleNewPayable() {
-    navigate('/finance/new-payable');
+    navigate(`/finance/new-payable`, {
+      state: {
+        courseName: `${coursePayablesData?.courseName} (${coursePayablesData?.trainingYearSpan})`
+      }
+    });
   }
 
   return (

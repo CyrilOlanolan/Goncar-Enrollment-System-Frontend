@@ -69,6 +69,7 @@ function App() {
         <Route path="/finance/new-payable" element={<PayableCreation />} />
 
         <Route path="/administrative" element={<Administrative />} />
+        <Route path="/administrative/payables/:type" element={<PayableCreation />} />
 
         {/* COURSES ROUTES */}
         <Route path="/administrative/course/view/:courseID" element={<Course />} />

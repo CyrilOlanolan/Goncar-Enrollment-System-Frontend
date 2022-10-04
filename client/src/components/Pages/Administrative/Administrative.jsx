@@ -29,7 +29,7 @@ const items = [
   {
     title: "Payables",
     description: "Display all payables per course and training year",
-    route: "/administrative/payables",
+    route: "/administrative/payables/general",
   },
 ];
 

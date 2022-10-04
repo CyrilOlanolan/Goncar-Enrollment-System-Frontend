@@ -179,3 +179,13 @@ export function deleteEmployee(id) {
         return error.response.status;
     })
 }
+
+export function postPayable(data) {
+    return axios.post(`${deployedURI}/api/payables`, data)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}

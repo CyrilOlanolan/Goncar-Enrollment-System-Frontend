@@ -235,3 +235,13 @@ export function useCoursePayables(courseID) {
         isCoursePayablesError: error
     }
 }
+
+export function useLatestPayableID() {
+    const { data, error } = useSWR(`${deployedURI}/api/payables/all/max`, fetcher);
+
+    return {
+        latestPayableID: data,
+        isLatestPayableIDLoading: !error && !data,
+        isLatestPayableIDError: error
+    }
+}
