@@ -6,6 +6,10 @@ import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 import '../../../../styles/ag-theme-user.css'; // Optional theme CSS
 
+// MUI
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+
 import {
   BubblePage,
   SideBar,
@@ -17,6 +21,7 @@ import {
 import styles from './PayableBreakdownView.module.scss';
 
 import { useCoursePayables } from '../../../../assets/utilities/swr';
+import { deletePayable } from '../../../../assets/utilities/axiosUtility';
 
 const PayableBreakdownView = () => {
   const navigate = useNavigate();
@@ -40,23 +45,44 @@ const PayableBreakdownView = () => {
 
   // STATES
   const [coursePayablesData, setCoursePayablesData] = useState({});
+  const [selectedPayableID, setSelectedPayableID] = useState(null);
+  const [selectedPayableName, setSelectedPayableName] = useState(null);
 
     /* FOR TABLE */
     function RenderActionButtons(params) {
       return (
         <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", columnGap: "0.5rem"}}>
-          <ActionButton label="Edit" variant={"edit"} onClick={() => onClickEdit(params.data.courseID)} />
-          <ActionButton label="Delete" variant={"delete"} onClick={() => onClickDelete(params.data.courseID)} />
+          <ActionButton label="Edit" variant={"edit"} onClick={() => onClickEdit(params.data.payableId)} />
+          <ActionButton label="Delete" variant={"delete"} onClick={() => onClickDelete(params.data)} />
         </div>
       )
     }
   
-    function onClickEdit(courseID) {
-      console.log('EDIT ', courseID)
+    function onClickEdit(payableId) {
+      navigate('/finance/payable/edit', {
+        state: {
+          courseID: courseID,
+          payableID: payableId
+        }
+      })
     }
 
-    function onClickDelete(courseID) {
-      console.log('DELETE ', courseID)
+    function onClickDelete(data) {
+      setSelectedPayableID(data.payableId);
+      setSelectedPayableName(data.payableName)
+      handleOpen();
+    }
+
+    function handleDelete(payableId) {
+      deletePayable(payableId)
+      .then(
+        (status) => {
+          if (status === 200) {
+            navigate(0);
+          }
+          else alert(`BAD REQUEST: ${status}`);
+        }
+      )
     }
   
     /* INITIALIZE rowData VARIABLE */
@@ -139,9 +165,48 @@ const PayableBreakdownView = () => {
     });
   }
 
+  // MODAL
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+  
+
   return (
     <>
     <SideBar />
+
+    {/* MODAL FOR DELETE */}
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <p className={styles["modal__title"]}>DELETE TRAINEE</p>
+        <p className={styles["modal__description"]}>Are you sure you want to delete <em>PAYABLE #{selectedPayableID}: {selectedPayableName}</em>?</p>
+
+        <div className={styles["modal-buttons"]}>
+          <ActionButton variant="close" label="CLOSE" onClick={handleClose} />
+          <ActionButton variant="delete" label="DELETE" onClick={() => {
+              handleDelete(selectedPayableID)
+              handleClose()
+          }}/>
+        </div>
+      </Box>
+    </Modal>
+
     <BubblePage>
       <div className={styles["PayableBreakdownView"]}>
         <div className={styles["PayableBreakdownView__header-actions"]}>

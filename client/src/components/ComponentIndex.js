@@ -48,6 +48,7 @@ export { default as EmployeeProfileEdit } from "./Pages/Employees/EmployeeProfil
 export { default as PaymentCreation } from './Pages/Finance/PaymentCreation/PaymentCreation.jsx';
 export { default as PayablesBreakdownView } from './Pages/Finance/PayableBreakdownView/PayableBreakdownView.jsx';
 export { default as PayableCreation } from './Pages/Finance/PayableCreation/PayableCreation.jsx';
+export { default as PayableEdit } from './Pages/Finance/PayableEdit/PayableEdit.jsx';
 
 /* BATCHES */
 export { default as BatchesCard } from './Pages/Batches/BatchesCard/BatchesCard.tsx';

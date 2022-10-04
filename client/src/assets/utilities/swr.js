@@ -245,3 +245,13 @@ export function useLatestPayableID() {
         isLatestPayableIDError: error
     }
 }
+
+export function usePayable(id) {
+    const { data, error } = useSWR(`${deployedURI}/api/payables/${id}`, fetcher);
+
+    return {
+        payable: data,
+        isPayableLoading: !error && !data,
+        isPayableError: error
+    }
+}

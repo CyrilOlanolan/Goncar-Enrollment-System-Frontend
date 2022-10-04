@@ -30,6 +30,7 @@ import {
   PayablesBreakdownView,
   PayableCreation
 } from "./components/ComponentIndex";
+import PayableEdit from './components/Pages/Finance/PayableEdit/PayableEdit';
 
 function App() {
   return (
@@ -67,6 +68,7 @@ function App() {
         <Route path="/finance/new-payment" element={<PaymentCreation />} />
         <Route path="/finance/course/:courseID" element={<PayablesBreakdownView />} />
         <Route path="/finance/new-payable" element={<PayableCreation />} />
+        <Route path="/finance/payable/edit" element={<PayableEdit />} />
 
         <Route path="/administrative" element={<Administrative />} />
         <Route path="/administrative/payables/:type" element={<PayableCreation />} />

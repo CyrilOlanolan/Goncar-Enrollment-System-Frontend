@@ -189,3 +189,23 @@ export function postPayable(data) {
         return error.response.status;
     })
 }
+
+export function putPayable(id, data) {
+    return axios.put(`${deployedURI}/api/payables/${id}`, data)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}
+
+export function deletePayable(id) {
+    return axios.delete(`${deployedURI}/api/payables/${id}`)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}
