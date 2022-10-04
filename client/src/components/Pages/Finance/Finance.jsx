@@ -15,7 +15,7 @@ import {
 } from '../../ComponentIndex'
 import styles from './Finance.module.scss';
 
-import { usePayables } from '../../../assets/utilities/swr';
+import { useFinance } from '../../../assets/utilities/swr';
 
 const Finance = () => {
   const navigate = useNavigate();
@@ -99,16 +99,16 @@ const Finance = () => {
   }
 
   // FETCH DATA HERE
-  const { payables, isPayablesLoading, isPayablesError } = usePayables();
+  const { finance, isFinanceLoading, isFinanceError } = useFinance();
 
   useEffect(() => {
-    if (isPayablesError) alert("ERROR loading payables data. Check internet connection!");
+    if (isFinanceError) alert("ERROR loading payables data. Check internet connection!");
 
     let rows = [];
 
-    if (!isPayablesLoading) {
-      // console.log(payables);
-      for (let course of payables) {
+    if (!isFinanceLoading) {
+
+      for (let course of finance) {
         let flattenPayables = {};
         flattenPayables['courseID'] = course.courseId;
         flattenPayables['courseName'] = course.courseName;
@@ -122,7 +122,7 @@ const Finance = () => {
 
       setRowData(rows)
     }
-  }, [ payables, isPayablesLoading, isPayablesError ]);
+  }, [ finance, isFinanceLoading, isFinanceError ]);
 
   return (
     <>
@@ -134,7 +134,7 @@ const Finance = () => {
           </div>
           <h1 className={styles["Finance__title"]}>Finance</h1>
           {
-            isPayablesLoading ?
+            isFinanceLoading ?
             <Spinner /> :
             <>
               <div className={[styles["Finance__table"], "ag-theme-alpine"].join(" ")}>

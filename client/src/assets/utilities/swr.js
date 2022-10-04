@@ -216,13 +216,13 @@ export function useTeachers() {
     }
 }
 
-export function usePayables() {
-    const { data, error } = useSWR(`${deployedURI}/api/payables`, fetcher);
+export function useFinance() {
+    const { data, error } = useSWR(`${deployedURI}/api/finance`, fetcher);
 
     return {
-        payables: data,
-        isPayablesLoading: !error && !data,
-        isPayablesError: error
+        finance: data,
+        isFinanceLoading: !error && !data,
+        isFinanceError: error
     }
 }
 
