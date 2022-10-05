@@ -198,7 +198,7 @@ const BatchCreation = () => {
                 labelId="course-select-label"
                 id="course-select"
                 name="course"
-                value={course}
+                value={course ?? ""}
                 label="Course"
                 onChange={e => setCourse(e.target.value)}
               >
@@ -266,7 +266,7 @@ const BatchCreation = () => {
                 row
                 aria-labelledby="sex-radio-buttons-group"
                 name="sex-radio-buttons-group"
-                value={isActive}
+                value={isActive ?? ""}
                 onChange={e => setIsActive(e.target.value)}
               >
                 {BATCH_STATUS_OPTIONS.map((option, index) => {
