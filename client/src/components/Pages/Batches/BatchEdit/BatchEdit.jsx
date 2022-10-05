@@ -79,7 +79,20 @@ const BatchEdit = () => {
           teachersOptions.push(`${teacher?.lastName}, ${teacher?.firstName}${teacher.middleName ? ' ' + teacher?.middleName[0] + ".": ""}`)
         }
       }
-      setInstructorOptions([...teachersOptions, initialInstructor]);
+
+      let isTeacherInList = false;
+      
+      for (let teacher of teachersOptions) {
+        if (teacher === initialInstructor) isTeacherInList = true;
+      }
+
+      if (!isTeacherInList) {
+        setInstructorOptions([...teachersOptions, initialInstructor]);
+      }
+      else {
+        setInstructorOptions(teachersOptions);
+      }
+      
       teachersMapID[initialInstructor] = initialInstructorID;
       setInstructorMapID(teachersMapID);
 
