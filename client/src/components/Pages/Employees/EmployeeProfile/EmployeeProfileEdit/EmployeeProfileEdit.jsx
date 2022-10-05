@@ -115,6 +115,7 @@ const EmployeeProfileEdit = () => {
         setEmail(employee.emailAdd);
         setContact(employee.cpNum);
         setEmployeeRole(employee.role.roleName);
+        setEmploymentStatus(employee.employeeStatus)
       }
     }
   , [ employee, isEmployeeLoading, isEmployeeError ])
