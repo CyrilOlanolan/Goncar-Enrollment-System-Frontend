@@ -52,7 +52,6 @@ const BatchCreation = () => {
 
   // MAPS
   const [ courseNameID, setCourseNameID ] = useState({}); //KEY: COURSE NAME, VALUE=COURSE ID
-  // const [ trainingYearNameID, setTrainingYearNameID ] = useState({}); //KEY: TRAINING YEAR NAME, VALUE=TRAINING YEAR ID
 
   const [ instructorOptions, setInstructorOptions ] = useState([]);
   const [ instructorMapID, setInstructorMapID ] = useState({});
@@ -62,14 +61,6 @@ const BatchCreation = () => {
     BATCH_STATUS.INACTIVE
   ]
 
-  useEffect(
-    // FETCH HERE, DELETE THIS AFTER
-    () => {
-      setInstructorOptions(["Louis Miguel Pawaon", "Cyril Olanolan", "Julienne Andrea Panes"]);
-    }
-    // DELETE UNTIL HERE
-  , [])
-
   // FETCH LATEST BATCHES ID HERE
   const { batchesLatestID, isLatestBatchesIDLoading, isLatestBatchesIDError } = useBatchesLatestID();
   
@@ -78,32 +69,10 @@ const BatchCreation = () => {
       if (isLatestBatchesIDError) alert("Error fetching batches ID! Please check internet connection");
 
       if (!isLatestBatchesIDLoading) {
-        console.log("HEY: ", batchesLatestID?._max?.batchId)
-        setBatchID(batchesLatestID?._max?.batchId ? (batchesLatestID?._max?.batchId + 1) : "");
+        setBatchID((batchesLatestID?._max?.batchId + 1) ?? 1);
       }
     }
   , [batchesLatestID, isLatestBatchesIDLoading, isLatestBatchesIDError])
-
-  // FETCH TRAINING YEAR HERE
-  // const { trainingYears, isTrainingYearsLoading, isTrainingYearsError } = useTrainingYears();
-
-  // useEffect(
-  //   () => {
-  //     if (isTrainingYearsError) alert("Error fetching training years! Please check internet connection.");
-
-  //     let flatten = [];
-  //     let trainingYearMap = {};
-
-  //     if (!isTrainingYearsLoading) {
-//       for (let trainingYear of trainingYears) {
-  //         flatten.push(trainingYear.trainingYearSpan);
-  //         trainingYearMap[trainingYear.trainingYearSpan] = trainingYear.trainingYearId;
-  //       }
-  //       setAvailableTrainingYears(flatten);
-  //       setTrainingYearNameID(trainingYearMap);
-  //     }
-  //   }
-  // , [trainingYears, isTrainingYearsLoading, isTrainingYearsError])
 
   // FETCH AVAILABLE COURSES HERE
   const { courses, isCoursesLoading, isCoursesError } = useCourses();
@@ -117,8 +86,9 @@ const BatchCreation = () => {
 
       if (!isCoursesLoading) {
         for (let course of courses) {
-          courseMap[course.courseName] = course.courseId;
-          flatten.push(course.courseName);
+          let flattenedCourseName = `${course.courseName} (${course.trainingYears?.trainingYearSpan})`
+          courseMap[flattenedCourseName] = course.courseId;
+          flatten.push(flattenedCourseName);
         }
         setAvailableCourses(flatten);
         setCourseNameID(courseMap);
@@ -140,7 +110,6 @@ const BatchCreation = () => {
           teachersOptions.push(`${teacher?.lastName}, ${teacher?.firstName}${teacher.middleName ? ' ' + teacher?.middleName[0] + ".": ""}`)
         }
       }
-      console.log(teachersMapID)
       setInstructorOptions(teachersOptions);
       setInstructorMapID(teachersMapID);
     }
@@ -158,16 +127,18 @@ const BatchCreation = () => {
       courseId: courseNameID[course],
       employeeId: instructorMapID[instructor],
       batchStatus: isActive
-      // trainingYearId: trainingYearNameID[trainingYear]
     }
 
-    console.log(data)
+    // console.log(data)
 
     postBatch(data)
     .then(
       (status) => {
         if (status === 201) {
           navigate('/batches');
+        }
+        else if (status === 409) {
+          alert(`ERROR! Instructor: ${instructor} currently has an active batch!`)
         }
         else alert(`BAD REQUEST: ${status}`);
       }
@@ -190,13 +161,14 @@ const BatchCreation = () => {
               style={{marginLeft: "auto"}} />
           </div>
 
-          { availableCourses.length === 0 || instructorOptions.length === 0 ?
+          {availableCourses.length !== 0 || instructorOptions.length !== 0 ?
+            null
+            :
             <Alert severity="warning">
               <AlertTitle>Warning: Missing Data Field/s</AlertTitle>
               {availableCourses.length === 0 ? <p><strong>No courses available</strong> &mdash; add under <Link to={'/administrative/courses/new'} style={{color: "#0c4982", textDecoration: "none"}}>Administrative</Link>.</p> : null}
               {instructorOptions.length === 0 ? <p><strong>No instructor available</strong> &mdash; add under <Link to={'/employees/new'} style={{color: "#0c4982", textDecoration: "none"}}>Employees</Link>.</p> : null}
             </Alert>
-            : null
           }
 
           <div className={styles["row-2"]}>
@@ -236,21 +208,6 @@ const BatchCreation = () => {
               </Select>
             </FormControl>
             
-            {/* <FormControl fullWidth required>
-              <InputLabel id="training-year-select-label">Training Year</InputLabel>
-              <Select
-                labelId="training-year-select-label"
-                id="training-year-select"
-                name="training-year"
-                value={trainingYear ?? ""}
-                label="Training Year"
-                onChange={e => setTrainingYear(e.target.value)}
-              >
-                {availableTrainingYears.map((option, index) => {
-                  return <MenuItem key={index} value={option}>{option}</MenuItem>
-                })}
-              </Select>
-            </FormControl> */}
           </div>
 
           <div className={styles["row-4"]}>

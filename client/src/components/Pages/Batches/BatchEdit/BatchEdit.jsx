@@ -79,7 +79,6 @@ const BatchEdit = () => {
           teachersOptions.push(`${teacher?.lastName}, ${teacher?.firstName}${teacher.middleName ? ' ' + teacher?.middleName[0] + ".": ""}`)
         }
       }
-      console.log(teachersMapID)
       setInstructorOptions([...teachersOptions, initialInstructor]);
       teachersMapID[initialInstructor] = initialInstructorID;
       setInstructorMapID(teachersMapID);
@@ -100,14 +99,14 @@ const BatchEdit = () => {
 
       if (!isBatchLoading) {
         let teacher =  `${batch?.employee?.lastName}, ${batch?.employee?.firstName}${batch?.employee.middleName ? ' ' + batch?.employee?.middleName[0] + "." : ""}`
+        let flattenedCourseName = `${batch?.courses?.courseName} (${batch?.courses?.trainingYears?.trainingYearSpan})`
         setLANumber(batch.laNumber);
         setBatchName(batch.batchName);
-        setCourse(batch.courses.courseName);
+        setCourse(flattenedCourseName);
         setEndDate(batch.endDate);
         setStartDate(batch.startDate);
         setStudentLimit(batch.maxStudents);
         setIsActive(batch.batchStatus)
-        // setTrainingYear(batch?.trainingYears?.trainingYearSpan ?? "");
         setInitialInstructor(teacher)
         setInitialInstructorID(batch.employee?.employeeId)
       }
@@ -126,8 +125,9 @@ const BatchEdit = () => {
 
       if (!isCoursesLoading) {
         for (let course of courses) {
-          courseMap[course.courseName] = course.courseId;
-          flatten.push(course.courseName);
+          let flattenedCourseName = `${course.courseName} (${course.trainingYears?.trainingYearSpan})`
+          courseMap[flattenedCourseName] = course.courseId;
+          flatten.push(flattenedCourseName);
         }
         setAvailableCourses(flatten);
         setCourseNameID(courseMap);
@@ -149,13 +149,17 @@ const BatchEdit = () => {
       batchStatus: isActive
     }
 
-    console.log(data)
+    // console.log(data)
 
     putBatch(batchID, data)
     .then(
       (status) => {
         if (status === 200) {
           navigate('/batches');
+        }
+        else if (status === 409) {
+          alert(`ERROR! Instructor: ${instructor} currently has an active batch!`)
+          setIsActive("Inactive")
         }
         else alert(`BAD REQUEST: ${status}`);
       }
@@ -167,7 +171,7 @@ const BatchEdit = () => {
     <>
       <SideBar />
       <BubblePage>
-        <h1 className={styles["title"]}>Create Course Batch</h1>
+        <h1 className={styles["title"]}>Edit Course Batch</h1>
         <form className={styles["BatchesCreation"]} onSubmit={handleSubmit}>
           <div className={styles["IDs"]}>
             <InputField

@@ -23,7 +23,7 @@ import {
 import { ENROLLMENT_STATUS } from '../../../../../assets/utilities/constants';
 import styles from './TraineeRegistrationEdit.module.scss';
 
-import { useGroupedBatches, useTraineeRegistration } from '../../../../../assets/utilities/swr';
+import { useGroupedBatches } from '../../../../../assets/utilities/swr';
 import { putTraineeRegistration } from '../../../../../assets/utilities/axiosUtility';
 
 // TODO: VALIDATION
@@ -61,8 +61,9 @@ const TraineeRegistrationEdit = () => {
     () => {
       axios.get(`https://goncar-system-backend.herokuapp.com/api/trainees/${traineeID}/registrations/${regID}`)
       .then (function (response) {
-        setSelectedCourse(response.data[0]?.batch?.courses?.courseName ?? "");
-        setInitialCourse(response.data[0]?.batch?.courses?.courseName ?? "");
+        let flattenedCourseName = `${response.data[0]?.batch?.courses?.courseName} (${response.data[0]?.batch?.courses?.trainingYears?.trainingYearSpan})`
+        setSelectedCourse(flattenedCourseName);
+        setInitialCourse(flattenedCourseName);
         setSelectedEnrollmentStatus(response.data[0]?.registrationStatus);
         setTimeout(
           () => {
@@ -88,7 +89,8 @@ const TraineeRegistrationEdit = () => {
       // FLATTEN
       if (!isCoursesLoading) {
         for (let course of courses) {
-          courseFlattened.push(course.courseName);
+          let flattenedCourseName = `${course.courseName} (${course.trainingYears?.trainingYearSpan})`
+          courseFlattened.push(flattenedCourseName);
         }
       }
 
@@ -106,8 +108,9 @@ const TraineeRegistrationEdit = () => {
       let batchesFlattened = {};
       if (!isGroupedBatchesLoading) {
         for (let i = 0; i < groupedBatches.length; i++) {
+          let flattenedCourseName = `${groupedBatches[i].courseName} (${groupedBatches[i].trainingYears?.trainingYearSpan})`
           // MAP COURSES TO RESPECTIVE courseId
-          coursesFlattened[groupedBatches[i].courseName] =  groupedBatches[i].courseId
+          coursesFlattened[flattenedCourseName] =  groupedBatches[i].courseId
           // MAP BATCHES TO RESPECTIVE courseId
           batchesFlattened[groupedBatches[i].courseId] = groupedBatches[i].batch;
         }

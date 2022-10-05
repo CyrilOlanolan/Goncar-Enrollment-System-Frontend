@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 /* MUI */
 import TextField from "@mui/material/TextField";
@@ -119,7 +119,7 @@ const CourseCreation = () => {
           { availableTrainingYears.length === 0?
             <Alert severity="warning">
               <AlertTitle>Warning: Missing Data Field</AlertTitle>
-              <p><strong>No training year available</strong> &mdash; add under Administrative.</p>
+              <p><strong>No training year available</strong> &mdash; add under <Link to={'/administrative/training-years/new'} style={{color: "#0c4982", textDecoration: "none"}}>Administrative</Link>.</p>
             </Alert>
             : null
           }

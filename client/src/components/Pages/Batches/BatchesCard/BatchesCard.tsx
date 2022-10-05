@@ -10,7 +10,8 @@ type props = {
     batchTeacher: string,
     batchPopulation: number,
     maxStudents: number,
-    onClick: MouseEventHandler<HTMLDivElement>
+    onClick: MouseEventHandler<HTMLDivElement>,
+    variant: String
 }
 
 const BatchesCard : FC<props> = (props) => {
@@ -25,7 +26,7 @@ const BatchesCard : FC<props> = (props) => {
   }
 
   return (
-    <div className={styles["BatchesCard"]} onClick={props.onClick}>
+    <div className={[styles["BatchesCard"], styles[`BatchesCard__${props.variant}`]].join(' ')} onClick={props.onClick}>
       <div className={styles["BatchesCard__header"]}>
         <div className={styles["name-population-div"]}>
           <p className={styles["batchName"]}>{props.batchName}</p>

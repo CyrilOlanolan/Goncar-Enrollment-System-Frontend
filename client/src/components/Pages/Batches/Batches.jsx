@@ -91,7 +91,11 @@ const Batches = () => {
               <div className={styles["cards"]}>
                 {cardsData.map((card, index) => {
                   return (
-                    <BatchesCard key={index} {...card} onClick={() => {
+                    <BatchesCard
+                      key={index}
+                      {...card}
+                      variant={card.batchStatus}
+                      onClick={() => {
                       setSelectedBatch(card)
                       setOpenModal(true)
                     }}/>

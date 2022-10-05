@@ -84,8 +84,8 @@ const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID, t
                 <p className={styles['title']}>LICENSES</p>
                 <p><span className={styles["field"]}>SSS Number</span>: {registrationData?.SSSNumber}</p>
                 <p><span className={styles["field"]}>TIN Number</span>: {registrationData?.TINNumber}</p>
-                <p><span className={styles["field"]}>SG License</span>: {registrationData?.SGLicense}</p>
-                <p><span className={styles["field"]}>SG License Expiry</span>: {stringifyDate(registrationData?.SGLicenseExpiry)}</p>
+                { registrationData?.SGLicense ? <p><span className={styles["field"]}>SG License</span>: {registrationData?.SGLicense}</p> : null }
+                { registrationData?.SGLicenseExpiry ? <p><span className={styles["field"]}>SG License Expiry</span>: {stringifyDate(registrationData?.SGLicenseExpiry)}</p> : null}
               </div>
             </div>
           </Box>

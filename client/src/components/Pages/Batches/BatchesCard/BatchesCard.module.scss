@@ -82,4 +82,13 @@
             transition: transform 0.3s ease;
         }
     }
+
+    &__Inactive {
+        background-color: $color--black;
+
+        .BatchesCard__edit-button {
+            background-color: $color--gray;
+            color: $color--black;
+        }
+    }
 }

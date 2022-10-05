@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useLocation, useNavigate, Link } from 'react-router-dom';
 /* MUI */
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 import {
   BubblePage,
@@ -111,7 +113,7 @@ const PayableCreation = () => {
     <SideBar />
     <BubblePage>
       <div className={styles["PayableCreation"]}>
-        <h1>Add Payment</h1>
+        <h1>Add Payable</h1>
         {
           isFinanceLoading && isLatestPayableIDLoading ? <Spinner /> :
           <form className={styles["PayableCreation__form"]} onSubmit={(event) => handleSubmit(event)}>
@@ -124,6 +126,15 @@ const PayableCreation = () => {
                 variant={"traineeID"}
                 style={{marginLeft: "auto"}} />
             </div>
+
+            { courseOptions.length !== 0?
+              null
+              :
+              <Alert severity="warning">
+                <AlertTitle>Warning: Missing Data Field</AlertTitle>
+                <p><strong>No course available</strong> &mdash; add under <Link to={'/administrative/courses/new'} style={{color: "#0c4982", textDecoration: "none"}}>Administrative</ Link>.</p>
+              </Alert>
+            }
 
             <div className={styles["row-2"]}>
               <div className={styles["course"]}>

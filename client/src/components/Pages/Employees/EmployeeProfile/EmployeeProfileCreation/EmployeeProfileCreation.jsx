@@ -15,6 +15,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 import {
   SideBar,
@@ -180,6 +182,15 @@ const EmployeeProfileCreation = () => {
             variant={"traineeID"}
             style={{marginLeft: "auto"}} />
         </div>
+
+        { roleOptions.length !== 0?
+          null
+          :
+          <Alert severity="warning">
+            <AlertTitle>Warning: Missing Data Field</AlertTitle>
+            <p><strong>No employee roles available</strong> &mdash; please contact Administrator.</p>
+          </Alert>
+        }
 
         <div className={styles["row-1"]}>
           <TextField

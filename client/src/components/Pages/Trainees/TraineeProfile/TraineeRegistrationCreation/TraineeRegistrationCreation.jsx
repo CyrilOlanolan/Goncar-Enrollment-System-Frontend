@@ -82,7 +82,8 @@ const TraineeRegistrationCreation = () => {
       // FLATTEN
       if (!isCoursesLoading) {
         for (let course of courses) {
-          courseFlattened.push(course.courseName);
+          let flattenedCourseName = `${course.courseName} (${course.trainingYears?.trainingYearSpan})`
+          courseFlattened.push(flattenedCourseName);
         }
       }
 
@@ -121,8 +122,9 @@ const TraineeRegistrationCreation = () => {
       let batchesFlattened = {};
       if (!isGroupedBatchesLoading) {
         for (let i = 0; i < groupedBatches.length; i++) {
+          let flattenedCourseName = `${groupedBatches[i].courseName} (${groupedBatches[i].trainingYears?.trainingYearSpan})`
           // MAP COURSES TO RESPECTIVE courseId
-          coursesFlattened[groupedBatches[i].courseName] =  groupedBatches[i].courseId
+          coursesFlattened[flattenedCourseName] =  groupedBatches[i].courseId
           // MAP BATCHES TO RESPECTIVE courseId
           batchesFlattened[groupedBatches[i].courseId] = groupedBatches[i].batch;
         }
