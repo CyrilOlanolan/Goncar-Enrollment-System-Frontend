@@ -61,6 +61,26 @@ const BatchCreation = () => {
     BATCH_STATUS.INACTIVE
   ]
 
+  // VALIDATION FOR DATES
+  /* ERROR STATES */
+  const [ dateErrorMessage, setDateErrorMessage ] = useState(null);
+
+  /* VALIDATION */
+  useEffect(
+    () => {
+      // IF END YEAR IS LESS THAN START OR EQUAL, ERROR
+      if (dayjs(startDate) > dayjs(endDate)) {
+        setDateErrorMessage({
+          title: "INVALID DATES",
+          description: "End Date must be greater than Start Date."
+        })
+      }
+      else {
+        setDateErrorMessage(null);
+      }
+    }
+  , [startDate, endDate])
+
   // FETCH LATEST BATCHES ID HERE
   const { batchesLatestID, isLatestBatchesIDLoading, isLatestBatchesIDError } = useBatchesLatestID();
   
@@ -160,6 +180,16 @@ const BatchCreation = () => {
               variant={"traineeID"}
               style={{marginLeft: "auto"}} />
           </div>
+
+          {
+            dateErrorMessage ? 
+            <Alert severity="error">
+              <AlertTitle>{dateErrorMessage.title}</AlertTitle>
+              {dateErrorMessage.description}
+            </Alert>
+            :
+            null
+          }
 
           {availableCourses.length !== 0 || instructorOptions.length !== 0 ?
             null
@@ -279,7 +309,7 @@ const BatchCreation = () => {
           </div>
 
           <div className={styles["form_buttons"]}>
-            <FormButton label="Submit" type="submit" />
+            <FormButton label="Submit" type="submit" disabled={dateErrorMessage} />
             {/* GO BACK TO PREVIOUS PAGE */}
             <FormButton label="Cancel" variant="cancel" type="button" onClick={() => window.history.go(-1)}/>
           </div>
