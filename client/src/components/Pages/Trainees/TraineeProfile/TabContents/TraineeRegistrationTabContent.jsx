@@ -113,9 +113,9 @@ const TraineeRegistrationTabContent = (traineeName) => {
       if (!isTraineeRegistrationsLoading) {
         for (let registration of traineeRegistrations) {
           traineeRegistrationsRowData.push({
-            course: registration?.batch.courses.courseName,
+            course: registration?.batch?.courses?.courseName,
             trainingYear: registration?.batch?.courses?.trainingYears?.trainingYearSpan,
-            batchName: registration?.batch.batchName,
+            batchName: registration?.batch?.batchName,
             status: registration?.registrationStatus,
             registrationNumber: registration?.registrationNumber
           })

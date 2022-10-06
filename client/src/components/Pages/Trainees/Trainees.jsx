@@ -124,7 +124,7 @@ const Trainees = () => {
                 return "N/A";
               }
             
-              return trainee.registrations[0].batch.courses.courseName;
+              return trainee?.registrations[0]?.batch?.courses?.courseName;
             })(),
             "currentStatus": (() => {
               if (trainee.registrations[0] === undefined) {
