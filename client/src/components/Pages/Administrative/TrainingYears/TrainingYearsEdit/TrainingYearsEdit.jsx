@@ -7,6 +7,8 @@ import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 import { SideBar, BubblePage, FormButton, Spinner } from "../../../../ComponentIndex";
 import styles from "./TrainingYearsEdit.module.scss";
@@ -23,6 +25,25 @@ const TrainingYearsEdit = () => {
   /* STATES */
   const [ startYear, setStartYear ] = useState(null)
   const [ endYear, setEndYear ] = useState(null)
+
+  /* ERROR STATES */
+  const [ dateErrorMessage, setDateErrorMessage ] = useState(null);
+
+  /* VALIDATION */
+  useEffect(
+    () => {
+      // IF END YEAR IS LESS THAN START OR EQUAL, ERROR
+      if (!(dayjs(startYear) < dayjs(endYear) && (dayjs(startYear).year() !== dayjs(endYear).year()))) {
+        setDateErrorMessage({
+          title: "INVALID DATES",
+          description: "End Year must be greater than Start Year."
+        })
+      }
+      else {
+        setDateErrorMessage(null);
+      }
+    }
+  , [startYear, endYear])
 
   // FETCH HERE
   const { trainingYear, isTrainingYearLoading, isTrainingYearError } = useTrainingYear(trainingYearID);
@@ -64,6 +85,16 @@ const TrainingYearsEdit = () => {
       <SideBar />
       <BubblePage>
         <h1 className={styles["title"]}>Add a New Training Year</h1>
+
+        {
+          dateErrorMessage ? 
+          <Alert severity="error">
+            <AlertTitle>{dateErrorMessage.title}</AlertTitle>
+            {dateErrorMessage.description}
+          </Alert>
+          :
+          null
+        }
 
         {
           isTrainingYearLoading ? <Spinner /> :
@@ -111,7 +142,7 @@ const TrainingYearsEdit = () => {
             </div>
 
             <div className={styles["form_buttons"]}>
-              <FormButton label="Update" type="submit" />
+              <FormButton label="Update" type="submit" disabled={dateErrorMessage} />
               {/* GO BACK TO PREVIOUS PAGE */}
               <FormButton label="Cancel" variant="cancel" type="button" onClick={() => window.history.go(-1)}/>
             </div>
