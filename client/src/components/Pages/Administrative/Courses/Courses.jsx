@@ -75,13 +75,13 @@ const Courses = () => {
     let coursesFlatten = []; 
 
     if (!isCoursesLoading) {
-      console.log(courses)
       for (let course of courses) {
         coursesFlatten.push({
           courseID: course?.courseId,
           courseName: course?.courseName,
           units: course?.units,
-          trainingYearSpan: course?.trainingYears?.trainingYearSpan
+          trainingYearSpan: course?.trainingYears?.trainingYearSpan,
+          tuition: course?.tuition
         })
       }
       setRowData(coursesFlatten);
@@ -122,6 +122,7 @@ const Courses = () => {
       minWidth: 180,
       flex: 1,
       sortable: true,
+      cellRenderer: (params) => `₱ ${params.data.tuition}`
     },
     {
       field: "",
