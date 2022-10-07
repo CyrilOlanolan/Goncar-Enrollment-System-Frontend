@@ -66,15 +66,15 @@ const Course = () => {
   }
 
   function handleDelete(courseID) {
-    deleteCourse(courseID)
-    .then(
-      (status) => {
-        if (status === 200) {
-          navigate('/administrative/courses');
-        }
-        else alert(`BAD REQUEST: ${status}`);
-      }
-    )
+    // deleteCourse(courseID)
+    // .then(
+    //   (status) => {
+    //     if (status === 200) {
+    //       navigate('/administrative/courses');
+    //     }
+    //     else alert(`BAD REQUEST: ${status}`);
+    //   }
+    // )
   }
 
   /* MUI MODAL*/

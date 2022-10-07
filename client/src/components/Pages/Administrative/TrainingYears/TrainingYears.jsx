@@ -87,16 +87,16 @@ const TrainingYears = () => {
   }
 
   function handleDelete(trainingYearID) {
-    deleteTrainingYear(trainingYearID)
-    .then(
-      (status) => {
-        if (status === 200) {
-          navigate(`/administrative/training-years`);
-          setSelectedTrainingYear(null);
-        }
-        else alert(`BAD REQUEST: ${status}`);
-      }
-    )
+    // deleteTrainingYear(trainingYearID)
+    // .then(
+    //   (status) => {
+    //     if (status === 200) {
+    //       navigate(`/administrative/training-years`);
+    //       setSelectedTrainingYear(null);
+    //     }
+    //     else alert(`BAD REQUEST: ${status}`);
+    //   }
+    // )
   }
 
   /* INITIALIZE rowData VARIABLE */

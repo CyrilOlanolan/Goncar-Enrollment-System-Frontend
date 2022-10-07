@@ -55,3 +55,9 @@ export const PrintIcon = {
     variant: "print",
   }
 };
+
+export const DisableIcon = {
+  args: {
+    variant: "disable",
+  }
+};

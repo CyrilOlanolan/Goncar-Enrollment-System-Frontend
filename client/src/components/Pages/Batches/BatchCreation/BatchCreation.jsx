@@ -191,7 +191,7 @@ const BatchCreation = () => {
             null
           }
 
-          {availableCourses.length !== 0 || instructorOptions.length !== 0 ?
+          {availableCourses.length !== 0 && instructorOptions.length !== 0 ?
             null
             :
             <Alert severity="warning">
