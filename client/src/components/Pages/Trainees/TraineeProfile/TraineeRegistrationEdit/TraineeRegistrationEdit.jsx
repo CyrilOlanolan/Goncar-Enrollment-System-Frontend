@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import { useCourses } from '../../../../../assets/utilities/swr';
 import axios from "axios";
+
 /* MUI */
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -23,7 +23,7 @@ import {
 import { ENROLLMENT_STATUS } from '../../../../../assets/utilities/constants';
 import styles from './TraineeRegistrationEdit.module.scss';
 
-import { useGroupedBatches } from '../../../../../assets/utilities/swr';
+import { useGroupedBatches, useActiveCourses } from '../../../../../assets/utilities/swr';
 import { putTraineeRegistration } from '../../../../../assets/utilities/axiosUtility';
 
 // TODO: VALIDATION
@@ -79,16 +79,16 @@ const TraineeRegistrationEdit = () => {
   , [traineeID, regID]);
 
   // FETCH AVAILABLE COURSES
-  const { courses, isCoursesLoading, isCoursesError } = useCourses();
+  const { activeCourses, isActiveCoursesLoading, isActiveCoursesError } = useActiveCourses();
 
   useEffect(
     () => {
-      if (isCoursesError) alert("Error fetching courses! Please refresh or check your internet connection.");
+      if (isActiveCoursesError) alert("Error fetching courses! Please refresh or check your internet connection.");
       let courseFlattened = [];
 
       // FLATTEN
-      if (!isCoursesLoading) {
-        for (let course of courses) {
+      if (!isActiveCoursesLoading) {
+        for (let course of activeCourses) {
           let flattenedCourseName = `${course.courseName} (${course.trainingYears?.trainingYearSpan})`
           courseFlattened.push(flattenedCourseName);
         }
@@ -96,7 +96,7 @@ const TraineeRegistrationEdit = () => {
 
       setCourseOptions(courseFlattened);
     }
-  , [courses, isCoursesLoading, isCoursesError])
+  , [activeCourses, isActiveCoursesLoading, isActiveCoursesError])
 
   // FETCH EXISTING BATCHES
   const { groupedBatches, isGroupedBatchesLoading, isGroupedBatchesError } = useGroupedBatches();
