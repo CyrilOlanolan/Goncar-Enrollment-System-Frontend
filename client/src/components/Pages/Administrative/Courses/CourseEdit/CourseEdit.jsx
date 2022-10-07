@@ -83,6 +83,7 @@ const CourseEdit = () => {
         setCourseDescription(course?.courseDescription);
         setUnits(course?.units);
         setHoursRequired(course?.requiredHours);
+        setCourseStatus(course?.courseStatus)
       }
     }
   , [ course, isCourseLoading, isCourseError ])
