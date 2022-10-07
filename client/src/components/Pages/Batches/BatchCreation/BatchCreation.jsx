@@ -17,6 +17,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import ListSubheader from '@mui/material/ListSubheader';
 
 import {
   SideBar,
@@ -25,7 +26,7 @@ import {
   FormButton
 } from '../../../ComponentIndex';
 import styles from './BatchCreation.module.scss';
-import { useBatchesLatestID, useActiveCourses, useTeachers } from '../../../../assets/utilities/swr';
+import { useBatchesLatestID, useTeachers, useCourses } from '../../../../assets/utilities/swr';
 import { postBatch } from '../../../../assets/utilities/axiosUtility';
 import { BATCH_STATUS } from '../../../../assets/utilities/constants';
 
@@ -46,7 +47,7 @@ const BatchCreation = () => {
   // const [ trainingYear, setTrainingYear ] = useState('');
   const [ course, setCourse ] = useState('');
   const [ isActive, setIsActive ] = useState("Active");
-  
+  const [inactiveCourses, setInactiveCourses] = useState([]);
   // const [ availableTrainingYears, setAvailableTrainingYears ] = useState([]);
   const [ availableCourses, setAvailableCourses ] = useState([]);
 
@@ -64,6 +65,7 @@ const BatchCreation = () => {
   // VALIDATION FOR DATES
   /* ERROR STATES */
   const [ dateErrorMessage, setDateErrorMessage ] = useState(null);
+  const [ statusErrorMessage, setStatusErrorMessage ] = useState(null);
 
   /* VALIDATION */
   useEffect(
@@ -95,26 +97,38 @@ const BatchCreation = () => {
   , [batchesLatestID, isLatestBatchesIDLoading, isLatestBatchesIDError])
 
   // FETCH AVAILABLE COURSES HERE
-  const { activeCourses, isActiveCoursesLoading, isActiveCoursesError } = useActiveCourses();
+  const { courses, isCoursesLoading, isCoursesError } = useCourses();
 
   useEffect(
     () => {
-      if (isActiveCoursesError) alert("Error fetching course! Please check internet connection.");
+      if (isCoursesError) alert("Error fetching course! Please check internet connection.");
       
       let courseMap = {};
-      let flatten = [];
+      let flattenActive = ["Active"];
+      let flattenInactive = ["Inactive"];
 
-      if (!isActiveCoursesLoading) {
-        for (let course of activeCourses) {
+      if (!isCoursesLoading) {
+        for (let course of courses) {
           let flattenedCourseName = `${course.courseName} (${course.trainingYears?.trainingYearSpan})`
           courseMap[flattenedCourseName] = course.courseId;
-          flatten.push(flattenedCourseName);
+          // flatten.push(flattenedCourseName);
+
+          // SORT ACTIVE FROM INACTIVE COURSES
+          if (course.courseStatus === "Active") {
+            flattenActive.push(flattenedCourseName);
+          }
+          else {
+            flattenInactive.push(flattenedCourseName);
+          }
         }
-        setAvailableCourses(flatten);
+
+        // console.log([flattenActive, flattenInactive]);
+        setAvailableCourses([flattenActive, flattenInactive]);
         setCourseNameID(courseMap);
+        setInactiveCourses(flattenInactive);
       }
     }
-  , [ activeCourses, isActiveCoursesLoading, isActiveCoursesError ])
+  , [ courses, isCoursesLoading, isCoursesError  ])
 
   // FETCH AVAILABLE INSTRUCTORS HERE
   const { teachers, isTeachersLoading, isTeachersError } = useTeachers();
@@ -134,6 +148,20 @@ const BatchCreation = () => {
       setInstructorMapID(teachersMapID);
     }
   , [teachers, isTeachersLoading, isTeachersError])
+
+  useEffect(() => {
+    for (let inactiveCourse of inactiveCourses) {
+      if (inactiveCourse === course && isActive === "Active") {
+        setStatusErrorMessage({
+          title: "Error",
+          description: "You cannot add an active batch to an inactive course."
+        })
+      }
+      else {
+        setStatusErrorMessage(null)
+      }
+    }
+  }, [inactiveCourses, course, isActive]);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -191,6 +219,16 @@ const BatchCreation = () => {
             null
           }
 
+          {
+            isActive === "Active" && statusErrorMessage ? 
+            <Alert severity="error">
+              <AlertTitle>{statusErrorMessage.title}</AlertTitle>
+              {statusErrorMessage.description}
+            </Alert>
+            :
+            null
+          }
+
           {availableCourses.length !== 0 && instructorOptions.length !== 0 ?
             null
             :
@@ -232,9 +270,18 @@ const BatchCreation = () => {
                 label="Course"
                 onChange={e => setCourse(e.target.value)}
               >
-                {availableCourses.map((option, index) => {
-                  return <MenuItem key={index} value={option}>{option}</MenuItem>
-                })}
+                {
+                  availableCourses.map((category, index) => {
+                      return (
+                        category.map((option, key) => {
+                          if (option === "Active" || option === "Inactive") {
+                            return <ListSubheader>{option}</ListSubheader>
+                          }
+                        return <MenuItem key={key} value={option}>{option}</MenuItem>
+                      })
+                      )
+                  })
+                }
               </Select>
             </FormControl>
             
@@ -309,7 +356,7 @@ const BatchCreation = () => {
           </div>
 
           <div className={styles["form_buttons"]}>
-            <FormButton label="Submit" type="submit" disabled={dateErrorMessage} />
+            <FormButton label="Submit" type="submit" disabled={dateErrorMessage || statusErrorMessage} />
             {/* GO BACK TO PREVIOUS PAGE */}
             <FormButton label="Cancel" variant="cancel" type="button" onClick={() => window.history.go(-1)}/>
           </div>
