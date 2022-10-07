@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import { useCourses } from '../../../../../assets/utilities/swr';
 
 /* MUI */
 import TextField from '@mui/material/TextField';
@@ -27,7 +26,7 @@ import {
 import { ENROLLMENT_STATUS } from '../../../../../assets/utilities/constants';
 import styles from './TraineeRegistrationCreation.module.scss';
 
-import { useTrainee, useGroupedBatches, useLatestRegistrationID } from '../../../../../assets/utilities/swr';
+import { useTrainee, useGroupedBatches, useLatestRegistrationID, useActiveCourses } from '../../../../../assets/utilities/swr';
 import { postTraineeRegistration } from '../../../../../assets/utilities/axiosUtility';
 import dayjs from 'dayjs';
 
@@ -72,16 +71,16 @@ const TraineeRegistrationCreation = () => {
   , [latestRegistrationID, isLatestRegistrationIDLoading, isLatestRegistrationIDError, regID, location.state.regID])
 
   // FETCH AVAILABLE COURSES
-  const { courses, isCoursesLoading, isCoursesError } = useCourses();
+  const { activeCourses, isActiveCoursesLoading, isActiveCoursesError } = useActiveCourses();
 
   useEffect(
     () => {
-      if (isCoursesError) alert("Error fetching courses! Please refresh or check your internet connection.");
+      if (isActiveCoursesError) alert("Error fetching courses! Please refresh or check your internet connection.");
       let courseFlattened = [];
 
       // FLATTEN
-      if (!isCoursesLoading) {
-        for (let course of courses) {
+      if (!isActiveCoursesLoading) {
+        for (let course of activeCourses) {
           let flattenedCourseName = `${course.courseName} (${course.trainingYears?.trainingYearSpan})`
           courseFlattened.push(flattenedCourseName);
         }
@@ -89,7 +88,7 @@ const TraineeRegistrationCreation = () => {
 
       setCourseOptions(courseFlattened);
     }
-  , [courses, isCoursesLoading, isCoursesError])
+  , [ activeCourses, isActiveCoursesLoading, isActiveCoursesError ])
 
   // FETCH EXISTING TRAINEE DATA
   const { trainee, isTraineeLoading, isTraineeError } = useTrainee(traineeID);
@@ -121,6 +120,7 @@ const TraineeRegistrationCreation = () => {
       let coursesFlattened = {};
       let batchesFlattened = {};
       if (!isGroupedBatchesLoading) {
+        console.log(groupedBatches)
         for (let i = 0; i < groupedBatches.length; i++) {
           let flattenedCourseName = `${groupedBatches[i].courseName} (${groupedBatches[i].trainingYears?.trainingYearSpan})`
           // MAP COURSES TO RESPECTIVE courseId

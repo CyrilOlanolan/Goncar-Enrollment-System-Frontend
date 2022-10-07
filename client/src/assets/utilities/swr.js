@@ -255,3 +255,13 @@ export function usePayable(id) {
         isPayableError: error
     }
 }
+
+export function useActiveCourses() {
+    const { data, error } = useSWR(`${deployedURI}/api/courses/all/active`, fetcher);
+
+    return {
+        activeCourses: data,
+        isActiveCoursesLoading: !error && !data,
+        isActiveCoursesError: error
+    }
+}

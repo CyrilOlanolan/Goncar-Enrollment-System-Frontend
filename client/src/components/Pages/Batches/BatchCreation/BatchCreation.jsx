@@ -25,7 +25,7 @@ import {
   FormButton
 } from '../../../ComponentIndex';
 import styles from './BatchCreation.module.scss';
-import { useBatchesLatestID, useCourses, useTeachers } from '../../../../assets/utilities/swr';
+import { useBatchesLatestID, useActiveCourses, useTeachers } from '../../../../assets/utilities/swr';
 import { postBatch } from '../../../../assets/utilities/axiosUtility';
 import { BATCH_STATUS } from '../../../../assets/utilities/constants';
 
@@ -95,17 +95,17 @@ const BatchCreation = () => {
   , [batchesLatestID, isLatestBatchesIDLoading, isLatestBatchesIDError])
 
   // FETCH AVAILABLE COURSES HERE
-  const { courses, isCoursesLoading, isCoursesError } = useCourses();
+  const { activeCourses, isActiveCoursesLoading, isActiveCoursesError } = useActiveCourses();
 
   useEffect(
     () => {
-      if (isCoursesError) alert("Error fetching course! Please check internet connection.");
+      if (isActiveCoursesError) alert("Error fetching course! Please check internet connection.");
       
       let courseMap = {};
       let flatten = [];
 
-      if (!isCoursesLoading) {
-        for (let course of courses) {
+      if (!isActiveCoursesLoading) {
+        for (let course of activeCourses) {
           let flattenedCourseName = `${course.courseName} (${course.trainingYears?.trainingYearSpan})`
           courseMap[flattenedCourseName] = course.courseId;
           flatten.push(flattenedCourseName);
@@ -114,7 +114,7 @@ const BatchCreation = () => {
         setCourseNameID(courseMap);
       }
     }
-  , [courses, isCoursesLoading, isCoursesError])
+  , [ activeCourses, isActiveCoursesLoading, isActiveCoursesError ])
 
   // FETCH AVAILABLE INSTRUCTORS HERE
   const { teachers, isTeachersLoading, isTeachersError } = useTeachers();

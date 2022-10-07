@@ -8,6 +8,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+
 import {
   SideBar,
   BubblePage,
@@ -27,6 +32,8 @@ const CourseEdit = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const COURSE_STATUS_OPTIONS = ["Active", "Inactive"];
+
   /* STATE */
   const [courseID] = useState(location.state.courseID);
   const [courseName, setCourseName] = useState("");
@@ -34,6 +41,7 @@ const CourseEdit = () => {
   const [units, setUnits] = useState("");
   const [hoursRequired, setHoursRequired] = useState("");
   const [trainingYear, setTrainingYear] = useState("");
+  const [courseStatus, setCourseStatus] = useState("Active");
 
   const [availableTrainingYears, setAvailableTrainingYears] = useState([]);
 
@@ -87,7 +95,8 @@ const CourseEdit = () => {
       courseDescription: courseDescription,
       requiredHours: Number(hoursRequired),
       units: Number(units),
-      trainingYearId: trainingYearNameID[trainingYear]
+      trainingYearId: trainingYearNameID[trainingYear],
+      courseStatus: courseStatus
     };
 
     console.log(data);
@@ -186,6 +195,25 @@ const CourseEdit = () => {
               fullWidth
               required
             />
+          </div>
+
+          <div className={styles["row-5"]}>
+            <FormControl required>
+              <FormLabel id="courseStatus-radio-buttons-group">Course Status</FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="courseStatus-radio-buttons-group"
+                name="courseStatus-radio-buttons-group"
+                value={courseStatus}
+                onChange={e => setCourseStatus(e.target.value)}
+              >
+                {COURSE_STATUS_OPTIONS.map((option, index) => {
+                  return (
+                    <FormControlLabel key={index} value={option} control={<Radio />} label={option} />
+                  )
+                })}
+              </RadioGroup>
+            </FormControl>
           </div>
 
           <div className={styles["form_buttons"]}>

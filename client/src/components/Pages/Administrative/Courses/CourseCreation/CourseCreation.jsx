@@ -9,6 +9,10 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 
 import {
   SideBar,
@@ -28,6 +32,8 @@ import { postCourse } from "../../../../../assets/utilities/axiosUtility";
 const CourseCreation = () => {
   const navigate = useNavigate();
 
+  const COURSE_STATUS_OPTIONS = ["Active", "Inactive"];
+
   /* STATE */
   const [courseID, setCourseID] = useState("");
   const [courseName, setCourseName] = useState("");
@@ -35,6 +41,7 @@ const CourseCreation = () => {
   const [units, setUnits] = useState("");
   const [hoursRequired, setHoursRequired] = useState("");
   const [trainingYear, setTrainingYear] = useState("");
+  const [courseStatus, setCourseStatus] = useState("Active");
 
   const [availableTrainingYears, setAvailableTrainingYears] = useState([]);
 
@@ -84,7 +91,8 @@ const CourseCreation = () => {
       courseDescription: courseDescription,
       requiredHours: Number(hoursRequired),
       units: Number(units),
-      trainingYearId: trainingYearNameID[trainingYear]
+      trainingYearId: trainingYearNameID[trainingYear],
+      courseStatus: courseStatus
     };
 
     console.log(data);
@@ -191,6 +199,25 @@ const CourseCreation = () => {
               fullWidth
               required
             />
+          </div>
+
+          <div className={styles["row-5"]}>
+            <FormControl required>
+              <FormLabel id="courseStatus-radio-buttons-group">Course Status</FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="courseStatus-radio-buttons-group"
+                name="courseStatus-radio-buttons-group"
+                value={courseStatus}
+                onChange={e => setCourseStatus(e.target.value)}
+              >
+                {COURSE_STATUS_OPTIONS.map((option, index) => {
+                  return (
+                    <FormControlLabel key={index} value={option} control={<Radio />} label={option} />
+                  )
+                })}
+              </RadioGroup>
+            </FormControl>
           </div>
 
           <div className={styles["form_buttons"]}>

@@ -25,7 +25,7 @@ import {
   FormButton
 } from '../../../ComponentIndex';
 import styles from './BatchEdit.module.scss';
-import { useCourses, useBatch, useTeachers } from '../../../../assets/utilities/swr';
+import { useBatch, useTeachers, useActiveCourses } from '../../../../assets/utilities/swr';
 import { putBatch } from '../../../../assets/utilities/axiosUtility';
 import { BATCH_STATUS } from '../../../../assets/utilities/constants';
 // VALIDATION FOR START DATE AND END DATE
@@ -59,6 +59,7 @@ const BatchEdit = () => {
 
   const [ initialInstructor, setInitialInstructor ] = useState("");
   const [ initialInstructorID, setInitialInstructorID ] = useState("");
+  const [ initialCourse, setInitialCourse ] = useState("");
 
   const BATCH_STATUS_OPTIONS = [
     BATCH_STATUS.ACTIVE,
@@ -135,7 +136,7 @@ const BatchEdit = () => {
         let flattenedCourseName = `${batch?.courses?.courseName} (${batch?.courses?.trainingYears?.trainingYearSpan})`
         setLANumber(batch.laNumber);
         setBatchName(batch.batchName);
-        setCourse(flattenedCourseName);
+        setInitialCourse(flattenedCourseName)
         setEndDate(batch.endDate);
         setStartDate(batch.startDate);
         setStudentLimit(batch.maxStudents);
@@ -147,17 +148,17 @@ const BatchEdit = () => {
   , [batch, isBatchLoading, isBatchError])
 
   // FETCH AVAILABLE COURSES HERE
-  const { courses, isCoursesLoading, isCoursesError } = useCourses();
+  const { activeCourses, isActiveCoursesLoading, isActiveCoursesError } = useActiveCourses();
 
   useEffect(
     () => {
-      if (isCoursesError) alert("Error fetching course! Please check internet connection.");
+      if (isActiveCoursesError) alert("Error fetching course! Please check internet connection.");
       
       let courseMap = {};
       let flatten = [];
 
-      if (!isCoursesLoading) {
-        for (let course of courses) {
+      if (!isActiveCoursesLoading) {
+        for (let course of activeCourses) {
           let flattenedCourseName = `${course.courseName} (${course.trainingYears?.trainingYearSpan})`
           courseMap[flattenedCourseName] = course.courseId;
           flatten.push(flattenedCourseName);
@@ -166,7 +167,7 @@ const BatchEdit = () => {
         setCourseNameID(courseMap);
       }
     }
-  , [courses, isCoursesLoading, isCoursesError])
+  , [activeCourses, isActiveCoursesLoading, isActiveCoursesError])
 
   function handleSubmit(event) {
     event.preventDefault();
