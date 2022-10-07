@@ -84,7 +84,7 @@ const TrainingYearsEdit = () => {
     <>
       <SideBar />
       <BubblePage>
-        <h1 className={styles["title"]}>Add a New Training Year</h1>
+        <h1 className={styles["title"]}>Edit Training Year</h1>
 
         {
           dateErrorMessage ? 
