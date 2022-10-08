@@ -157,7 +157,7 @@ const CourseEdit = () => {
         <Fade in={open}>
           <Box sx={style}>
             <h1 className={styles["modal__error-title"]}>Error!</h1>
-            <p className={styles["modal__error-description"]}>Setting a course with active batches is not allowed. Here are the currently active batches under the course.</p>
+            <p className={styles["modal__error-description"]}>Setting a course to inactive while it has active batches is not allowed. Here are the currently active batches under the course.</p>
             <p className={styles["modal__error-description2"]}>Currently Active Batches under {courseName}:</p>
             {errorCurrentlyActiveBatches.map((batch, index) => {
               return (<p key={index}>

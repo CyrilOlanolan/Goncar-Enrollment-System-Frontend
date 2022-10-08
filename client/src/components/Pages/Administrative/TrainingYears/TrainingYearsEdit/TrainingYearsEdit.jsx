@@ -14,8 +14,12 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
 
-import { SideBar, BubblePage, FormButton, Spinner } from "../../../../ComponentIndex";
+import { SideBar, BubblePage, FormButton, Spinner, ActionButton } from "../../../../ComponentIndex";
 import styles from "./TrainingYearsEdit.module.scss";
 
 import { putTrainingYear } from "../../../../../assets/utilities/axiosUtility";
@@ -36,6 +40,7 @@ const TrainingYearsEdit = () => {
 
   /* ERROR STATES */
   const [ dateErrorMessage, setDateErrorMessage ] = useState(null);
+  const [errorCurrentlyActiveCourses, setErrorCurrentlyActiveCourses] = useState([]);
 
   /* VALIDATION */
   useEffect(
@@ -80,18 +85,73 @@ const TrainingYearsEdit = () => {
 
     putTrainingYear(trainingYearID, data)
     .then(
-      (status) => {
-        if (status === 200) {
+      (response) => {
+        if (response.status === 200) {
           navigate(`/administrative/training-years`);
+        }
+        else if (response.status === 409) {
+          setErrorCurrentlyActiveCourses(response.data?.activeCourses);
+          handleOpen();
         }
         else alert(`BAD REQUEST: ${status}`);
       }
     )
   }
 
+  // MODAL
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: "60%",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+
   return (
     <>
       <SideBar />
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <h1 className={styles["modal__error-title"]}>Error!</h1>
+            <p className={styles["modal__error-description"]}>Setting a training year to inactive with active course/s is not allowed. Here are the currently active course/s under the training year.</p>
+            <p className={styles["modal__error-description2"]}>Currently Active Courses under TY: {startYear} - {endYear}:</p>
+            {errorCurrentlyActiveCourses.map((course, index) => {
+              return (<p key={index}>
+                <span className={styles["modal__batchID"]}>{course.courseId}</span> - <span className={styles["modal__batchName"]}>{course.courseName}</span>
+              </p>)
+            })}
+
+            {console.log(errorCurrentlyActiveCourses)}
+
+            <div className={styles["modal__action-buttons"]}>
+              <ActionButton variant="close" label="CLOSE" onClick={handleClose} />
+              <ActionButton variant="view" label="COURSES" onClick={() => {
+                navigate('/administrative/courses')
+                handleClose();
+              }}/>
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
       <BubblePage>
         <h1 className={styles["title"]}>Edit Training Year</h1>
 
