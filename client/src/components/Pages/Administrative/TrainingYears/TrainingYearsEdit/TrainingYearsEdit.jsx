@@ -9,6 +9,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 
 import { SideBar, BubblePage, FormButton, Spinner } from "../../../../ComponentIndex";
 import styles from "./TrainingYearsEdit.module.scss";
@@ -25,6 +30,9 @@ const TrainingYearsEdit = () => {
   /* STATES */
   const [ startYear, setStartYear ] = useState(null)
   const [ endYear, setEndYear ] = useState(null)
+  const [status, setStatus] = useState("Active");
+
+  const STATUS_OPTIONS = ["Active", "Inactive"];
 
   /* ERROR STATES */
   const [ dateErrorMessage, setDateErrorMessage ] = useState(null);
@@ -66,7 +74,8 @@ const TrainingYearsEdit = () => {
     event.preventDefault();
     
     let data = {
-      trainingYearSpan: `${dayjs(startYear).year().toString()}-${dayjs(endYear).year().toString()}`
+      trainingYearSpan: `${dayjs(startYear).year().toString()}-${dayjs(endYear).year().toString()}`,
+      trainingYearStatus: status
     };
 
     putTrainingYear(trainingYearID, data)
@@ -139,6 +148,25 @@ const TrainingYearsEdit = () => {
                   )}
                 />
               </LocalizationProvider>
+            </div>
+
+            <div className={styles["row-2"]}>
+              <FormControl required>
+                <FormLabel id="status-radio-buttons-group">Status</FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="status-radio-buttons-group"
+                  name="status-radio-buttons-group"
+                  value={status}
+                  onChange={e => setStatus(e.target.value)}
+                >
+                  {STATUS_OPTIONS.map((option, index) => {
+                    return (
+                      <FormControlLabel key={index} value={option} control={<Radio />} label={option} />
+                    )
+                  })}
+                </RadioGroup>
+              </FormControl>
             </div>
 
             <div className={styles["form_buttons"]}>

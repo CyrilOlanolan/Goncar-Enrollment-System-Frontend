@@ -136,7 +136,7 @@ export function putCourse(id, data) {
         return response.status;
     })
     .catch(function (error) {
-        return error.response.status;
+        return error.response;
     })
 }
 

@@ -1,5 +1,41 @@
 @use "../../../../../styles/variables.scss" as *;
 
+// MODAL
+.modal {
+    &__error-title {
+        margin-bottom: 0.5rem;
+        color: $color--error;
+    }
+
+    &__error-description {
+        margin-bottom: 1rem;
+    }
+
+    &__batchID {
+        font-weight: 700;
+    }
+
+    &__batchName {
+        font-style: italic;
+    }
+
+    &__action-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        margin-top: 1rem;
+        column-gap: 1rem;
+
+        /* SUPPORT FOR iOS 14 below */
+        @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+            /* FOR FLEXBOX GAP SUPPORT */
+            & > *:not(:last-child) {
+                margin-right: 1rem;
+            }
+        }
+    }
+}
+
 .title {
     margin-bottom: 1rem;
 }

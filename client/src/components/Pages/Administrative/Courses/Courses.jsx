@@ -81,7 +81,8 @@ const Courses = () => {
           courseName: course?.courseName,
           units: course?.units,
           trainingYearSpan: course?.trainingYears?.trainingYearSpan,
-          tuition: course?.tuition
+          tuition: course?.tuition,
+          courseStatus: course?.courseStatus
         })
       }
       setRowData(coursesFlatten);
@@ -116,13 +117,12 @@ const Courses = () => {
       sortable: true,
     },
     {
-      field: "tuition",
-      headerName: "Tuition",
+      field: "courseStatus",
+      headerName: "Status",
       lockPosition: "left",
-      minWidth: 180,
+      minWidth: 120,
       flex: 1,
-      sortable: true,
-      cellRenderer: (params) => `₱ ${params.data.tuition}`
+      sortable: true
     },
     {
       field: "",

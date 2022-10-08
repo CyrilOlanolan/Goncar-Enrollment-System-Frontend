@@ -9,6 +9,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 
 import { SideBar, BubblePage, FormButton } from "../../../../ComponentIndex";
 import styles from "./TrainingYearsCreation.module.scss";
@@ -21,9 +26,12 @@ const TrainingYearsCreation = () => {
   /* STATES */
   const [ startYear, setStartYear ] = useState(String(dayjs().year()))
   const [ endYear, setEndYear ] = useState(String(dayjs().add(1, 'year').year()))
+  const [ status, setStatus ] = useState("Active");
   
   /* ERROR STATES */
   const [ dateErrorMessage, setDateErrorMessage ] = useState(null);
+
+  const STATUS_OPTIONS = ["Active", "Inactive"];
 
   /* VALIDATION */
   useEffect(
@@ -114,6 +122,25 @@ const TrainingYearsCreation = () => {
                 )}
               />
             </LocalizationProvider>
+          </div>
+
+          <div className={styles["row-2"]}>
+            <FormControl required>
+              <FormLabel id="status-radio-buttons-group">Status</FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="status-radio-buttons-group"
+                name="status-radio-buttons-group"
+                value={status}
+                onChange={e => setStatus(e.target.value)}
+              >
+                {STATUS_OPTIONS.map((option, index) => {
+                  return (
+                    <FormControlLabel key={index} value={option} control={<Radio />} label={option} />
+                  )
+                })}
+              </RadioGroup>
+            </FormControl>
           </div>
 
           <div className={styles["form_buttons"]}>
