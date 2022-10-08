@@ -29,6 +29,7 @@ export  { default as TraineeRegistrationTabContent } from "./Pages/Trainees/Trai
 export  { default as TraineeRegistrationModal } from "./Pages/Trainees/TraineeProfile/TabContents/TraineeRegistrationModal.jsx";
 export  { default as TraineeRegistrationEdit } from "./Pages/Trainees/TraineeProfile/TraineeRegistrationEdit/TraineeRegistrationEdit.jsx";
 export  { default as TraineeProfileEdit } from "./Pages/Trainees/TraineeProfile/TraineeProfileEdit/TraineeProfileEdit.jsx";
+export  { default as TransactionLog } from "./Pages/Trainees/TraineeProfile/TabContents/TransactionLog.jsx";
 
 /* ADMINISTRATIVE */
 export { default as Courses } from './Pages/Administrative/Courses/Courses.jsx';

@@ -1,0 +1,51 @@
+@use "../../../../../styles/variables.scss" as *;
+
+$border-design: .125rem solid #a0a0a0;
+
+.TransactionLog {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .account {
+        border: $border-design;
+        width: fit-content;
+        border-radius: .5rem;
+        margin-bottom: 1.5rem;
+    
+        &__table {
+            border: $border-design;
+            border-collapse: collapse;
+            border-radius: .5rem;
+            overflow: hidden;
+    
+            tbody {
+                tr {
+                    border: $border-design;
+    
+                    th {
+                        background-color: $color--table-header;
+                        padding: 0.5rem 1rem;
+                    }
+    
+                    td {
+                        background-color: $color--light-gray;
+                        border: $border-design;
+                        padding: 0.5rem 1rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .transactions {
+        flex-grow: 1;
+
+        &__table {
+            position: relative;
+            min-height: 25rem;
+            height: 100%;
+        }
+    }
+}

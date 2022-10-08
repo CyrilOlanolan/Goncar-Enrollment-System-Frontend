@@ -15,7 +15,8 @@ import  {
   Tab,
   TraineeRegistrationTabContent,
   Spinner,
-  NewButton
+  NewButton,
+  TransactionLog
 } from "../../../ComponentIndex";
 import styles from "./TraineeProfile.module.scss"
 
@@ -208,7 +209,7 @@ const TraineeProfile = () => {
                     {activeTab === 0 ? <NewButton label="CREATE NEW REGISTRATION" onClick={() => handleNewRegistration(traineeID)} /> : <NewButton label="CREATE NEW PAYMENT" onClick={() => handleNewPayment()} />}
                   </div>
                   {
-                    activeTab === 0 ? <TraineeRegistrationTabContent traineeName={`${trainee.lastName}, ${trainee.firstName}${trainee.middleName ? ' ' + trainee.middleName : ""}`} /> : null
+                    activeTab === 0 ? <TraineeRegistrationTabContent traineeName={`${trainee.lastName}, ${trainee.firstName}${trainee.middleName ? ' ' + trainee.middleName : ""}`} /> : <TransactionLog />
                   }
                 </div>
               </div>
