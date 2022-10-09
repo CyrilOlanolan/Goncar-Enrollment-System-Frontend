@@ -1,15 +1,16 @@
 @use "../../../../styles/variables.scss" as *;
 .Batch {
     &__details {
+        margin-top: 1rem;
         display: flex;
-        flex-direction: column;
-        row-gap: 0.5rem;
+        flex-direction: row;
+        column-gap: 3rem;
 
         /* SUPPORT FOR iOS 14 below */
         @supports (-webkit-touch-callout: none) and (not (translate: none)) {
             /* FOR FLEXBOX GAP SUPPORT */
             & > *:not(:last-child) {
-                margin-bottom: 0.5rem;
+                margin-right: 3rem;
             }
         }
         
@@ -20,6 +21,29 @@
         .field {
             font-weight: 700;
             color: $color--secondary;
+        }
+    }
+
+    &__trainees {
+        margin-top: 2rem;
+        height: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+
+        .trainees {
+            flex-grow: 1;
+            position: relative;
+            margin-top: 1rem;
+            min-height: 18.75rem;
+        }
+
+        .trainees__table {
+            flex-grow: 1;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            right: 0;
         }
     }
 }
