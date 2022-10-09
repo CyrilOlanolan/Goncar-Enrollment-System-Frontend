@@ -27,8 +27,8 @@ const items = [
     route: "/administrative/training-years",
   },
   {
-    title: "Payables",
-    description: "Display all payables per course and training year",
+    title: "Add Payables",
+    description: "Add a payable per course and training year",
     route: "/administrative/payables/general",
   },
 ];

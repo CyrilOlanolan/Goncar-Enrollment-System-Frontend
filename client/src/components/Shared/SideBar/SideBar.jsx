@@ -54,12 +54,12 @@ const SideBar = () => {
         "icon": "roundAdminPanelSettings",
         "route": "/administrative"
     },
-    {
-        "label": "Settings",
-        "shortLabel": "Settings",
-        "icon": "roundSettings",
-        "route": "/settings"
-    }
+    // {
+    //     "label": "Settings",
+    //     "shortLabel": "Settings",
+    //     "icon": "roundSettings",
+    //     "route": "/settings"
+    // }
 ]
 
   const maxWidth768px = useMediaQuery("(max-width:768px");

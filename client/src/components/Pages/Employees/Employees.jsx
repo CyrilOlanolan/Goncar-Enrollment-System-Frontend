@@ -70,7 +70,7 @@ const Employees = () => {
       field: "fullName",
       headerName: "Full Name",
       lockPosition: "left",
-      cellRenderer: (params) => getFullName(params),
+      valueGetter: (params) => getFullName(params),
       minWidth: 230,
       flex: 1,
       sortable: true

@@ -57,10 +57,10 @@ const Trainees = () => {
       sortable: true
     },
     {
-      field: "id",
+      field: "fullName",
       headerName: "Full Name",
       lockPosition: "left",
-      cellRenderer: getFullName,
+      valueGetter: getFullName,
       minWidth: 230,
       flex: 1,
       sortable: true

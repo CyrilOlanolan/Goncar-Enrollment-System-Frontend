@@ -70,15 +70,17 @@ function App() {
         <Route path="/finance/new-payable" element={<PayableCreation />} />
         <Route path="/finance/payable/edit" element={<PayableEdit />} />
 
+        {/* ADMINISTRATIVE ROUTES */}
         <Route path="/administrative" element={<Administrative />} />
         <Route path="/administrative/payables/:type" element={<PayableCreation />} />
 
-        {/* COURSES ROUTES */}
+        {/* ADMINISTRATIVE - COURSES ROUTES */}
         <Route path="/administrative/course/view/:courseID" element={<Course />} />
         <Route path="/administrative/courses/new" element={<CourseCreation />} />
         <Route path="/administrative/course/edit" element={<CourseEdit />} />
         <Route path="/administrative/courses" element={<Courses />} />
         
+        {/* ADMINISTRATIVE - TRAINING YEARS ROUTES */}
         <Route path="/administrative/training-years" element={<TrainingYears />} />
         <Route path="/administrative/training-years/new" element={<TrainingYearsCreation />} />
         <Route path="/administrative/training-years/edit" element={<TrainingYearsEdit />} />

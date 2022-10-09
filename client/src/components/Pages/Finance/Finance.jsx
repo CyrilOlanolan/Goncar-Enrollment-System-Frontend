@@ -73,6 +73,7 @@ const Finance = () => {
       field: "tuition",
       headerName: "Tuition",
       lockPosition: "left",
+      cellRenderer: (params) => `₱ ${params.data.tuition}`,
       width: 150,
       sortable: true
     },
