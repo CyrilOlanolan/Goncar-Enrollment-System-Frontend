@@ -9,11 +9,14 @@ import {
   InputField
 } from '../../../../ComponentIndex'
 import styles from './TransactionLog.module.scss';
+import { useTransactionLog } from '../../../../../assets/utilities/swr';
 
-const TransactionLog = () => {
+const TransactionLog = ({ traineeID }) => {
 
   // STATES
   const [accountBalance, setAccountBalance] = useState("");
+  const [accountDue, setAccountDue] = useState("");
+  const [accountPayment, setAccountPayment] = useState("");
 
   /* INITIALIZE rowData VARIABLE */
   const [rowData, setRowData] = useState([]);
@@ -21,7 +24,7 @@ const TransactionLog = () => {
   /* SET COLUMN DEFINITIONS */
   const [columnDefs] = useState([
     {
-      field: "transactionID",
+      field: "transactionId",
       headerName: "ID",
       lockPosition: "left",
       width: 75,
@@ -35,7 +38,7 @@ const TransactionLog = () => {
       sortable: true
     },
     {
-      field: "amount",
+      field: "paymentAmount",
       headerName: "Amount",
       lockPosition: "left",
       sortable: true,
@@ -55,6 +58,21 @@ const TransactionLog = () => {
     paginationAutoPageSize: true
   }
 
+  // FETCH HERE
+  const { transactionLog, isTransactionLogLoading, isTransactionLogError } = useTransactionLog(traineeID);
+
+  useEffect(() => {
+    if (isTransactionLogError) alert("Error fetching transaction log data! Check internet connection.");
+
+    if (!isTransactionLogLoading) {
+      // console.log(transactionLog)
+      setRowData(transactionLog.transact)
+      setAccountBalance(transactionLog?.trybalance);
+      setAccountDue(transactionLog?.trytuition);
+      setAccountPayment(transactionLog?.trypayamount);
+    }
+  }, [transactionLog, isTransactionLogLoading, isTransactionLogError]);
+
   return (
     <div className={styles["TransactionLog"]}>
       <div className={styles["account"]}>
@@ -62,15 +80,19 @@ const TransactionLog = () => {
           <tbody className={styles["account__table-body"]}>
             <tr>
               <th>Current Due</th>
-              <td>10000</td>
+              <td>{accountDue ?? "ERROR"}</td>
             </tr>
             <tr>
               <th>10% Downpayment</th>
               <td>2500</td>
             </tr>
             <tr>
+              <th>Total Payment</th>
+              <td>{accountPayment ?? "ERROR"}</td>
+            </tr>
+            <tr>
               <th>Balance</th>
-              <td>500</td>
+              <td>{accountBalance ?? "ERROR"}</td>
             </tr>
           </tbody>
         </table>
