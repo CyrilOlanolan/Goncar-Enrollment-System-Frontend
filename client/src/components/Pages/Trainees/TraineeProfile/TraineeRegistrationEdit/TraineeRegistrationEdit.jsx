@@ -134,16 +134,24 @@ const TraineeRegistrationEdit = () => {
       let batchIDNameMap = {};
       let batchNamesFlattened = [];
 
+      let initialBatchInList = false;
       for (let batches of batchesInCourse) {
         batchIDNameMap[batches.batchName] = batches.batchId;
         batchNamesFlattened.push(batches.batchName);
+
+        if (batches.batchName === initialBatch) {
+          initialBatchInList = true;
+        }
       }
 
       setBatchesIDMap(batchIDNameMap);
       setAvailableBatches(batchNamesFlattened);
 
-      if (initialCourse === selectedCourse) {
+      if (initialCourse === selectedCourse && !initialBatchInList) {
         setAvailableBatches([...batchNamesFlattened, initialBatch])
+        setSelectedBatch(initialBatch)
+      }
+      else if (initialBatchInList) {
         setSelectedBatch(initialBatch)
       }
     }
