@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 import { SignInCard } from '../../ComponentIndex'
 import styles from "./SignIn.module.scss"
 import signInBG from "../../../assets/images/signinpage-bg.png";

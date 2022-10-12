@@ -65,3 +65,6 @@ export { default as WelcomeBubble } from "./Pages/Dashboard/WelcomeBubble/Welcom
 export { default as DateTime } from "./Pages/Dashboard/DateTime/DateTime.jsx"
 export { default as DashboardCard } from "./Pages/Dashboard/DashboardCard/DashboardCard.jsx"
 export { default as DashboardCards } from "./Pages/Dashboard/DashboardCards/DashboardCards.jsx"
+
+/* GENERAL */
+export { default as ErrorPage } from './ErrorPage.jsx';

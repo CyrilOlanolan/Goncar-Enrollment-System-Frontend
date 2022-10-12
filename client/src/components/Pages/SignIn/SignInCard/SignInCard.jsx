@@ -3,30 +3,35 @@ import styles from "./SignInCard.module.scss";
 import { InputField, Button } from "../../../ComponentIndex";
 import goncarLogo from "../../../../assets/images/goncar-logo.png";
 import {auth} from "../../Firebase.js";
+
+import useAuth from "../../../../hooks/useAuth";
+import { useNavigate, useLocation } from 'react-router-dom';
+
 import {
   signInWithEmailAndPassword,
-  onAuthStateChanged
+  onAuthStateChanged,
+  updateProfile
 }from "firebase/auth";
 
 const SignInArea = () => {
+  const { setAuth } = useAuth();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from  = location.state?.from?.pathname || "/";
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  const [user, setUser] = useState({});
-
-  console.log(user);
-
   useEffect(
     () => {
       onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
+        setAuth(currentUser);
       });
     }
-  , [])
+  , [setAuth])
 
   const login = async (e) => {
-    console.log("hello");
     e.preventDefault();
     try {
       const user = await signInWithEmailAndPassword(
@@ -35,14 +40,22 @@ const SignInArea = () => {
         loginPassword
       );
 
-      console.log(user); 
+      setAuth(user);
+      // updateProfile(user.user, {
+      //   displayName: "Dong Gyu Kang"
+      // }).then(() => {
+      //   console.log("UPDATED DISPLAY NAME: ", user)
+      // })
+      // .catch((error) => {
+      //   console.log(error)
+      // })
+      navigate(from, { replace: true })
     } catch (error) {
       console.log(error.message);
     }
   };
 
   function handleEmailChange(event) {
-    console.log(event.target.value);
     setLoginEmail(event.target.value);
   }
 
@@ -60,13 +73,13 @@ const SignInArea = () => {
           <h1>Sign In</h1>
           <p className={styles["invalid-prompt"]}>Invalid credentials</p>
 
-          <form className={styles["SignInArea__form"]}>
+          <form className={styles["SignInArea__form"]} onSubmit={login}>
             <InputField label="Email" type="email" name="email" onChange={(event) => handleEmailChange(event)}/>
             <InputField label="Password" type="password" name="password" onChange={(event)=>{setLoginPassword(event.target.value)}}/>
-            <Button label="Sign In" type="button" variant="SignIn" onClick={login} /> {/* TODO: CHANGE BUTTON TYPE TO SUBMIT */}
+            <Button label="Sign In" type="submit" variant="SignIn" /> {/* TODO: CHANGE BUTTON TYPE TO SUBMIT */}
           </form>
 
-          <a href="/" className={styles["SignInArea__forgot-credentials"]}>Forgot credentials?</a> {/* TODO: LINK FORGOT CREDENTIALS */}
+          {/* <a href="/" className={styles["SignInArea__forgot-credentials"]}>Forgot credentials?</a> TODO: LINK FORGOT CREDENTIALS */}
         </div>
       </div>
     </>

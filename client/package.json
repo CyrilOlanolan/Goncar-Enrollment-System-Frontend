@@ -41,7 +41,8 @@
     "eject": "react-scripts eject",
     "dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "createUser": "node ./src/assets/utilities/createUser"
   },
   "eslintConfig": {
     "extends": [

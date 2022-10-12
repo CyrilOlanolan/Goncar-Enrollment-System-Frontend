@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { signOut } from "firebase/auth";
+import {auth} from "../../Pages/Firebase";
 
 import { Button } from "../../ComponentIndex";
 import styles from "./SideBar.module.scss";
@@ -114,6 +116,15 @@ const SideBar = () => {
     }
   }
 
+  function signout() {
+    signOut(auth).then(() => {
+      console.log('USER SIGNED OUT')
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
+
   return (
     <>
       <nav className={styles["SideBar"]}>
@@ -144,6 +155,7 @@ const SideBar = () => {
             variant="SignOut"
             icon="logoutIcon"
             iconSize="24"
+            onClick={signout}
           />
         </div>
       </nav>
