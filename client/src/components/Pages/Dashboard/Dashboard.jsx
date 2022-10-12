@@ -11,7 +11,7 @@ const Dashboard = () => {
       <SideBar />
       <div className="container">
         <div className={styles["Dashboard"]}>
-          <WelcomeBubble name={auth.user.displayName}/>
+          <WelcomeBubble name={auth?.displayName || auth?.user?.displayName}/>
           <div className={styles["Dashboard__cards"]}>
             <h3 className={styles["title"]}>DASHBOARD</h3>
             <DashboardCards />

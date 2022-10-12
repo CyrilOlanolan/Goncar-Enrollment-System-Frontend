@@ -16,9 +16,10 @@ import roundAdminPanelSettings from "@iconify/icons-ic/round-admin-panel-setting
 import roundSettings from "@iconify/icons-ic/round-settings";
 import roundGroups from "@iconify/icons-ic/round-groups";
 import roundMenu from "@iconify/icons-ic/round-menu";
+import useAuth from "../../../hooks/useAuth";
 
 const SideBar = () => {
-
+  const { setLoading } = useAuth();
   const navigation = [
     {
         "label": "Dashboard",
@@ -117,12 +118,17 @@ const SideBar = () => {
   }
 
   function signout() {
+    setLoading(true);
     signOut(auth).then(() => {
-      console.log('USER SIGNED OUT')
+      localStorage.removeItem("currentUser");
     })
     .catch((error) => {
       console.log(error)
     })
+    .finally(() => {
+      setLoading(false)
+    }
+    )
   }
 
   return (
