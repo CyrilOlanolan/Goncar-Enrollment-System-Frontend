@@ -25,12 +25,11 @@ const PaymentCreation = () => {
   const traineeID = location.state.traineeID;
 
   /* STATES */
-  const [ totalBalance, setTotalBalance ] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [payableCost, setPayableCost] = useState("");
   const [paymentAmount, setPaymentAmount] = useState("");
   const [cashier, setCashier] = useState("");
   const [accountBalance, setAccountBalance] = useState("");
+  const [regID, setRegID] = useState(-1);
 
   const [cashierMapID, setCashierMapID] = useState({});
   const [availableCashiers, setAvailableCashiers] = useState([]);
@@ -71,7 +70,7 @@ const PaymentCreation = () => {
 
     if (!isTransactionLogLoading) {
       setAccountBalance(transactionLog?.trybalance);
-      console.log(transactionLog)
+      setRegID(transactionLog?.tempReg)
     }
   }, [transactionLog, isTransactionLogLoading, isTransactionLogError]);
 
@@ -96,7 +95,7 @@ const PaymentCreation = () => {
     postTransaction(traineeID, data)
     .then(
       (status) => {
-        if (status === 201) {
+        if (status === 200) {
           navigate(-1);
         }
         else alert(`BAD REQUEST: ${status}`);
@@ -130,7 +129,7 @@ const PaymentCreation = () => {
             <InputField
               label="Registration No."
               disabled={true}
-              value={123123}
+              value={regID ?? -1}
               variant={"traineeID"}
             />
           </div>

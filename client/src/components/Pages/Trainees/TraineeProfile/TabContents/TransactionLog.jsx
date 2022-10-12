@@ -5,9 +5,6 @@ import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 import '../../../../../styles/ag-theme-user.css'; // Optional theme CSS
 
-import {
-  InputField
-} from '../../../../ComponentIndex'
 import styles from './TransactionLog.module.scss';
 import { useTransactionLog } from '../../../../../assets/utilities/swr';
 
@@ -32,14 +29,29 @@ const TransactionLog = ({ traineeID }) => {
     },
     {
       field: "paymentMethod",
-      headerName: "Payment Method",
+      headerName: "Mode",
       lockPosition: "left",
-      width: 200,
+      width: 130,
+      sortable: true
+    },
+    {
+      field: "batchName",
+      headerName: "Batch",
+      lockPosition: "left",
+      width: 130,
+      sortable: true
+    },
+    {
+      field: "employee",
+      headerName: "Employee In-Charge",
+      lockPosition: "left",
+      width: 180,
       sortable: true
     },
     {
       field: "paymentAmount",
       headerName: "Amount",
+      cellRenderer: (params) => `₱ ${params.data.paymentAmount}`,
       lockPosition: "left",
       sortable: true,
       minWidth: 150,
@@ -64,15 +76,34 @@ const TransactionLog = ({ traineeID }) => {
   useEffect(() => {
     if (isTransactionLogError) alert("Error fetching transaction log data! Check internet connection.");
 
+    let transactionFlatten = [];
+
     if (!isTransactionLogLoading) {
-      setRowData(transactionLog.transact)
+      for (let transact of transactionLog.transact) {
+        let employee = `${transact?.employees?.lastName}, ${transact?.employees?.firstName}${getMiddleInitial(transact?.employees?.middleName)}`
+        transactionFlatten.push({
+          transactionId: transact?.transactionId,
+          paymentAmount: transact?.paymentAmount,
+          paymentMethod: transact?.paymentMethod,
+          employee: employee,
+          batchName: transact?.batchName
+        })
+      }
+      setRowData(transactionFlatten)
       setAccountBalance(transactionLog?.trybalance);
       setAccountDue(transactionLog?.trytuition);
       setAccountPayment(transactionLog?.trypayamount);
 
-      // console.log(transactionLog)
+      console.log(transactionLog)
     }
   }, [transactionLog, isTransactionLogLoading, isTransactionLogError]);
+
+  function getMiddleInitial(name) {
+    if (name) {
+      return " " + name[0] + ".";
+    }
+    return "";
+  }
 
   return (
     <div className={styles["TransactionLog"]}>
