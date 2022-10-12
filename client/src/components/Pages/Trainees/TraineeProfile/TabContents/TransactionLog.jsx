@@ -65,11 +65,12 @@ const TransactionLog = ({ traineeID }) => {
     if (isTransactionLogError) alert("Error fetching transaction log data! Check internet connection.");
 
     if (!isTransactionLogLoading) {
-      // console.log(transactionLog)
       setRowData(transactionLog.transact)
       setAccountBalance(transactionLog?.trybalance);
       setAccountDue(transactionLog?.trytuition);
       setAccountPayment(transactionLog?.trypayamount);
+
+      // console.log(transactionLog)
     }
   }, [transactionLog, isTransactionLogLoading, isTransactionLogError]);
 
@@ -83,8 +84,8 @@ const TransactionLog = ({ traineeID }) => {
               <td>{accountDue ?? "ERROR"}</td>
             </tr>
             <tr>
-              <th>10% Downpayment</th>
-              <td>2500</td>
+              <th>Downpayment</th>
+              <td>3500</td>
             </tr>
             <tr>
               <th>Total Payment</th>

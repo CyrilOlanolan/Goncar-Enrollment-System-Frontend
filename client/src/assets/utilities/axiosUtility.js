@@ -209,3 +209,13 @@ export function deletePayable(id) {
         return error.response.status;
     })
 }
+
+export function postTransaction(id, data) {
+    return axios.post(`${deployedURI}/api/trainees/${id}/transactions/`, data)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error) {
+        return error.response.status;
+    })
+}

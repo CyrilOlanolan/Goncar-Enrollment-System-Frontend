@@ -267,11 +267,21 @@ export function useActiveCourses() {
 }
 
 export function useTransactionLog(id) {
-    const { data, error } = useSWR(`${deployedURI}	/api/trainees/${id}/transactions/`, fetcher);
+    const { data, error } = useSWR(`${deployedURI}/api/trainees/${id}/transactions/`, fetcher);
 
     return {
         transactionLog: data,
         isTransactionLogLoading: !error && !data,
         isTransactionLogError: error
+    }
+}
+
+export function useCashiers() {
+    const { data, error } = useSWR(`${deployedURI}/api/employees/all/cashier`, fetcher);
+
+    return {
+        cashiers: data,
+        isCashiersLoading: !error && !data,
+        isCashiersError: error
     }
 }

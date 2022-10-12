@@ -1,3 +1,6 @@
+@use "../../../../styles/variables.scss" as *;
+$border-design: .125rem solid #a0a0a0;
+
 .PaymentCreation {
     &__form {
         display: flex;
@@ -37,6 +40,37 @@
             margin: 1rem auto 0 auto;
             width: 100%;
             justify-content: center;
+        }
+    }
+
+    .account {
+        border: $border-design;
+        width: fit-content;
+        border-radius: .5rem;
+        margin-bottom: 1.5rem;
+    
+        &__table {
+            border: $border-design;
+            border-collapse: collapse;
+            border-radius: .5rem;
+            overflow: hidden;
+    
+            tbody {
+                tr {
+                    border: $border-design;
+    
+                    th {
+                        background-color: $color--table-header;
+                        padding: 0.5rem 1rem;
+                    }
+    
+                    td {
+                        background-color: $color--light-gray;
+                        border: $border-design;
+                        padding: 0.5rem 1rem;
+                    }
+                }
+            }
         }
     }
 

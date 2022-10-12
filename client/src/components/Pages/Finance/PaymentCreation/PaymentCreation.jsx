@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from "./PaymentCreation.module.scss";
 
 /* MUI */
@@ -8,13 +8,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import {
   BubblePage,
@@ -23,8 +16,12 @@ import {
   FormButton
 } from '../../../ComponentIndex';
 
+import { useCashiers, useTransactionLog } from '../../../../assets/utilities/swr'; 
+import { postTransaction } from '../../../../assets/utilities/axiosUtility';
+
 const PaymentCreation = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const traineeID = location.state.traineeID;
 
   /* STATES */
@@ -32,17 +29,88 @@ const PaymentCreation = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [payableCost, setPayableCost] = useState("");
   const [paymentAmount, setPaymentAmount] = useState("");
+  const [cashier, setCashier] = useState("");
+  const [accountBalance, setAccountBalance] = useState("");
+
+  const [cashierMapID, setCashierMapID] = useState({});
+  const [availableCashiers, setAvailableCashiers] = useState([]);
 
   const PAYMENT_METHOD_OPTIONS  = [
-    1,2,3
+    "Cash",
+    "Bank",
+    "GCash",
+    "Card"
   ]
+
+  // FETCH CASHIERS HERE
+  const { cashiers, isCashiersLoading, isCashiersError } = useCashiers();
+
+  useEffect(() => {
+    if (isCashiersError) alert("ERROR fetching cashiers. Check internet connection.")
+
+    let cashierMapId = {}
+    let available = [];
+    if (!isCashiersLoading) {
+      for (let cashier of cashiers) {
+        let name = `${cashier.lastName}, ${cashier.firstName}${getMiddleInitial(cashier?.middleName)}`
+        cashierMapId[name] = cashier.employeeId;
+
+        available.push(name);
+      }
+
+      setCashierMapID(cashierMapId);
+      setAvailableCashiers(available);
+    }
+  }, [cashiers, isCashiersLoading, isCashiersError]);
+
+  // FETCH HERE
+  const { transactionLog, isTransactionLogLoading, isTransactionLogError } = useTransactionLog(traineeID);
+
+  useEffect(() => {
+    if (isTransactionLogError) alert("Error fetching transaction log data! Check internet connection.");
+
+    if (!isTransactionLogLoading) {
+      setAccountBalance(transactionLog?.trybalance);
+      console.log(transactionLog)
+    }
+  }, [transactionLog, isTransactionLogLoading, isTransactionLogError]);
+
+  function getMiddleInitial(name) {
+    if (name) {
+      return " " + name[0] + ".";
+    }
+    return "";
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    let data = {
+      paymentAmount: parseFloat(paymentAmount),
+      paymentMethod: paymentMethod,
+      employeeId: cashierMapID[cashier]
+    }
+
+    console.log(data)
+
+    postTransaction(traineeID, data)
+    .then(
+      (status) => {
+        if (status === 201) {
+          navigate(-1);
+        }
+        else alert(`BAD REQUEST: ${status}`);
+      }
+    )
+  }
+
   return (
     <>
     <SideBar />
     <BubblePage>
       <div className={styles["PaymentCreation"]}>
         <h1>Add Payment</h1>
-        <form className={styles["PaymentCreation__form"]}>
+        <form className={styles["PaymentCreation__form"]} onSubmit={(event) => handleSubmit(event)}>
           <div className={styles["header"]}>
           {/* CHANGE TRANSACTION NO HERE */}
             <InputField
@@ -68,15 +136,14 @@ const PaymentCreation = () => {
           </div>
 
           <div className={styles["row-4"]}>
-            <TextField
-              value={totalBalance ?? ""}
-              onChange={e => setTotalBalance(e.target.value)}
-              disabled
-              label="Total Balance"
-              required={true}
-              name="totalBalance"
-              id="totalBalance-input"
-              fullWidth={true} />
+          <table className={styles["account__table"]}>
+            <tbody className={styles["account__table-body"]}>
+              <tr>
+                <th>Balance</th>
+                <td>{accountBalance ?? "ERROR"}</td>
+              </tr>
+            </tbody>
+          </table>
           </div>
           <div className={styles["row-5"]}>
             <div className={styles["paymentMethod"]}>
@@ -107,6 +174,24 @@ const PaymentCreation = () => {
               fullWidth 
               required />
           </div>
+
+          <div className={styles["cashier"]}>
+              <FormControl fullWidth required>
+                <InputLabel id="cashier-select-label">Cashier</InputLabel>
+                <Select
+                  labelId="cashier-select-label"
+                  id="cashier-select"
+                  name="cashier"
+                  value={cashier ?? ''}
+                  label="cashier"
+                  onChange={e => setCashier(e.target.value)}
+                >
+                  {availableCashiers.map((option, index) => {
+                    return <MenuItem key={index} value={option}>{option}</MenuItem>
+                  })}
+                </Select>
+              </FormControl>
+            </div>
 
           <div className={styles["form_buttons"]}>
               <FormButton label="Submit" type="submit" />
