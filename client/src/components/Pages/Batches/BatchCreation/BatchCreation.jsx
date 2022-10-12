@@ -188,6 +188,9 @@ const BatchCreation = () => {
         else if (status === 409) {
           alert(`ERROR! Instructor: ${instructor} currently has an active batch!`)
         }
+        else if (status === 410) {
+          alert('ERROR! Course Batch Name is already existing! Only unique batch names are allowed.')
+        }
         else alert(`BAD REQUEST: ${status}`);
       }
     )

@@ -38,7 +38,8 @@ const TraineeRegistrationCreation = () => {
   const ENROLLMENT_STATUS_OPTIONS = [
     ENROLLMENT_STATUS.ACTIVE,
     ENROLLMENT_STATUS.DROPPED,
-    ENROLLMENT_STATUS.FINISHED
+    ENROLLMENT_STATUS.FINISHED,
+    ENROLLMENT_STATUS.UNPAID
   ]
 
   const today = new Date();
@@ -184,6 +185,9 @@ const TraineeRegistrationCreation = () => {
         }
         else if (status === 409) {
           alert("This trainee has an active registration! Mark it as 'dropped' or 'finished' first before setting another registration as 'active'.")
+        }
+        else if (status === 410) {
+          alert("This trainee has unpaid registration. Settle payment first to continue enrolling.")
         }
         else alert(`BAD REQUEST: ${status}`);
       }

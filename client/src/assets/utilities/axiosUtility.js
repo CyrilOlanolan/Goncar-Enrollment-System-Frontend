@@ -103,6 +103,7 @@ export function postBatch(data) {
         return response.status;
     })
     .catch(function (error) {
+        console.log(error.response)
         return error.response.status;
     })
 }

@@ -14,7 +14,8 @@ export const EDUCATIONAL_ATTAINMENT = {
 export const ENROLLMENT_STATUS = {
     ACTIVE: "Active",
     DROPPED: "Dropped",
-    FINISHED: "Finished"
+    FINISHED: "Finished",
+    UNPAID: "Unpaid"
 }
 
 export const EMPLOYMENT_STATUS = {
