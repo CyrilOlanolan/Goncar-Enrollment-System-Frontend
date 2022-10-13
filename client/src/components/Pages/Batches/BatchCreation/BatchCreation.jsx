@@ -150,16 +150,19 @@ const BatchCreation = () => {
   , [teachers, isTeachersLoading, isTeachersError])
 
   useEffect(() => {
+    let found = false;
     for (let inactiveCourse of inactiveCourses) {
       if (inactiveCourse === course && isActive === "Active") {
         setStatusErrorMessage({
           title: "Error",
           description: "You cannot add an active batch to an inactive course."
         })
+        found = true;
       }
-      else {
-        setStatusErrorMessage(null)
-      }
+    }
+
+    if (!found) {
+      setStatusErrorMessage(null)
     }
   }, [inactiveCourses, course, isActive]);
 

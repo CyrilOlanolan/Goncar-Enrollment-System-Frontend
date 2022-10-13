@@ -209,16 +209,20 @@ const BatchEdit = () => {
   , [courses, isCoursesLoading, isCoursesError, initialCourse])
 
   useEffect(() => {
+    let found = false;
     for (let inactiveCourse of inactiveCourses) {
+      console.log(inactiveCourse === course && isActive === "Active")
       if (inactiveCourse === course && isActive === "Active") {
         setStatusErrorMessage({
           title: "Error",
           description: "You cannot add an active batch to an inactive course."
         })
+        found = true;
       }
-      else {
-        setStatusErrorMessage(null)
-      }
+    }
+
+    if (!found) {
+      setStatusErrorMessage(null)
     }
   }, [inactiveCourses, course, isActive]);
 
@@ -236,7 +240,7 @@ const BatchEdit = () => {
       batchStatus: isActive
     }
 
-    // console.log(data)
+    console.log(data)
 
     putBatch(batchID, data)
     .then(
@@ -247,6 +251,9 @@ const BatchEdit = () => {
         else if (status === 409) {
           alert(`ERROR! Instructor: ${instructor} currently has an active batch!`)
           setIsActive("Inactive")
+        }
+        else if (status === 410) {
+          alert('ERROR! Course Batch Name is already existing! Only unique batch names are allowed.')
         }
         else alert(`BAD REQUEST: ${status}`);
       }
