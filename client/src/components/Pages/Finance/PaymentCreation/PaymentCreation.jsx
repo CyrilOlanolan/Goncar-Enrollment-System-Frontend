@@ -16,7 +16,7 @@ import {
   FormButton
 } from '../../../ComponentIndex';
 
-import { useCashiers, useTransactionLog } from '../../../../assets/utilities/swr'; 
+import { useCashiers, useLatestTranactionID, useTransactionLog } from '../../../../assets/utilities/swr'; 
 import { postTransaction } from '../../../../assets/utilities/axiosUtility';
 
 const PaymentCreation = () => {
@@ -30,6 +30,7 @@ const PaymentCreation = () => {
   const [cashier, setCashier] = useState("");
   const [accountBalance, setAccountBalance] = useState("");
   const [regID, setRegID] = useState(-1);
+  const [transactionID, setTransactionID] = useState("");
 
   const [cashierMapID, setCashierMapID] = useState({});
   const [availableCashiers, setAvailableCashiers] = useState([]);
@@ -74,6 +75,18 @@ const PaymentCreation = () => {
     }
   }, [transactionLog, isTransactionLogLoading, isTransactionLogError]);
 
+  // FETCH LATEST TRANSACTION ID HERE
+  const { latestTransactionID, isLatestTransactionIDLoading, isLatestTransactionIDError } = useLatestTranactionID();
+
+  useEffect(() => {
+    if (isLatestTransactionIDError) alert("ERROR fetching latest transaction ID. Check internet connection.");
+
+    if (!isLatestTransactionIDLoading) {
+      setTransactionID(latestTransactionID._max?.transactionId);
+    }
+
+  }, [latestTransactionID, isLatestTransactionIDLoading, isLatestTransactionIDError]);
+
   function getMiddleInitial(name) {
     if (name) {
       return " " + name[0] + ".";
@@ -114,7 +127,7 @@ const PaymentCreation = () => {
           {/* CHANGE TRANSACTION NO HERE */}
             <InputField
               label="Transaction No."
-              value={-1}
+              value={transactionID ?? 0}
               disabled={true}
               variant={"traineeID"}
               style={{marginLeft: "auto"}} />
@@ -124,12 +137,13 @@ const PaymentCreation = () => {
               disabled={true}
               value={traineeID}
               variant={"traineeID"}
+              style={{marginBottom: "0.5rem"}}
             />
 
             <InputField
               label="Registration No."
               disabled={true}
-              value={regID ?? -1}
+              value={regID ?? "NO REGS"}
               variant={"traineeID"}
             />
           </div>

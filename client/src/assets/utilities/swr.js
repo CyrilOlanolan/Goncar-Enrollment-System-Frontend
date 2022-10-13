@@ -285,3 +285,13 @@ export function useCashiers() {
         isCashiersError: error
     }
 }
+
+export function useLatestTranactionID() {
+    const { data, error } = useSWR(`${deployedURI}/api/transactions/max`, fetcher);
+
+    return {
+        latestTransactionID: data,
+        isLatestTransactionIDLoading: !error && !data,
+        isLatestTransactionIDError: error
+    }
+}
