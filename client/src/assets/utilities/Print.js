@@ -48,7 +48,7 @@ export async function printTraineeData(traineeData) {
                 `${traineeData.expiryDate}`]],
     })
 
-    // AREA FOR TRAINEE TABLES PRINT
+    // AREA FOR TRAINEE REGISTRATION TABLES PRINT
 
     doc.autoTable({
         theme: 'plain',
@@ -61,6 +61,21 @@ export async function printTraineeData(traineeData) {
     doc.autoTable({
         head:  [["Course", "Training Year:", "Batch", "Status"]],
         body: [["BSSC", "2022-2023", "1", "Active"]],
+    })
+
+    // AREA FOR TRANSACTION LOGS TABLES PRINT
+
+    doc.autoTable({
+        theme: 'plain',
+        styles: {fontSize: 18},
+        head: [["TRANSACTION LOGS"]]
+    })
+
+    doc.autoTable({
+        theme: 'striped',
+        styles: {fontSize: 12},
+
+        head:[["Payables", ]]
     })
     
     doc.save(`DATA - ${traineeData.lastName},${traineeData.firstName}.pdf`);
