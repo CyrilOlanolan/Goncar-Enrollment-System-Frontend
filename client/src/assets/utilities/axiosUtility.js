@@ -11,6 +11,7 @@ export function postTraineeRegistration(id, data) {
         return response.status;
     })
     .catch(function (error) {
+        console.log(error)
         return error.response.status;
     })
 }
@@ -24,6 +25,7 @@ export function putTraineeRegistration(id, regId, data) {
         return response.status;
     })
     .catch(function (error) {
+        console.log(error)
         return error.response.status;
     })
 }

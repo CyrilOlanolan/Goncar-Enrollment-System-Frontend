@@ -174,6 +174,9 @@ const TraineeRegistrationEdit = () => {
         else if (status === 409) {
           alert("This trainee has an active registration! Mark it as 'dropped' or 'finished' first before setting another registration as 'active'.")
         }
+        else if (status === 410) {
+          alert("This trainee has unpaid registration. Settle payment first to continue enrolling.")
+        }
         else alert(`BAD REQUEST: ${status}`);
       }
     )
