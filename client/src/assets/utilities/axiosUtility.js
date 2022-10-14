@@ -223,3 +223,13 @@ export function postTransaction(id, data) {
         return error.response.status;
     })
 }
+
+export function getTraineeProfile(id) {
+    return axios.get(`${deployedURI}/api/trainees/${id}`)
+    .then(function (response) {
+        return response.status;
+    })
+    .catch(function (error){
+        return error.rsponse.status;
+    })
+}
