@@ -24,7 +24,7 @@ import styles from "./TraineeProfile.module.scss"
 import  { useTrainee } from '../../../../assets/utilities/swr';
 import { stringifyDate } from '../../../../assets/utilities/datetime';
 import { deleteTrainee } from '../../../../assets/utilities/axiosUtility';
-import { downloadFile } from '../../../../assets/utilities/Print';
+import { printTraineeData } from '../../../../assets/utilities/print'
 
 const TraineeProfile = () => {
   const navigate = useNavigate();
@@ -101,7 +101,7 @@ const TraineeProfile = () => {
   }
 
   function handlePrint() {
-   downloadFile();
+    printTraineeData(trainee);
   }
 
   function handleNewPayment() {

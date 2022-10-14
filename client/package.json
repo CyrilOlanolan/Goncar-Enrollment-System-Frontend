@@ -25,6 +25,7 @@
     "downloadjs": "^1.4.7",
     "electron": "^19.0.3",
     "firebase": "^9.9.0",
+    "jspdf": "^2.5.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
