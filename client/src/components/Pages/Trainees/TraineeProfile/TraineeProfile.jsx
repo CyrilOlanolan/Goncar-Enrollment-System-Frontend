@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import download from 'downloadjs';
+
 
 /* MUI */
 import Backdrop from '@mui/material/Backdrop';
@@ -25,7 +24,7 @@ import styles from "./TraineeProfile.module.scss"
 import  { useTrainee } from '../../../../assets/utilities/swr';
 import { stringifyDate } from '../../../../assets/utilities/datetime';
 import { deleteTrainee } from '../../../../assets/utilities/axiosUtility';
-import { printTraineeData } from '../../../../assets/utilities/print'
+import { printTraineeData } from '../../../../assets/utilities/Print'
 
 const TraineeProfile = () => {
   const navigate = useNavigate();
@@ -100,8 +99,6 @@ const TraineeProfile = () => {
       }
     )
   }
-
-  let deployedURI = 'https://goncar-system-backend.herokuapp.com';
 
   function handlePrint() {
     printTraineeData(trainee);
