@@ -22,7 +22,6 @@
     "concurrently": "^7.2.1",
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.3",
-    "downloadjs": "^1.4.7",
     "electron": "^19.0.3",
     "firebase": "^9.9.0",
     "jspdf": "^2.5.1",
