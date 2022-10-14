@@ -17,15 +17,14 @@ export function getTraineeProfile(id) {
     })
 }
 
-export function downloadFile(id) {
+export function downloadFile() {
     axios
-        .get(`${deployedURI}/api/trainees/${id}`, {
-            headers: this.headers,
+        .get(`${deployedURI}/api/trainees/:id/registrations/:regid`, {
             responseType: 'blob', // had to add this one here
         })
         .then(response => {
            const content = response.headers['content-type'];
-           download(response.id, id.pdf, content)
+           download(response.data, File.pdf, content)
         })
         .catch(error => console.log(error));
 }

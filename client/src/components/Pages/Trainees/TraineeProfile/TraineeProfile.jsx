@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-
+import axios from 'axios';
+import download from 'downloadjs';
 
 /* MUI */
 import Backdrop from '@mui/material/Backdrop';
@@ -100,8 +101,19 @@ const TraineeProfile = () => {
     )
   }
 
+  let deployedURI = 'https://goncar-system-backend.herokuapp.com';
+
   function handlePrint() {
-   downloadFile();
+   downloadFile() 
+    axios
+        .get(`${deployedURI}/api/trainees/:id`, {
+            responseType: 'blob', // had to add this one here
+        })
+        .then(response => {
+           const content = response.headers['content-type'];
+           download(response.data, File.pdf, content)
+        })
+        .catch(error => console.log(error));
   }
 
   function handleNewPayment() {
