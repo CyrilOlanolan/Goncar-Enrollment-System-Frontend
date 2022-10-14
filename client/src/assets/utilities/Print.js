@@ -1,4 +1,4 @@
-import donwload from 'downloadjs';
+import download from 'downloadjs';
 import axios from  'axios';
 
 let deployedURI = 'https://goncar-system-backend.herokuapp.com';
@@ -17,7 +17,7 @@ export function getTraineeProfile(id) {
     })
 }
 
-export function downloadFile(pdf); {
+export function downloadFile(id) {
     axios
         .get(`${deployedURI}/api/trainees/${id}`, {
             headers: this.headers,
@@ -25,7 +25,7 @@ export function downloadFile(pdf); {
         })
         .then(response => {
            const content = response.headers['content-type'];
-           download(response.id, Trainee.pdf, content)
+           download(response.id, id.pdf, content)
         })
         .catch(error => console.log(error));
 }

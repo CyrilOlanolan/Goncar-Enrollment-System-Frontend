@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 
+
 /* MUI */
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
@@ -23,6 +24,7 @@ import styles from "./TraineeProfile.module.scss"
 import  { useTrainee } from '../../../../assets/utilities/swr';
 import { stringifyDate } from '../../../../assets/utilities/datetime';
 import { deleteTrainee } from '../../../../assets/utilities/axiosUtility';
+import { downloadFile } from '../../../../assets/utilities/Print';
 
 const TraineeProfile = () => {
   const navigate = useNavigate();
@@ -99,7 +101,7 @@ const TraineeProfile = () => {
   }
 
   function handlePrint() {
-    console.log("Print Code Here")
+   downloadFile();
   }
 
   function handleNewPayment() {
