@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-
+import axios from 'axios';
+import download from 'downloadjs';
 
 /* MUI */
 import Backdrop from '@mui/material/Backdrop';
@@ -99,6 +100,8 @@ const TraineeProfile = () => {
       }
     )
   }
+
+  let deployedURI = 'https://goncar-system-backend.herokuapp.com';
 
   function handlePrint() {
     printTraineeData(trainee);
