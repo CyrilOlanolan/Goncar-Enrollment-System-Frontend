@@ -8,6 +8,8 @@ import styles from './TraineeRegistrationModal.module.scss';
 
 import { useTraineeRegistration } from '../../../../../assets/utilities/swr';
 import { stringifyDate } from '../../../../../assets/utilities/datetime';
+import { printRegistrationData } from '../../../../../assets/utilities/Print';
+import { ActionButton } from '../../../../ComponentIndex';
 
 const style = {
   position: 'absolute',
@@ -52,6 +54,11 @@ const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID, t
     }
     , [traineeRegistration, isTraineeRegistrationLoading, isTraineeRegistrationError, setRegistrationData])
 
+    function handlePrint() {
+      // FUNCTION
+      printRegistrationData(registrationData, traineeID, traineeName);
+    }
+
     return (
       <div className={styles["TraineeRegistrationModal"]}>
       <Modal
@@ -68,6 +75,7 @@ const TraineeRegistrationModal = ({ openModal, setOpenModal, regID, traineeID, t
         <Fade in={openModal}>
           <Box sx={style}>
             <h1 className={styles["TraineeRegistrationModal__name"]}>{traineeName}</h1>
+            <ActionButton variant="print" onClick={handlePrint} />
             <div className={styles["TraineeRegistrationModal__details"]}>
               <div className={styles["registration-details"]}>
                 <p className={styles['title']}>REGISTRATION DETAILS</p>

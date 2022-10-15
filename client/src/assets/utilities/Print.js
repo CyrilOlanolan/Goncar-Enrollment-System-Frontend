@@ -45,6 +45,23 @@ export async function printTraineeData(traineeData) {
         console.log(error.response)
     })
 
+    // FLATTEN DATA FOR TRANSACTION LOG
+    let transactionLogFlatten = [];
+    
+    for (let transact of transactionLog) {
+        let employee = `${transact?.employees?.lastName}, ${transact?.employees?.firstName}${getMiddleInitial(transact?.employees?.middleName)}`
+        transactionLogFlatten.push([
+            transact?.transactionId,
+            transact?.paymentAmount,
+            transact?.paymentMethod,
+            employee,
+            transact?.batchName,
+            stringifyDate(transact?.transactionDate)
+        ])
+    }
+
+    console.log("HERE:", transactionLogFlatten)
+
     console.log("REGISTRATIONS:", registrations);
     console.log("TRANSACTION LOG: ", transactionLog)
     console.log("CURRENT DUE:", currentDue)
@@ -125,26 +142,19 @@ export async function printTraineeData(traineeData) {
         head:[["Payables", ]]
     })
 
-    let transactionLogFlatten = [];
-    
-    for (let transact of transactionLog) {
-        let employee = `${transact?.employees?.lastName}, ${transact?.employees?.firstName}${getMiddleInitial(transact?.employees?.middleName)}`
-        transactionLogFlatten.push([
-            transact?.transactionId,
-            transact?.paymentAmount,
-            transact?.paymentMethod,
-            employee,
-            transact?.batchName,
-            stringifyDate(transact?.transactionDate)
-        ])
-    }
-
-    console.log("HERE:", transactionLogFlatten)
-
     doc.autoTable({
         head:  [["Transaction ID", "Transaction Date", "Batch", "Status", "sdasd", "asdasd"]],
         body: transactionLogFlatten,
     })
     
     doc.save(`DATA - ${traineeData.lastName}, ${traineeData.firstName}.pdf`);
+}
+
+export async function printRegistrationData(registrationData, traineeName) {
+    // Default export is a4 paper, portrait, using millimeters for units
+    const doc = new jsPDF();
+    
+    console.log(registrationData);
+
+    doc.save(`REGISTRATIONS - ${traineeName}.pdf`);
 }
