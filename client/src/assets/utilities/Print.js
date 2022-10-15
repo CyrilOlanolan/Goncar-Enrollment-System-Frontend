@@ -150,11 +150,52 @@ export async function printTraineeData(traineeData) {
     doc.save(`DATA - ${traineeData.lastName}, ${traineeData.firstName}.pdf`);
 }
 
-export async function printRegistrationData(registrationData, traineeName) {
+export async function printRegistrationData(registrationData, traineeData, traineeName) {
     // Default export is a4 paper, portrait, using millimeters for units
     const doc = new jsPDF();
     
     console.log(registrationData);
+    console.log(traineeData);
+
+    doc.autoTable({
+        theme: 'plain',
+        styles: {fontSize: 18},
+
+        head: [[`Trainee: ${traineeName}`]]
+    })
+
+    doc.autoTable({
+        style: 'grid',
+
+        head:[["Registration Number", "Course Taken", "Batch ID", "Batch Name"]],
+        body:[[`${registrationData.registrationNumber}`, `${registrationData.courseTaken}`, `${registrationData.batchID}`,
+            `${registrationData.batchName}`]],                                                                                                                                                                               
+    })
+
+    doc.autoTable({
+        style: 'grid',
+
+        head: [["Training Year", "Date Enrolled", "Enrollment Status"]],
+        body: [[`${registrationData.trainingYear}`, `${stringifyDate(registrationData.dateEnrolled)}`, 
+                `${registrationData.enrollmentStatus}`]]
+    })
+
+    doc.autoTable({
+        theme: 'plain',
+        styles: {fontSize: 15},
+
+        head:[["Licenses"]]                     
+    })
+
+    doc.autoTable({
+        theme: 'striped',
+        styles: {fontSize: 12},
+
+        head:[["SSS Number", "TIN Number", "SG License", "SG License Expiry"]],
+        body: [[`${registrationData.SSSNumber}`, `${registrationData.TINNumber}`, 
+                `${registrationData.SGLicense}`, `${stringifyDate(registrationData.SGLicenseExpiry)}`]],
+                
+    })
 
     doc.save(`REGISTRATIONS - ${traineeName}.pdf`);
 }
