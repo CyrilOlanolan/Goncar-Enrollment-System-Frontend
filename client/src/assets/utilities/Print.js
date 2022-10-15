@@ -45,22 +45,6 @@ export async function printTraineeData(traineeData) {
         console.log(error.response)
     })
 
-    // FLATTEN DATA FOR TRANSACTION LOG
-    let transactionLogFlatten = [];
-    
-    for (let transact of transactionLog) {
-        let employee = `${transact?.employees?.lastName}, ${transact?.employees?.firstName}${getMiddleInitial(transact?.employees?.middleName)}`
-        transactionLogFlatten.push([
-            transact?.transactionId,
-            transact?.paymentAmount,
-            transact?.paymentMethod,
-            employee,
-            transact?.batchName,
-            stringifyDate(transact?.transactionDate)
-        ])
-    }
-
-    console.log("HERE:", transactionLogFlatten)
 
     console.log("REGISTRATIONS:", registrations);
     console.log("TRANSACTION LOG: ", transactionLog)
@@ -112,22 +96,25 @@ export async function printTraineeData(traineeData) {
                 `${stringifyDate(traineeData.expiryDate)}`]],
     })
 
-    // AREA FOR TRAINEE REGISTRATION TABLES PRINT
-
-    doc.autoTable({
-        theme: 'plain',
-        styles: {fontSize: 18},
-
-        head: [["TRAINEE REGISTRATION"]],
-        
-    })
-
-    doc.autoTable({
-        head:  [["Course", "Training Year:", "Batch", "Status"]],
-        body: [[`${traineeData.SSSNum}`, "2022-2023", "1", "Active"]],
-    })
 
     // AREA FOR TRANSACTION LOGS TABLES PRINT
+
+    // FLATTEN DATA FOR TRANSACTION LOG
+    let transactionLogFlatten = [];
+    
+    for (let transact of transactionLog) {
+        let employee = `${transact?.employees?.lastName}, ${transact?.employees?.firstName}${getMiddleInitial(transact?.employees?.middleName)}`
+        transactionLogFlatten.push([
+            transact?.transactionId,
+            `Php ${transact?.paymentAmount}`,
+            transact?.paymentMethod,
+            employee,
+            transact?.batchName,
+            stringifyDate(transact?.transactionDate)
+        ])
+    }
+
+    console.log("HERE:", transactionLogFlatten)
 
     doc.autoTable({
         theme: 'plain',
@@ -136,19 +123,23 @@ export async function printTraineeData(traineeData) {
     })
 
     doc.autoTable({
-        theme: 'striped',
-        styles: {fontSize: 12},
+        theme: 'plain',
+        styles: {fontSize: 18},
 
         head:[["Payables", ]]
     })
 
     doc.autoTable({
-        head:  [["Transaction ID", "Transaction Date", "Batch", "Status", "sdasd", "asdasd"]],
+        head:  [["Transaction ID", "Amount Paid", "Payment Method", "Employee", "Batch", "Transaction Date"]],
         body: transactionLogFlatten,
     })
     
     doc.save(`DATA - ${traineeData.lastName}, ${traineeData.firstName}.pdf`);
 }
+
+
+
+// REGISTRATION INFORMATION PRINTING
 
 export async function printRegistrationData(registrationData, traineeData, traineeName) {
     // Default export is a4 paper, portrait, using millimeters for units
@@ -194,7 +185,7 @@ export async function printRegistrationData(registrationData, traineeData, train
         head:[["SSS Number", "TIN Number", "SG License", "SG License Expiry"]],
         body: [[`${registrationData.SSSNumber}`, `${registrationData.TINNumber}`, 
                 `${registrationData.SGLicense}`, `${stringifyDate(registrationData.SGLicenseExpiry)}`]],
-                
+
     })
 
     doc.save(`REGISTRATIONS - ${traineeName}.pdf`);
