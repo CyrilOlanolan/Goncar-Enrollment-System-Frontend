@@ -5,6 +5,13 @@ import { autoTable } from 'jspdf-autotable';
 
 import { stringifyDate } from './datetime';
 
+function getMiddleInitial(name) {
+    if (name) {
+        return " " + name[0] + ".";
+    }
+    return "";
+}
+
 export async function printTraineeData(traineeData) {
     // FETCH DETAILS
     let deployedURI = 'https://goncar-system-backend.herokuapp.com';
@@ -117,8 +124,27 @@ export async function printTraineeData(traineeData) {
 
         head:[["Payables", ]]
     })
+
+    let transactionLogFlatten = [];
+    
+    for (let transact of transactionLog) {
+        let employee = `${transact?.employees?.lastName}, ${transact?.employees?.firstName}${getMiddleInitial(transact?.employees?.middleName)}`
+        transactionLogFlatten.push([
+            transact?.transactionId,
+            transact?.paymentAmount,
+            transact?.paymentMethod,
+            employee,
+            transact?.batchName,
+            stringifyDate(transact?.transactionDate)
+        ])
+    }
+
+    console.log("HERE:", transactionLogFlatten)
+
+    doc.autoTable({
+        head:  [["Transaction ID", "Transaction Date", "Batch", "Status", "sdasd", "asdasd"]],
+        body: transactionLogFlatten,
+    })
     
     doc.save(`DATA - ${traineeData.lastName}, ${traineeData.firstName}.pdf`);
 }
-
-    
