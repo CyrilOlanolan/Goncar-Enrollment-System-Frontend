@@ -137,7 +137,7 @@ export function putCourse(id, data) {
     return axios.put(`${deployedURI}/api/courses/${id}`,
     data)
     .then(function (response) {
-        return response.status;
+        return response;
     })
     .catch(function (error) {
         return error.response;

@@ -111,6 +111,7 @@ const CourseEdit = () => {
     putCourse(courseID, data)
     .then(
       (response) => {
+        console.log(response)
         if (response.status === 200) {
           navigate('/administrative/courses');
         }
