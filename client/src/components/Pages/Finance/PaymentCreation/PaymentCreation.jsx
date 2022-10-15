@@ -207,8 +207,9 @@ const PaymentCreation = () => {
               </FormControl>
             </div>
 
+            {console.log("HERE: ", regID)}
           <div className={styles["form_buttons"]}>
-              <FormButton label="Submit" type="submit" />
+              <FormButton label="Submit" type="submit" disabled={regID ? false : true}/>
               {/* GO BACK TO PREVIOUS PAGE */}
               <FormButton label="Cancel" variant="cancel" type="button" onClick={() => window.history.go(-1)}/>
             </div>
