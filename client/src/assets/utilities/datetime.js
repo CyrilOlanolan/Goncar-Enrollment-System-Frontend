@@ -26,5 +26,8 @@ export function getTimeString() {
 }
 
 export function stringifyDate(date) {
-    return dayjs(date).format("MM/DD/YYYY");
+    if (date) {
+        return dayjs(date).format("MM/DD/YYYY");
+    }
+    return null;
 }

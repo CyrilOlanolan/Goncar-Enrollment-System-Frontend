@@ -7,6 +7,7 @@ import '../../../../../styles/ag-theme-user.css'; // Optional theme CSS
 
 import styles from './TransactionLog.module.scss';
 import { useTransactionLog } from '../../../../../assets/utilities/swr';
+import { stringifyDate } from '../../../../../assets/utilities/datetime';
 
 const TransactionLog = ({ traineeID }) => {
 
@@ -28,6 +29,23 @@ const TransactionLog = ({ traineeID }) => {
       sortable: true
     },
     {
+      field: "transactionDate",
+      headerName: "Date",
+      lockPosition: "left",
+      cellRenderer: (params) => stringifyDate(params.data?.transactionDate),
+      width: 120,
+      sortable: true
+    },
+    {
+      field: "paymentAmount",
+      headerName: "Amount",
+      cellRenderer: (params) => `₱ ${params.data.paymentAmount}`,
+      lockPosition: "left",
+      sortable: true,
+      minWidth: 150,
+      flex: 1
+    },
+    {
       field: "paymentMethod",
       headerName: "Mode",
       lockPosition: "left",
@@ -47,15 +65,6 @@ const TransactionLog = ({ traineeID }) => {
       lockPosition: "left",
       width: 180,
       sortable: true
-    },
-    {
-      field: "paymentAmount",
-      headerName: "Amount",
-      cellRenderer: (params) => `₱ ${params.data.paymentAmount}`,
-      lockPosition: "left",
-      sortable: true,
-      minWidth: 150,
-      flex: 1
     },
   ])
 
@@ -86,7 +95,8 @@ const TransactionLog = ({ traineeID }) => {
           paymentAmount: transact?.paymentAmount,
           paymentMethod: transact?.paymentMethod,
           employee: employee,
-          batchName: transact?.batchName
+          batchName: transact?.batchName,
+          transactionDate: transact?.transactionDate
         })
       }
       setRowData(transactionFlatten)

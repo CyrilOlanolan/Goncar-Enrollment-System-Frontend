@@ -165,6 +165,8 @@ const TraineeRegistrationEdit = () => {
       registrationStatus: selectedEnrollmentStatus
     }
 
+    // console.log(data)
+
     putTraineeRegistration(traineeID, regID, data)
     .then(
       (status) => {
