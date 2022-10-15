@@ -101,7 +101,8 @@ const PaymentCreation = () => {
       paymentAmount: parseFloat(paymentAmount),
       paymentMethod: paymentMethod,
       employeeId: cashierMapID[cashier],
-      transactionDate: new Date()
+      transactionDate: new Date(),
+      registrationNumber: regID
     }
 
     console.log(data)
