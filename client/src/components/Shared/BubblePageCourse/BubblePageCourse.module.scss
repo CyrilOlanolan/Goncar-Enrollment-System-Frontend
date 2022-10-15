@@ -6,25 +6,31 @@
     min-height: 100vh;
     height: 100%;
     padding: 3rem 1rem;
-
 }
 .BubblePageCourse {
+    overflow: hidden;
     margin-left: $SideBarWidth;
     width: 100%;
     min-height: 93%;
     background: $color--white;
     border-radius: 1.5625rem;
-    padding: 3.125rem 5rem;
+    
 
     @media (max-width: 768px) {
         margin-left: 0;
     }
+
+    .bubble-container {
+        padding: 0rem 5rem;
+    }
 }
 
-.BubblePageCourse {
-
-   background-image: url(../../../assets/images/GuardHeader.png);
-    box-shadow: inset 0px -500px 60px -29px #FFFFFF;
-   background-position-y: -41px ;
+.image {
+    object-fit: cover;
+    width: 100%;
+    min-height: 30vh;
+    background-image: url("../../../assets/images/GuardHeader.png");
     background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: inset 0px -120px 60px -29px #FFFFFF;
 }

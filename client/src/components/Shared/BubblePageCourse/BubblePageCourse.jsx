@@ -6,7 +6,12 @@ const BubblePageCourse = ({children}) => {
     return (
         <div className={[styles["container"], "container"].join(' ')}>
             <div className={styles["BubblePageCourse"]}>
-                {children}
+                <div className={styles["image"]}>
+                </div>
+                
+                <div className={styles["bubble-container"]}>
+                    {children}
+                </div>
             </div>
 
         </div>

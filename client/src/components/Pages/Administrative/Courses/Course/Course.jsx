@@ -62,7 +62,6 @@ const Course = () => {
     <>
     <SideBar />
     <BubblePageCourse>
-      <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
       <div className={styles["course"]}>
         <div className={styles["course__header-actions"]}>
             <BreadcrumbsComponent routes={breadcrumbsRoutes} />
@@ -79,25 +78,23 @@ const Course = () => {
           <h1 className={styles["course-name"]}>{courseData.courseName}</h1>
           <p className={styles["offered-course"]}>OFFERED COURSE</p>
         </div>
-        <br></br>
-        <br></br>
-          <div className={styles["course__content"]}>
-            <div className={styles["description-block"]}>
-              <h5 className={styles["course-description-title"]}>COURSE DESCRIPTION</h5>
-              <p className={styles["description"]}>
-                {courseData.courseDescription}
-              </p>
-            </div>
-            <br></br>
 
-
-            <div className={styles["course-details-block2"]}>
-              <h5 className={styles["course-description-title"]}>COURSE DETAILS</h5>
-              <p><span className={styles["details-field"]}>Course ID:</span> {courseID}</p>
-              <p><span className={styles["details-field"]}>Units:</span> {courseData.units}</p>
-              <p><span className={styles["details-field"]}>Required Hours:</span> {courseData.requiredHours}</p>
-            </div>
+        <div className={styles["course__content"]}>
+          <div className={styles["description-block"]}>
+            <h5 className={styles["course-description-title"]}>COURSE DESCRIPTION</h5>
+            <p className={styles["description"]}>
+              {courseData.courseDescription}
+            </p>
           </div>
+          
+          <div className={styles["course-details-block2"]}>
+            <h5 className={styles["course-description-title"]}>COURSE DETAILS</h5>
+            <p><span className={styles["details-field"]}>Course ID:</span> {courseID}</p>
+            <p><span className={styles["details-field"]}>Units:</span> {courseData.units}</p>
+            <p><span className={styles["details-field"]}>Required Hours:</span> {courseData.requiredHours}</p>
+          </div>
+        </div>
+
         </>
         }
       </div>
