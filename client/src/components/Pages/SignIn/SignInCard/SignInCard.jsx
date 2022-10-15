@@ -48,6 +48,7 @@ const SignInArea = () => {
             // })
             navigate(from, { replace: true })
           }).catch((error) => {
+            setSignInError(true);
             console.log(error)
           }).finally(() => {
             setLoading(false);
@@ -56,7 +57,6 @@ const SignInArea = () => {
       )
       
     } catch (error) {
-      setSignInError(true);
       console.log(error);
     }
   };
