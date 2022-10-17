@@ -179,6 +179,9 @@ const TraineeRegistrationEdit = () => {
         else if (status === 410) {
           alert("This trainee has unpaid registration. Settle payment first to continue enrolling.")
         }
+        else if (status === 411) {
+          alert("This trainee has already finished this course in the same batch.")
+        }
         else alert(`BAD REQUEST: ${status}`);
       }
     )
