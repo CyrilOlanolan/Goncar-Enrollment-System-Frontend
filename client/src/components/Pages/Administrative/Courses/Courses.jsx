@@ -106,14 +106,14 @@ const Courses = () => {
       field: "trainingYearSpan",
       headerName: "Year",
       lockPosition: "left",
-      width: 100,
+      width: 120,
       sortable: true,
     },
     {
       field: "units",
       headerName: "Units",
       lockPosition: "left",
-      width: 100,
+      width: 90,
       sortable: true,
     },
     {
