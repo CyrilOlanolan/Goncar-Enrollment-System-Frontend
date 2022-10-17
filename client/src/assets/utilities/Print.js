@@ -183,10 +183,9 @@ export async function printRegistrationData(registrationData, traineeData, train
         styles: {fontSize: 12},
 
         head:[["SSS Number", "TIN Number", "SG License", "SG License Expiry"]],
-        body: [[`${registrationData?.SSSNumber ?? ""}`, `${registrationData?.TINNumber ?? ""}`, 
-                `${registrationData?.SGLicense ?? ""}`, `${stringifyDate(registrationData?.SGLicenseExpiry ?? "")}`]],
+        body: [[`${registrationData?.SSSNumber ?? "-"}`, `${registrationData?.TINNumber ?? "-"}`, 
+                `${registrationData?.SGLicense ?? "-"}`, `${stringifyDate(registrationData?.SGLicenseExpiry) ?? "-"}`]],
 
     })
-
     doc.save(`REGISTRATIONS - ${traineeName}.pdf`);
 }
