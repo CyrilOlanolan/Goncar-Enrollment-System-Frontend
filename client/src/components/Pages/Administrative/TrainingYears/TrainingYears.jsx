@@ -83,6 +83,14 @@ const TrainingYears = () => {
       sortable: true,
     },
     {
+      field: "trainingYearStatus",
+      headerName: "Status",
+      lockPosition: "left",
+      minWidth: 100,
+      flex: 1,
+      sortable: true,
+    },
+    {
       field: "",
       headerName: "Action",
       lockPosition: "left",
@@ -109,7 +117,6 @@ const TrainingYears = () => {
     useTrainingYears();
 
   useEffect(() => {
-    console.log("HI")
     if (isTrainingYearsError)
       alert("Error fetching training years! Check internet connection.");
 

@@ -34,7 +34,6 @@ const Batch = ({ openModal, setOpenModal, batch }) => {
     let traineeFlatten = [];
     if (!isSpecificBatchLoading) {
       for (let trainee of specificBatch.registrations) {
-        console.log(trainee)
         traineeFlatten.push({
           traineeID: trainee.trainees.traineeId,
           lastName: trainee.trainees.lastName,
@@ -143,6 +142,8 @@ const Batch = ({ openModal, setOpenModal, batch }) => {
                 <p><span className={styles["field"]}>Batch Status</span>: {batchData.batchStatus.toUpperCase()}</p>
                 <p><span className={styles["field"]}>LA Number</span>: {batchData.laNumber}</p>
                 <p><span className={styles["field"]}>Teacher</span>: {batchData.batchTeacher}</p>
+                <p><span className={styles["field"]}>Course</span>: {batchData.course}</p>
+                <p><span className={styles["field"]}>Training Year</span>: {batchData.trainingYearSpan}</p>
               </div>
               <div className={styles["col-2"]}>
               <p><span className={styles["field"]}>Start Date</span>: {stringifyDate(batchData.startDate)}</p>

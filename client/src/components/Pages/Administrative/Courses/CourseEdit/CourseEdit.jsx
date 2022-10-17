@@ -67,7 +67,9 @@ const CourseEdit = () => {
 
     if (!isTrainingYearsLoading) {
       for (let trainingYear of trainingYears) {
-        flatten.push(trainingYear.trainingYearSpan);
+        if (trainingYear.trainingYearStatus === "Active") {
+          flatten.push(trainingYear.trainingYearSpan);
+        }
         trainingYearMap[trainingYear.trainingYearSpan] =
           trainingYear.trainingYearId;
       }

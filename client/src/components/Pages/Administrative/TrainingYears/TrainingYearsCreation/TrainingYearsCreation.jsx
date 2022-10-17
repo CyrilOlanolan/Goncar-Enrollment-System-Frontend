@@ -53,7 +53,8 @@ const TrainingYearsCreation = () => {
     event.preventDefault();
 
     let data = {
-      trainingYearSpan: `${dayjs(startYear).year().toString()}-${dayjs(endYear).year().toString()}`
+      trainingYearSpan: `${dayjs(startYear).year().toString()}-${dayjs(endYear).year().toString()}`,
+      trainingYearStatus: status
     };
 
     postTrainingYear(data)
