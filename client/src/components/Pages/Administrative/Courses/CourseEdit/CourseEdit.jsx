@@ -115,7 +115,7 @@ const CourseEdit = () => {
       (response) => {
         console.log(response)
         if (response.status === 200) {
-          navigate('/administrative/courses');
+          navigate(-1);
         }
         else if (response.status === 409) {
           setErrorCurrentlyActiveBatches(response.data?.activeBatches)

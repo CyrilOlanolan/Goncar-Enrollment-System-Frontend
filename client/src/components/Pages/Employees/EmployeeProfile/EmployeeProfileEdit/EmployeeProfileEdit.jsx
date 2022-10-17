@@ -165,7 +165,7 @@ const EmployeeProfileEdit = () => {
       .then(
         (status) => {
           if (status === 200) {
-            navigate(`/employees`);
+            navigate(-1);
           }
           else alert(`BAD REQUEST: ${status}`);
         }

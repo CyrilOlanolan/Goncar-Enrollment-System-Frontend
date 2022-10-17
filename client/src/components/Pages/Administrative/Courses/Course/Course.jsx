@@ -92,6 +92,7 @@ const Course = () => {
             <p><span className={styles["details-field"]}>Course ID:</span> {courseID}</p>
             <p><span className={styles["details-field"]}>Units:</span> {courseData.units}</p>
             <p><span className={styles["details-field"]}>Required Hours:</span> {courseData.requiredHours}</p>
+            <p><span className={styles["details-field"]}>Course Status:</span> {courseData.courseStatus}</p>
           </div>
         </div>
 
