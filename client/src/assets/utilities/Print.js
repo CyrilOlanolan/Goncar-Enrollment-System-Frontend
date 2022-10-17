@@ -92,8 +92,8 @@ export async function printTraineeData(traineeData) {
         styles: {fontSize: 12}, 
 
         head: [["SSS No.", "TIN No.", "SG License No,", "SG License Expiry"]],
-        body:[[`${traineeData.SSSNum}`, `${traineeData.TINNum}`, `${traineeData.SGLicense}`,
-                `${stringifyDate(traineeData.expiryDate)}`]],
+        body:[[`${traineeData?.SSSNum ?? ""}`, `${traineeData?.TINNum ?? ""}`, `${traineeData?.SGLicense?? ""}`,
+                `${stringifyDate(traineeData?.expiryDate?? "")}`]],
     })
 
 
@@ -183,8 +183,8 @@ export async function printRegistrationData(registrationData, traineeData, train
         styles: {fontSize: 12},
 
         head:[["SSS Number", "TIN Number", "SG License", "SG License Expiry"]],
-        body: [[`${registrationData.SSSNumber}`, `${registrationData.TINNumber}`, 
-                `${registrationData.SGLicense}`, `${stringifyDate(registrationData.SGLicenseExpiry)}`]],
+        body: [[`${registrationData?.SSSNumber ?? ""}`, `${registrationData?.TINNumber ?? ""}`, 
+                `${registrationData?.SGLicense ?? ""}`, `${stringifyDate(registrationData?.SGLicenseExpiry ?? "")}`]],
 
     })
 
