@@ -92,8 +92,8 @@ export async function printTraineeData(traineeData) {
         styles: {fontSize: 12}, 
 
         head: [["SSS No.", "TIN No.", "SG License No,", "SG License Expiry"]],
-        body:[[`${traineeData?.SSSNum ?? ""}`, `${traineeData?.TINNum ?? ""}`, `${traineeData?.SGLicense?? ""}`,
-                `${stringifyDate(traineeData?.expiryDate?? "")}`]],
+        body:[[`${traineeData?.SSSNum ?? "-"}`, `${traineeData?.TINNum ?? "-"}`, `${traineeData?.SGLicense?? "-"}`,
+                `${stringifyDate(traineeData?.expiryDate) ?? "-" }`]],
     })
 
 
