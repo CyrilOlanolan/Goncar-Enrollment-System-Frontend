@@ -182,6 +182,9 @@ const TraineeRegistrationEdit = () => {
         else if (status === 411) {
           alert("This trainee has already finished this course in the same batch.")
         }
+        else if (status === 412) {
+          alert("This trainee has a balance! Settle payment first.")
+        }
         else alert(`BAD REQUEST: ${status}`);
       }
     )
