@@ -81,7 +81,7 @@ export function putTrainingYear(id, data) {
     return axios.put(`${deployedURI}/api/trainingYears/${id}`,
     data)
     .then(function (response) {
-        return response.status;
+        return response;
     })
     .catch(function (error) {
         return error.response;

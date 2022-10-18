@@ -71,6 +71,8 @@ const TrainingYearsEdit = () => {
         let match = matcher.exec(trainingYear.trainingYearSpan)
         setStartYear(match[1]);
         setEndYear(match[2]);
+
+        setStatus(trainingYear.trainingYearStatus)
       }
     }
   , [trainingYear, isTrainingYearLoading, isTrainingYearError])
@@ -93,7 +95,8 @@ const TrainingYearsEdit = () => {
           setErrorCurrentlyActiveCourses(response.data?.activeCourses);
           handleOpen();
         }
-        else alert(`BAD REQUEST: ${status}`);
+        else alert(`BAD REQUEST: ${response.status}`);
+
       }
     )
   }
