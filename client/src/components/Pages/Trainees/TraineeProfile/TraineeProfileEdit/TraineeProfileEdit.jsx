@@ -32,7 +32,7 @@ const TraineeProfileCreation = () => {
   const location = useLocation();
   const traineeID = location.state.traineeID;
 
-  var todayMinusEighteenYears = dayjs().subtract(18, 'year').toDate();
+  var todayMinusEighteenYears = dayjs().subtract(21, 'year').toDate();
   var todayMinus60Years = dayjs().subtract(60, 'year').toDate();
 
   /* STATES */

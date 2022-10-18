@@ -32,7 +32,7 @@ import { validateContact } from '../../../../../assets/utilities/validation';
 const TraineeProfileCreation = () => {
   const navigate = useNavigate();
 
-  var todayMinusEighteenYears = dayjs().subtract(18, 'year').toDate();
+  var todayMinusEighteenYears = dayjs().subtract(21, 'year').toDate();
   var todayMinus60Years = dayjs().subtract(60, 'year').toDate();
 
   const EDUCATIONAL_ATTAINMENT_OPTIONS = [
